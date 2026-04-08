@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>暹罗新民学校 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="../static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link ">首页</a>
+      <a href="../timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="../map.html" class="nav-link ">地理分布</a>
+      <a href="../textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="../compare.html" class="nav-link ">教材对比</a>
+      <a href="../policies.html" class="nav-link ">制度政策</a>
+      <a href="../schools.html" class="nav-link ">侨校档案</a>
+      <a href="../figures.html" class="nav-link ">人物图谱</a>
+      <a href="../dashboard.html" class="nav-link ">数据看板</a>
+      <a href="../about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>暹罗新民学校</h1>
+    <p class="page-desc">Sin Min School (Siam)</p>
+  </div>
+</section>
+
+<section class="school-detail-section">
+  <div class="container">
+    <div class="school-detail-card">
+      <div class="school-info-grid">
+        <div class="info-item">
+          <label>创办时间</label>
+          <value>1920年</value>
+        </div>
+        <div class="info-item">
+          <label>学校类型</label>
+          <value>小学</value>
+        </div>
+        <div class="info-item">
+          <label>所在地区</label>
+          <value>曼谷（暹罗）</value>
+        </div>
+        <div class="info-item">
+          <label>历史时期</label>
+          <value>民国时期</value>
+        </div>
+        
+        
+        <div class="info-item">
+          <label>当前状态</label>
+          <value>历史</value>
+        </div>
+      </div>
+      
+      <div class="school-description">
+        <h3>学校简介</h3>
+        <p>泰国（暹罗）著名侨校，学生自行组织了&#39;暹罗华侨学生联合会&#39;，通过演讲和戏剧方式支持抗日</p>
+      </div>
+      
+      
+      
+      
+      <div class="school-curriculum">
+        <h3>课程设置</h3>
+        <div class="curriculum-tags">
+          
+          <span class="curriculum-tag">国语</span>
+          
+          <span class="curriculum-tag">算术</span>
+          
+          <span class="curriculum-tag">历史</span>
+          
+          <span class="curriculum-tag">地理</span>
+          
+        </div>
+      </div>
+      
+      
+      
+      <div class="school-events">
+        <h3>重要事件</h3>
+        <div class="events-list">
+          
+          <div class="event-item">
+            <span class="event-year">1931年</span>
+            <span class="event-text">学生组织&#39;暹罗华侨学生联合会&#39;，开展抗日演讲和戏剧活动</span>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+      
+      <div class="paper-reference">
+        <h3>论文引用</h3>
+        <blockquote>在泰国的新民学校、中华学校和培英学校等多所学校的学生自行组织了&#39;暹罗华侨学生联合会&#39;</blockquote>
+      </div>
+      
+      
+      <div class="back-link">
+        <a href="../schools.html" class="btn btn-secondary-v2">← 返回学校列表</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.school-detail-section { padding: 2rem 0; background: var(--color-surface); }
+.school-detail-card { background: var(--color-bg); padding: 2rem; border-radius: var(--radius-lg); }
+.school-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.info-item { background: white; padding: 1rem; border-radius: var(--radius); }
+.info-item label { display: block; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.25rem; }
+.info-item value { display: block; font-size: 1.1rem; font-weight: 600; color: var(--color-primary); }
+.school-description, .school-significance, .school-curriculum, .school-events, .paper-reference { margin-bottom: 2rem; }
+.school-description h3, .school-significance h3, .school-curriculum h3, .school-events h3, .paper-reference h3 {
+  font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem;
+}
+.curriculum-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.curriculum-tag { padding: 0.4rem 0.8rem; background: rgba(139,69,19,0.1); color: var(--color-primary); border-radius: 4px; }
+.events-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.event-item { display: flex; gap: 1rem; padding: 0.75rem; background: white; border-radius: var(--radius); }
+.event-year { font-weight: 600; color: var(--color-primary); min-width: 80px; }
+.paper-reference blockquote { padding: 1rem; background: white; border-left: 4px solid var(--color-primary); font-style: italic; color: var(--color-text-secondary); }
+.back-link { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; }
+@media (max-width: 768px) {
+  .school-info-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

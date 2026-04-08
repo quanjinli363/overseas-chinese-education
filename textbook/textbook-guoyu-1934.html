@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《新编南洋华侨高小国语读本》 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="../static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link ">首页</a>
+      <a href="../timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="../map.html" class="nav-link ">地理分布</a>
+      <a href="../textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="../compare.html" class="nav-link ">教材对比</a>
+      <a href="../policies.html" class="nav-link ">制度政策</a>
+      <a href="../schools.html" class="nav-link ">侨校档案</a>
+      <a href="../figures.html" class="nav-link ">人物图谱</a>
+      <a href="../dashboard.html" class="nav-link ">数据看板</a>
+      <a href="../about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>《新编南洋华侨高小国语读本》</h1>
+    <p class="page-desc">中华书局 · 1934年</p>
+  </div>
+</section>
+
+<section class="textbook-detail-section">
+  <div class="container">
+    <div class="textbook-detail-card">
+      <div class="textbook-meta-grid">
+        <div class="meta-item">
+          <label>出版社</label>
+          <value>中华书局</value>
+        </div>
+        <div class="meta-item">
+          <label>出版年份</label>
+          <value>1934年</value>
+        </div>
+        <div class="meta-item">
+          <label>适用年级</label>
+          <value>高小</value>
+        </div>
+        <div class="meta-item">
+          <label>时期</label>
+          <value>
+            <span class="period-badge period-post-918">
+              九一八后
+            </span>
+          </value>
+        </div>
+      </div>
+      
+      <div class="textbook-description">
+        <h3>教材简介</h3>
+        <p>九一八事变后出版的国语教材，融入南洋本土元素如热带气候、橡胶种植等内容，强调民族英雄叙事和爱国主义教育</p>
+      </div>
+      
+      <div class="lessons-section">
+        <h3>收录课文（2篇）</h3>
+        <div class="lessons-list">
+          
+          <div class="lesson-detail-card">
+            <div class="lesson-header">
+              <h4>岳飞的军人生活</h4>
+              
+            </div>
+            
+            <div class="lesson-content">
+              <p>通过讲述岳飞的军人生活来培养儿童对于民族英雄的崇拜情绪。课文强调岳飞精忠报国的精神，&#39;还我河山&#39;的爱国情怀</p>
+              
+            </div>
+            
+            <div class="lesson-tags">
+              
+              <span class="lesson-tag">民族英雄</span>
+              
+              <span class="lesson-tag">岳飞</span>
+              
+              <span class="lesson-tag">抗金</span>
+              
+              <span class="lesson-tag">爱国主义</span>
+              
+              <span class="lesson-tag">精忠报国</span>
+              
+            </div>
+            
+            <div class="lesson-intent">
+              <strong>教育意图：</strong>培养儿童崇拜民族英雄的情绪，激发爱国主义精神
+            </div>
+            
+            
+            <div class="lesson-context">
+              <strong>历史背景：</strong>九一八后强调抵抗外敌入侵，呼应抗日主题
+            </div>
+            
+            
+            
+            <div class="lesson-reference">
+              <strong>论文引用：</strong>如1937年出版的《新编南洋华侨高小国语读本》第一册《岳飞的军人生活》中，就通过讲述岳飞的军人生活来培养儿童对于民族英雄的崇拜情绪
+            </div>
+            
+          </div>
+          
+          <div class="lesson-detail-card">
+            <div class="lesson-header">
+              <h4>宗爷爷（宗泽）</h4>
+              
+            </div>
+            
+            <div class="lesson-content">
+              <p>讲述了北宋末年金人南侵的史实和宗泽抗金的功绩。课文内容与国内遭受日本侵略的情况十分相似，通过历史内容来反应现实社会</p>
+              
+            </div>
+            
+            <div class="lesson-tags">
+              
+              <span class="lesson-tag">民族英雄</span>
+              
+              <span class="lesson-tag">宗泽</span>
+              
+              <span class="lesson-tag">抗金</span>
+              
+              <span class="lesson-tag">北宋末年</span>
+              
+            </div>
+            
+            <div class="lesson-intent">
+              <strong>教育意图：</strong>通过历史内容反应现实社会，培养学生的爱国热情
+            </div>
+            
+            
+            <div class="lesson-context">
+              <strong>历史背景：</strong>九一八后强调抵抗外敌入侵，与日军侵略形成对照
+            </div>
+            
+            
+            
+            <div class="lesson-reference">
+              <strong>论文引用：</strong>在《宗爷爷》一课中讲述了北宋末年金人南侵的史实，又讲述了宗泽抗金的功绩，这一内容与国内遭受日本侵略的情况十分相似
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="back-link">
+        <a href="../textbooks.html" class="btn btn-secondary-v2">← 返回教材列表</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.textbook-detail-section { padding: 2rem 0; background: var(--color-surface); }
+.textbook-detail-card { background: var(--color-bg); padding: 2rem; border-radius: var(--radius-lg); }
+.textbook-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.meta-item { background: white; padding: 1rem; border-radius: var(--radius); }
+.meta-item label { display: block; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.25rem; }
+.meta-item value { display: block; font-size: 1.1rem; font-weight: 600; color: var(--color-primary); }
+.period-badge { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
+.period-pre-918 { background: #e3f2fd; color: #1565c0; }
+.period-post-918 { background: #ffebee; color: #c62828; }
+.textbook-description { margin-bottom: 2rem; }
+.textbook-description h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem; }
+.textbook-description p { color: var(--color-text-secondary); line-height: 1.8; }
+.lessons-section h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1.5rem; }
+.lessons-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.lesson-detail-card { background: white; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.lesson-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.lesson-header h4 { font-family: var(--font-serif); color: var(--color-text); }
+.lesson-volume { padding: 0.25rem 0.5rem; background: var(--color-bg); color: var(--color-text-secondary); border-radius: 4px; font-size: 0.85rem; }
+.lesson-content { margin-bottom: 1rem; }
+.lesson-content p { color: var(--color-text-secondary); line-height: 1.7; }
+.lesson-quote { margin: 1rem 0; padding: 1rem; background: var(--color-bg); border-left: 4px solid var(--color-gold); font-style: italic; color: var(--color-text); }
+.lesson-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.lesson-tag { padding: 0.3rem 0.6rem; background: rgba(139,69,19,0.1); color: var(--color-primary); border-radius: 4px; font-size: 0.85rem; }
+.lesson-intent, .lesson-context, .lesson-reference { font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; padding: 0.75rem; background: var(--color-bg); border-radius: var(--radius); }
+.back-link { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; }
+@media (max-width: 768px) {
+  .textbook-meta-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

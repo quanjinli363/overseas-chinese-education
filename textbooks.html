@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>教材典藏 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link ">首页</a>
+      <a href="timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="map.html" class="nav-link ">地理分布</a>
+      <a href="textbooks.html" class="nav-link active">教材典藏</a>
+      <a href="compare.html" class="nav-link ">教材对比</a>
+      <a href="policies.html" class="nav-link ">制度政策</a>
+      <a href="schools.html" class="nav-link ">侨校档案</a>
+      <a href="figures.html" class="nav-link ">人物图谱</a>
+      <a href="dashboard.html" class="nav-link ">数据看板</a>
+      <a href="about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>教材典藏</h1>
+    <p class="page-desc">九一八事变前后南洋华侨学校教材汇编</p>
+    
+    <div class="filter-bar">
+      <span>筛选：</span>
+      <a href="textbooks.html" class="filter-btn active">全部</a>
+      <a href="/textbooks?period=pre-918" class="filter-btn">九一八前</a>
+      <a href="/textbooks?period=post-918" class="filter-btn">九一八后</a>
+    </div>
+  </div>
+</section>
+
+<section class="textbooks-section">
+  <div class="container">
+    <div class="textbooks-grid">
+      
+      <div class="textbook-card-v2">
+        <div class="textbook-header">
+          <span class="textbook-period period-post-918">
+            九一八后
+          </span>
+          <h3>《新编南洋华侨高小国语读本》</h3>
+          <div class="textbook-meta">
+            <span>中华书局</span>
+            <span>1934年出版</span>
+            <span>高小</span>
+          </div>
+        </div>
+        <div class="textbook-desc">
+          九一八事变后出版的国语教材，融入南洋本土元素如热带气候、橡胶种植等内容，强调民族英雄叙事和爱国主义教育
+        </div>
+        <div class="textbook-lessons-preview">
+          <h4>收录课文（2篇）</h4>
+          <div class="lesson-tags">
+            
+            <span class="lesson-tag">岳飞的军人生活</span>
+            
+            <span class="lesson-tag">宗爷爷（宗泽）</span>
+            
+            
+          </div>
+        </div>
+        <a href="textbook/textbook-guoyu-1934.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="textbook-card-v2">
+        <div class="textbook-header">
+          <span class="textbook-period period-post-918">
+            九一八后
+          </span>
+          <h3>《南洋华侨历史课本教授书》</h3>
+          <div class="textbook-meta">
+            <span>中华书局</span>
+            <span>1932年出版</span>
+            <span>小学</span>
+          </div>
+        </div>
+        <div class="textbook-desc">
+          本书在内容的选择上深受国内舆论形式的影响，体现了这一时期南洋华侨教育更加重视爱国主义和民族认同的变化
+        </div>
+        <div class="textbook-lessons-preview">
+          <h4>收录课文（15篇）</h4>
+          <div class="lesson-tags">
+            
+            <span class="lesson-tag">诸葛亮</span>
+            
+            <span class="lesson-tag">禹治水</span>
+            
+            <span class="lesson-tag">五胡乱华及其影响</span>
+            
+            <span class="lesson-tag">北宋末年的民气</span>
+            
+            <span class="lesson-tag">岳飞</span>
+            
+            
+            <span class="lesson-tag more">+10</span>
+            
+          </div>
+        </div>
+        <a href="textbook/textbook-history-1932.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="textbook-card-v2">
+        <div class="textbook-header">
+          <span class="textbook-period period-post-918">
+            九一八后
+          </span>
+          <h3>《复兴国语课本》</h3>
+          <div class="textbook-meta">
+            <span>商务印书馆</span>
+            <span>1935年出版</span>
+            <span>小学</span>
+          </div>
+        </div>
+        <div class="textbook-desc">
+          九一八事变后出版的国语教材，将苏武持节不屈的故事在中小学教育中广泛传播，学生的爱国精神得到激励
+        </div>
+        <div class="textbook-lessons-preview">
+          <h4>收录课文（1篇）</h4>
+          <div class="lesson-tags">
+            
+            <span class="lesson-tag">苏武牧羊</span>
+            
+            
+          </div>
+        </div>
+        <a href="textbook/textbook-fuxing-1935.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<section class="themes-section">
+  <div class="container">
+    <h2>教材主题分析</h2>
+    <div class="themes-grid">
+      <div class="theme-card">
+        <h4>🏛️ 民族英雄叙事</h4>
+        <p>岳飞、宗泽、诸葛亮、苏武、戚继光等民族英雄故事，强调忠君爱国、抵御外侮的精神。</p>
+      </div>
+      <div class="theme-card">
+        <h4>⚔️ 外敌入侵隐喻</h4>
+        <p>五胡乱华、倭寇入侵、中日战争等历史内容，隐喻九一八事变后的民族危机。</p>
+      </div>
+      <div class="theme-card">
+        <h4>🌏 中日文化对比</h4>
+        <p>唐时文化传播日本、孔子思想影响等课文，强调中国文化对日本的影响，批判日本"忘恩负义"。</p>
+      </div>
+      <div class="theme-card">
+        <h4>📚 南洋本土化</h4>
+        <p>融入热带气候、橡胶种植等南洋本土元素，做到教材内容与南洋实际状况的衔接。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

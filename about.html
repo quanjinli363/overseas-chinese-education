@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>关于 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link ">首页</a>
+      <a href="timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="map.html" class="nav-link ">地理分布</a>
+      <a href="textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="compare.html" class="nav-link ">教材对比</a>
+      <a href="policies.html" class="nav-link ">制度政策</a>
+      <a href="schools.html" class="nav-link ">侨校档案</a>
+      <a href="figures.html" class="nav-link ">人物图谱</a>
+      <a href="dashboard.html" class="nav-link ">数据看板</a>
+      <a href="about.html" class="nav-link active">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>关于平台</h1>
+    <p class="page-desc">南洋侨教记忆数字人文平台介绍</p>
+  </div>
+</section>
+
+<section class="about-content">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-main">
+        <h2>平台简介</h2>
+        <p>「南洋侨教记忆」是一个基于论文《九一八事变后南洋华侨教育的变化》构建的数字人文平台，旨在通过数字化手段呈现1690年至1943年间南洋华侨教育的历史变迁。</p>
+        
+        <h3>研究背景</h3>
+        <p>南洋华侨教育自1690年明诚书院创立以来，历经清代、民国，始终与国内教育改革保持紧密联系。1931年九一八事变爆发后，南洋华侨教育在国民政府管理下发生显著变化，强调民族意识培养和爱国主义教育。</p>
+        
+        <h3>核心数据</h3>
+        <ul>
+          <li><strong>学校数据：</strong>涵盖明诚书院、五福书院、钟灵中学、坤成女子中学等重要侨校</li>
+          <li><strong>政策文献：</strong>收录《华侨学堂章程》《三民主义教育实施原则》等20余项政策法规</li>
+          <li><strong>教材内容：</strong>整理《新编南洋华侨高小国语读本》《南洋华侨历史课本教授书》等教材课文</li>
+          <li><strong>人物图谱：</strong>介绍陈嘉庚、左秉隆、刘士木等关键人物</li>
+        </ul>
+        
+        <h3>核心论点</h3>
+        <p>九一八事变后，南洋华侨教育在教学内容、文化课程与教材编写上发生显著变化：</p>
+        <ul>
+          <li>增加民族英雄叙事（岳飞、苏武、戚继光等）</li>
+          <li>强调外敌入侵历史（五胡乱华、倭寇入侵）</li>
+          <li>加强中日文化对比（唐时文化传播日本）</li>
+          <li>融入南洋本土元素（热带气候、橡胶种植）</li>
+        </ul>
+        
+        <h3>技术架构</h3>
+        <ul>
+          <li><strong>前端：</strong>HTML5 + CSS3 + JavaScript + Leaflet.js（地图）</li>
+          <li><strong>后端：</strong>Flask（Python）</li>
+          <li><strong>可视化：</strong>ECharts</li>
+          <li><strong>地图：</strong>OpenStreetMap + Leaflet</li>
+        </ul>
+        
+        <h3>数据来源</h3>
+        <p>本平台数据主要来源于论文《九一八事变后南洋华侨教育的变化》，以及《新编南洋华侨高小国语读本》《南洋华侨历史课本教授书》《复兴国语课本》等历史教材。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

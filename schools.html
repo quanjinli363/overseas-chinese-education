@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>侨校档案 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link ">首页</a>
+      <a href="timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="map.html" class="nav-link ">地理分布</a>
+      <a href="textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="compare.html" class="nav-link ">教材对比</a>
+      <a href="policies.html" class="nav-link ">制度政策</a>
+      <a href="schools.html" class="nav-link active">侨校档案</a>
+      <a href="figures.html" class="nav-link ">人物图谱</a>
+      <a href="dashboard.html" class="nav-link ">数据看板</a>
+      <a href="about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>侨校档案</h1>
+    <p class="page-desc">南洋华侨学校详细档案</p>
+    
+    <div class="filter-bar">
+      <span>地区：</span>
+      <select onchange="location.href='/schools?region='+this.value">
+        <option value="">全部</option>
+        
+        <option value="吉隆坡" >吉隆坡</option>
+        
+        <option value="巨港" >巨港</option>
+        
+        <option value="巴达维亚" >巴达维亚</option>
+        
+        <option value="新加坡" >新加坡</option>
+        
+        <option value="新山" >新山</option>
+        
+        <option value="曼谷" >曼谷</option>
+        
+        <option value="槟城" >槟城</option>
+        
+        <option value="槟榔屿" >槟榔屿</option>
+        
+        <option value="爪哇" >爪哇</option>
+        
+      </select>
+      <span style="margin-left: 20px;">类型：</span>
+      <select onchange="location.href='/schools?type='+this.value">
+        <option value="">全部</option>
+        
+        <option value="中学" >中学</option>
+        
+        <option value="书院" >书院</option>
+        
+        <option value="女子中学" >女子中学</option>
+        
+        <option value="小学" >小学</option>
+        
+        <option value="新式学堂" >新式学堂</option>
+        
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="schools-section">
+  <div class="container">
+    <div class="schools-grid">
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>明诚书院</h3>
+          <span class="school-type">书院</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1690年</span>
+          <span>📍 巴达维亚（荷属东印度）</span>
+          <span>🏛️ 清代</span>
+        </div>
+        <div class="school-desc">
+          南洋第一所华侨学校，由巴达维亚华侨创办，主要讲授四书五经等儒家经典
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">清代</span>
+          
+          <span class="tag">书院</span>
+          
+          <span class="tag">四书五经</span>
+          
+          <span class="tag">第一所侨校</span>
+          
+        </div>
+        <a href="school/mingcheng-1690.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>五福书院</h3>
+          <span class="school-type">书院</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1819年</span>
+          <span>📍 槟榔屿（英属马来亚）</span>
+          <span>🏛️ 清代</span>
+        </div>
+        <div class="school-desc">
+          马来亚槟榔屿华侨创办的书院，教授《三字经》《千字文》等传统启蒙读物
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">清代</span>
+          
+          <span class="tag">书院</span>
+          
+          <span class="tag">启蒙教育</span>
+          
+          <span class="tag">三字经</span>
+          
+        </div>
+        <a href="school/wufu-1819.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>爪哇新巴利中华学堂</h3>
+          <span class="school-type">新式学堂</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1900年</span>
+          <span>📍 爪哇（荷属东印度）</span>
+          <span>🏛️ 清末新政</span>
+        </div>
+        <div class="school-desc">
+          清末由侨胞发起创办的新式学堂，是南洋华侨教育从传统向新式转变的代表
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">清末新政</span>
+          
+          <span class="tag">新式学堂</span>
+          
+          <span class="tag">废科举兴学堂</span>
+          
+        </div>
+        <a href="school/xinbali-1900s.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>养正学堂</h3>
+          <span class="school-type">新式学堂</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1905年</span>
+          <span>📍 新加坡（英属马来亚）</span>
+          <span>🏛️ 清末新政</span>
+        </div>
+        <div class="school-desc">
+          1905年于新加坡成立的新式学堂，教授国语、算术、地理、历史等新式课程
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">清末新政</span>
+          
+          <span class="tag">新式学堂</span>
+          
+          <span class="tag">国语教学</span>
+          
+        </div>
+        <a href="school/yangzheng-1905.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>巨港中华学校</h3>
+          <span class="school-type">新式学堂</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1908年</span>
+          <span>📍 巨港（荷属东印度）</span>
+          <span>🏛️ 清末新政</span>
+        </div>
+        <div class="school-desc">
+          1908年由侨胞创办的中华学校，采用新式教学法
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">清末新政</span>
+          
+          <span class="tag">新式学堂</span>
+          
+        </div>
+        <a href="school/juanang-1908.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>吉隆坡坤成女子中学</h3>
+          <span class="school-type">女子中学</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1908年</span>
+          <span>📍 吉隆坡（英属马来亚）</span>
+          <span>🏛️ 清末新政</span>
+        </div>
+        <div class="school-desc">
+          南洋著名女子学校，由吴雪华等华人妇女领袖创办，培养女性民族意识。1907年清政府颁布《女子师范学堂章程》后，南洋地区开始成立女子学校
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">清末新政</span>
+          
+          <span class="tag">女子教育</span>
+          
+          <span class="tag">女权</span>
+          
+          <span class="tag">坤成</span>
+          
+        </div>
+        <a href="school/kuncheng-1908.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>槟城钟灵中学</h3>
+          <span class="school-type">中学</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1917年</span>
+          <span>📍 槟城（英属马来亚）</span>
+          <span>🏛️ 民国时期</span>
+        </div>
+        <div class="school-desc">
+          南洋著名华侨中学，陈嘉庚等捐资创办。九一八后成为抗日救亡运动中心。1929年第一次南洋华侨教育会议在此召开
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">民国时期</span>
+          
+          <span class="tag">中学</span>
+          
+          <span class="tag">陈嘉庚</span>
+          
+          <span class="tag">抗日救亡</span>
+          
+          <span class="tag">第一次南洋华侨教育会议</span>
+          
+        </div>
+        <a href="school/zhongling-1917.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>崇正学校</h3>
+          <span class="school-type">小学</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1920年</span>
+          <span>📍 新加坡（英属马来亚）</span>
+          <span>🏛️ 民国时期</span>
+        </div>
+        <div class="school-desc">
+          早期面临师资力量不足问题，学生一百余人，仅有7名教职人员
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">民国时期</span>
+          
+          <span class="tag">小学</span>
+          
+          <span class="tag">师资短缺</span>
+          
+        </div>
+        <a href="school/chongzheng.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>暹罗新民学校</h3>
+          <span class="school-type">小学</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1920年</span>
+          <span>📍 曼谷（暹罗）</span>
+          <span>🏛️ 民国时期</span>
+        </div>
+        <div class="school-desc">
+          泰国（暹罗）著名侨校，学生自行组织了&#39;暹罗华侨学生联合会&#39;，通过演讲和戏剧方式支持抗日
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">民国时期</span>
+          
+          <span class="tag">小学</span>
+          
+          <span class="tag">暹罗</span>
+          
+          <span class="tag">抗日活动</span>
+          
+        </div>
+        <a href="school/xinmin-siam.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+      <div class="school-card-v2">
+        <div class="school-header">
+          <h3>新文龙中华中学</h3>
+          <span class="school-type">中学</span>
+        </div>
+        <div class="school-meta">
+          <span>📅 创办于 1939年</span>
+          <span>📍 新山（英属马来亚）</span>
+          <span>🏛️ 民国时期</span>
+        </div>
+        <div class="school-desc">
+          1939年将男校与女校合并，扩大学校规模，适应学生数量增多情况
+        </div>
+        <div class="school-tags">
+          
+          <span class="tag">民国时期</span>
+          
+          <span class="tag">中学</span>
+          
+          <span class="tag">合并办学</span>
+          
+        </div>
+        <a href="school/xinwenlong-1939.html" class="btn btn-sm">查看详情</a>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

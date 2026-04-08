@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《复兴国语课本》 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="../static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link ">首页</a>
+      <a href="../timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="../map.html" class="nav-link ">地理分布</a>
+      <a href="../textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="../compare.html" class="nav-link ">教材对比</a>
+      <a href="../policies.html" class="nav-link ">制度政策</a>
+      <a href="../schools.html" class="nav-link ">侨校档案</a>
+      <a href="../figures.html" class="nav-link ">人物图谱</a>
+      <a href="../dashboard.html" class="nav-link ">数据看板</a>
+      <a href="../about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>《复兴国语课本》</h1>
+    <p class="page-desc">商务印书馆 · 1935年</p>
+  </div>
+</section>
+
+<section class="textbook-detail-section">
+  <div class="container">
+    <div class="textbook-detail-card">
+      <div class="textbook-meta-grid">
+        <div class="meta-item">
+          <label>出版社</label>
+          <value>商务印书馆</value>
+        </div>
+        <div class="meta-item">
+          <label>出版年份</label>
+          <value>1935年</value>
+        </div>
+        <div class="meta-item">
+          <label>适用年级</label>
+          <value>小学</value>
+        </div>
+        <div class="meta-item">
+          <label>时期</label>
+          <value>
+            <span class="period-badge period-post-918">
+              九一八后
+            </span>
+          </value>
+        </div>
+      </div>
+      
+      <div class="textbook-description">
+        <h3>教材简介</h3>
+        <p>九一八事变后出版的国语教材，将苏武持节不屈的故事在中小学教育中广泛传播，学生的爱国精神得到激励</p>
+      </div>
+      
+      <div class="lessons-section">
+        <h3>收录课文（1篇）</h3>
+        <div class="lessons-list">
+          
+          <div class="lesson-detail-card">
+            <div class="lesson-header">
+              <h4>苏武牧羊</h4>
+              
+            </div>
+            
+            <div class="lesson-content">
+              <p>苏武出使匈奴被扣十九年，持节不屈的故事。历史上苏武常以忠君爱国、贫贱不移的形象出现，符合了儒家对于忠君观念的要求。九一八事变后，民众更加关注苏武守节的品质</p>
+              
+            </div>
+            
+            <div class="lesson-tags">
+              
+              <span class="lesson-tag">苏武</span>
+              
+              <span class="lesson-tag">牧羊</span>
+              
+              <span class="lesson-tag">持节不屈</span>
+              
+              <span class="lesson-tag">民族气节</span>
+              
+              <span class="lesson-tag">忠君爱国</span>
+              
+            </div>
+            
+            <div class="lesson-intent">
+              <strong>教育意图：</strong>培养不屈服于外敌的民族气节，贫贱不移的品质
+            </div>
+            
+            
+            <div class="lesson-context">
+              <strong>历史背景：</strong>九一八后强调不投降、不妥协的精神，反对汉奸行为
+            </div>
+            
+            
+            
+            <div class="lesson-reference">
+              <strong>论文引用：</strong>如1935年商务印书馆出版的《复兴国语课本》中，将苏武出使匈奴的故事用了5个部分进行讲述
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="back-link">
+        <a href="../textbooks.html" class="btn btn-secondary-v2">← 返回教材列表</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.textbook-detail-section { padding: 2rem 0; background: var(--color-surface); }
+.textbook-detail-card { background: var(--color-bg); padding: 2rem; border-radius: var(--radius-lg); }
+.textbook-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.meta-item { background: white; padding: 1rem; border-radius: var(--radius); }
+.meta-item label { display: block; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.25rem; }
+.meta-item value { display: block; font-size: 1.1rem; font-weight: 600; color: var(--color-primary); }
+.period-badge { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
+.period-pre-918 { background: #e3f2fd; color: #1565c0; }
+.period-post-918 { background: #ffebee; color: #c62828; }
+.textbook-description { margin-bottom: 2rem; }
+.textbook-description h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem; }
+.textbook-description p { color: var(--color-text-secondary); line-height: 1.8; }
+.lessons-section h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1.5rem; }
+.lessons-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.lesson-detail-card { background: white; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.lesson-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.lesson-header h4 { font-family: var(--font-serif); color: var(--color-text); }
+.lesson-volume { padding: 0.25rem 0.5rem; background: var(--color-bg); color: var(--color-text-secondary); border-radius: 4px; font-size: 0.85rem; }
+.lesson-content { margin-bottom: 1rem; }
+.lesson-content p { color: var(--color-text-secondary); line-height: 1.7; }
+.lesson-quote { margin: 1rem 0; padding: 1rem; background: var(--color-bg); border-left: 4px solid var(--color-gold); font-style: italic; color: var(--color-text); }
+.lesson-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.lesson-tag { padding: 0.3rem 0.6rem; background: rgba(139,69,19,0.1); color: var(--color-primary); border-radius: 4px; font-size: 0.85rem; }
+.lesson-intent, .lesson-context, .lesson-reference { font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; padding: 0.75rem; background: var(--color-bg); border-radius: var(--radius); }
+.back-link { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; }
+@media (max-width: 768px) {
+  .textbook-meta-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

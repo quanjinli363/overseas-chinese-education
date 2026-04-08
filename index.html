@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>首页 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">首页</a>
+      <a href="timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="map.html" class="nav-link ">地理分布</a>
+      <a href="textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="compare.html" class="nav-link ">教材对比</a>
+      <a href="policies.html" class="nav-link ">制度政策</a>
+      <a href="schools.html" class="nav-link ">侨校档案</a>
+      <a href="figures.html" class="nav-link ">人物图谱</a>
+      <a href="dashboard.html" class="nav-link ">数据看板</a>
+      <a href="about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="hero-v2">
+  <div class="hero-bg-v2"></div>
+  <div class="hero-content-v2">
+    <h1 class="hero-title-v2">南洋侨教记忆</h1>
+    <p class="hero-subtitle-v2">九一八事变后南洋华侨教育数字人文平台</p>
+    <p class="hero-desc-v2">
+      基于论文《九一八事变后南洋华侨教育的变化》，运用数字人文方法，
+      系统呈现1690-1943年间南洋华侨教育的历史变迁、教材演变与民族意识建构
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num">10</span>
+        <span class="stat-label">所侨校</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">22</span>
+        <span class="stat-label">项政策</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">部教材</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">10</span>
+        <span class="stat-label">位人物</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">1690-1943</span>
+        <span class="stat-label">年时间跨度</span>
+      </div>
+    </div>
+    <div class="hero-actions-v2">
+      <a href="timeline.html" class="btn btn-primary-v2">探索历史时间轴</a>
+      <a href="map.html" class="btn btn-secondary-v2">查看地理分布</a>
+      <a href="textbooks.html" class="btn btn-secondary-v2">浏览教材典藏</a>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="container">
+    <h2 class="section-title-v2">核心模块</h2>
+    <div class="features-grid">
+      <a href="timeline.html" class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>时空叙事</h3>
+        <p>从1690年明诚书院到1943年抗战时期，追溯南洋华侨教育的历史变迁。涵盖九一八事变前后的政策演变、学校发展与时代背景。</p>
+      </a>
+      <a href="map.html" class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>地理分布</h3>
+        <p>在南洋地图上标注明诚书院、五福书院、钟灵中学、坤成女子中学等重要侨校位置，直观展示华侨教育的地理分布。</p>
+      </a>
+      <a href="textbooks.html" class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>教材典藏</h3>
+        <p>收录《新编南洋华侨高小国语读本》《南洋华侨历史课本教授书》等珍贵教材，展示岳飞、苏武、戚继光等民族英雄课文。</p>
+      </a>
+      <a href="compare.html" class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3>教材对比</h3>
+        <p>对比九一八事变前后教材内容的变化，分析民族英雄叙事、外敌入侵隐喻、中日关系等主题的演变。</p>
+      </a>
+      <a href="policies.html" class="feature-card">
+        <div class="feature-icon">📜</div>
+        <h3>制度政策</h3>
+        <p>梳理《华侨学堂章程》《三民主义教育实施原则》《南洋华侨小学教科书教材编撰纲要》等重要政策法规。</p>
+      </a>
+      <a href="schools.html" class="feature-card">
+        <div class="feature-icon">🏫</div>
+        <h3>侨校档案</h3>
+        <p>为明诚书院、钟灵中学、坤成女子中学等学校建立详细档案，记录创办历史、课程设置与重要事件。</p>
+      </a>
+      <a href="figures.html" class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>人物图谱</h3>
+        <p>介绍陈嘉庚、左秉隆、刘士木、周启刚等重要人物，展示他们在南洋华侨教育中的贡献。</p>
+      </a>
+      <a href="dashboard.html" class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>数据看板</h3>
+        <p>通过可视化图表展示学校数量增长、学生人数变化、政策时间分布等统计数据。</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="highlight-section">
+  <div class="container">
+    <h2 class="section-title-v2">研究亮点</h2>
+    <div class="highlight-grid">
+      <div class="highlight-card">
+        <h4>🎯 核心论点</h4>
+        <p>九一八事变后，南洋华侨教育在教学内容、文化课程与教材编写上发生显著变化，体现了从文化认同到民族危机意识的转变。</p>
+      </div>
+      <div class="highlight-card">
+        <h4>📖 教材分析</h4>
+        <p>通过《南洋华侨历史课本教授书》等教材的深度分析，揭示民族主义教育如何通过岳飞、苏武、戚继光等民族英雄故事传递。</p>
+      </div>
+      <div class="highlight-card">
+        <h4>🏛️ 政策演变</h4>
+        <p>从1906年《华侨学堂章程》到1936年《南洋华侨小学教科书教材编撰纲要》，展示国民政府如何强化对侨教的管理。</p>
+      </div>
+      <div class="highlight-card">
+        <h4>📈 数据支撑</h4>
+        <p>新加坡华侨学校从1934年269所增至1941年1300余所，显示抗战时期华侨教育的蓬勃发展。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>

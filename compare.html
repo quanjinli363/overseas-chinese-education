@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>教材对比阅读器 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <link rel="stylesheet" href="static/css/style_v2.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏛️</span>
+      <div class="brand-text">
+        <span class="brand-title">南洋侨教记忆</span>
+        <span class="brand-subtitle">九一八事变后南洋华侨教育数字人文平台</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link ">首页</a>
+      <a href="timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="map.html" class="nav-link ">地理分布</a>
+      <a href="textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="compare.html" class="nav-link active">教材对比</a>
+      <a href="policies.html" class="nav-link ">制度政策</a>
+      <a href="schools.html" class="nav-link ">侨校档案</a>
+      <a href="figures.html" class="nav-link ">人物图谱</a>
+      <a href="dashboard.html" class="nav-link ">数据看板</a>
+      <a href="about.html" class="nav-link ">关于</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    
+<section class="page-header-v2">
+  <div class="container">
+    <h1>教材对比阅读器</h1>
+    <p class="page-desc">对比九一八事变前后教材内容的变化</p>
+    
+    <div class="filter-bar">
+      <span>左侧：</span>
+      <select id="period1" onchange="updateComparison()">
+        <option value="all" selected>全部课文</option>
+        <option value="pre-918" >九一八前</option>
+        <option value="post-918" >九一八后</option>
+      </select>
+      <span style="margin-left: 20px;">右侧：</span>
+      <select id="period2" onchange="updateComparison()">
+        <option value="all" selected>全部课文</option>
+        <option value="pre-918" >九一八前</option>
+        <option value="post-918" >九一八后</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="compare-section">
+  <div class="container-fluid">
+    <div class="compare-grid">
+      <div class="compare-col">
+        <h3>左侧教材（全部）</h3>
+        <div class="lessons-list">
+          
+          <div class="lesson-compare-card">
+            <h4>岳飞的军人生活</h4>
+            <div class="lesson-meta">
+              <span>《新编南洋华侨高小国语读本》</span>
+              <span>1934年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              通过讲述岳飞的军人生活来培养儿童对于民族英雄的崇拜情绪。课文强调岳飞精忠报国的精神，&#39;还我河山&#39;的爱国情怀...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">岳飞</span>
+              
+              <span class="tag">抗金</span>
+              
+              <span class="tag">爱国主义</span>
+              
+              <span class="tag">精忠报国</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>培养儿童崇拜民族英雄的情绪，激发爱国主义精神
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>宗爷爷（宗泽）</h4>
+            <div class="lesson-meta">
+              <span>《新编南洋华侨高小国语读本》</span>
+              <span>1934年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了北宋末年金人南侵的史实和宗泽抗金的功绩。课文内容与国内遭受日本侵略的情况十分相似，通过历史内容来反应现实社会...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">宗泽</span>
+              
+              <span class="tag">抗金</span>
+              
+              <span class="tag">北宋末年</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>通过历史内容反应现实社会，培养学生的爱国热情
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>诸葛亮</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              诸葛亮生平不求荣利，但出为国家谋事，能毅实践一个忠字，他尝说：&#39;鞠躬尽瘁，死而后已&#39;这种忠实而肯牺牲的精神，真可以表示我们民族的特性...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">诸葛亮</span>
+              
+              <span class="tag">忠诚</span>
+              
+              <span class="tag">三国</span>
+              
+              <span class="tag">鞠躬尽瘁</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>用&#39;忠&#39;字对诸葛亮的一生进行概括，赞扬他为了国家奉献一生的行为，培养学生对民族英雄的崇拜情感
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>禹治水</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              介绍了大禹为了保护他人而钻研治水之术的故事，引导学生意识到大禹治水是民族的一大功绩...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">大禹</span>
+              
+              <span class="tag">治水</span>
+              
+              <span class="tag">奉献精神</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>引导学生意识到大禹治水是民族的一大功绩
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>五胡乱华及其影响</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了汉族被少数民族侵略的事实，与国内日本侵略中国的局势类似，以此内容激起学生反抗侵略的意识与思想...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">五胡乱华</span>
+              
+              <span class="tag">外敌入侵</span>
+              
+              <span class="tag">民族危机</span>
+              
+              <span class="tag">历史教训</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>激起学生反抗侵略的意识与思想，培养民族危机感
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>北宋末年的民气</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              引导学习部分提到：&#39;敌国外患对于人民的利害关系怎样？于民众有切身利害的事，使有人为之引导指挥，一旦爆裂起来，就要发生怎样的现象？试研究我国史上人民的爱国运动—北宋末年的民气。&#39;...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">北宋末年</span>
+              
+              <span class="tag">民气</span>
+              
+              <span class="tag">爱国运动</span>
+              
+              <span class="tag">外敌入侵</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>引导学生对历史上在国人面临外敌入侵时该如何自处这一问题的思考，与国内局势紧密贴合
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>岳飞</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了北宋末年遭金人入侵的史实和岳飞保家卫国的历史事迹，文中有关于以岳飞为首的抵抗派和以秦桧为首的投降派在面临金人入侵时的不同反应的探讨...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">岳飞</span>
+              
+              <span class="tag">抗金</span>
+              
+              <span class="tag">北宋末年</span>
+              
+              <span class="tag">主战派</span>
+              
+              <span class="tag">投降派</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>通过岳飞和秦桧的不同选择，引导学生思考面对外敌入侵时应持何种态度
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>文字的起源</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              吾国数千年之文化，至今能保存勿失，全赖文字之记载。又因我国文字发明最早，至今已四千余年，以渐流传于附近诸国；或日本、朝鲜、安南等国之文字，皆根据我国文字而作。故我国先民实开东亚文化之先河。...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">文字起源</span>
+              
+              <span class="tag">中国文化</span>
+              
+              <span class="tag">东亚文化</span>
+              
+              <span class="tag">文化传承</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>通过对祖国悠久历史文化的说明和中国文化对周边国家的影响，培养华侨学子对祖国文化的认同感
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>孔子</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              提到了孔子的思想对日本、朝鲜和安南等地区的影响，这些地区的人们对孔子也十分敬重。说明了中国文化的时间悠久和影响力广泛...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">孔子</span>
+              
+              <span class="tag">儒家</span>
+              
+              <span class="tag">文化传播</span>
+              
+              <span class="tag">中日关系</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>提升华侨学子对祖国文化的自豪感，说明南洋地区的文化深受祖国文化的影响
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>周公</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              在介绍了中国礼仪传统后提问学生&#39;中日之间举动饮食有何不同&#39;这一问题，既强调了中国对日本的文化影响，又引导学生对中日文化的不同之处进行思考...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">周公</span>
+              
+              <span class="tag">礼仪</span>
+              
+              <span class="tag">中日文化</span>
+              
+              <span class="tag">文化对比</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>强调中国对日本的文化影响，引导学生思考中日文化差异
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>唐时文化传播日本</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              着重强调了中国文化向日本传播这一事实，并且描写了唐时期日本人初到中国留学的情形：&#39;先设一学校，日本学生数人向中国来，历述所经的路程，及所见唐朝文物种种之优点。至京师，见城阙宫殿之壮丽，街市之繁华，尤为咄咄羡慕不止。至学校，受办事员之指挥而上课，课业休息时，与中国同学相会。自述本国文化之简陋，大唐上国...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">唐朝</span>
+              
+              <span class="tag">中日交流</span>
+              
+              <span class="tag">文化传播</span>
+              
+              <span class="tag">日本留学</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>在内容编写上重点体现中国文化对日本文化的重要影响
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>戚继光</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              详细叙述了明朝时期倭寇作乱的历史，并且强调了动用军队抗击外敌骚扰的合理性...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">戚继光</span>
+              
+              <span class="tag">抗倭</span>
+              
+              <span class="tag">明朝</span>
+              
+              <span class="tag">民族英雄</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>强调抗击外来侵略的合理性，呼应抗日主题
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>中国敕封日本</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              对明朝时期倭寇对中国沿海的骚扰行为以及明朝政府的行动进行了讲述...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">明朝</span>
+              
+              <span class="tag">倭寇</span>
+              
+              <span class="tag">中日关系</span>
+              
+              <span class="tag">海防</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>说明历史上日本对中国的侵扰和中国的反击
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>朝鲜交涉</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              着重叙述了中日两国之间的关系，以及中国在甲午中日战争后损失巨大这一事实...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">朝鲜</span>
+              
+              <span class="tag">甲午战争</span>
+              
+              <span class="tag">中日关系</span>
+              
+              <span class="tag">历史教训</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>让学生了解中日战争历史，从历史中吸取教训
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>沿海要港的租借</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              对学生提出了&#39;中日战争之时，其他各国对之如何？中国战败以后，各国对于中国的态度怎样？试看当时各国如俄、德、法、英有怎样的举动？&#39;的疑问，引导学生对世界局势进行思考...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">租借地</span>
+              
+              <span class="tag">列强</span>
+              
+              <span class="tag">国际形势</span>
+              
+              <span class="tag">中日战争</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>培养学生注重国际局势变化的能力
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>日本维新</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了日本明治维新的历史事实，引导学生对为何渺小的日本可以称雄东亚这一问题进行客观的分析和思考，并且提出&#39;为中国全国一致对日本之行动而起注意者也&#39;...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">明治维新</span>
+              
+              <span class="tag">日本</span>
+              
+              <span class="tag">现代化</span>
+              
+              <span class="tag">历史反思</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>引导学生思考日本崛起的原因，激发学生报效祖国的决心
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>北美合众国之成立</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              提到国民政府不向华侨征收捐税，但华侨对祖国十分热心因此有诸多援助国内革命和助赈兴学的举措...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">美国独立</span>
+              
+              <span class="tag">华侨贡献</span>
+              
+              <span class="tag">爱国情怀</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>强调华侨对祖国的贡献，培养华侨的爱国情怀
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>苏武牧羊</h4>
+            <div class="lesson-meta">
+              <span>《复兴国语课本》</span>
+              <span>1935年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              苏武出使匈奴被扣十九年，持节不屈的故事。历史上苏武常以忠君爱国、贫贱不移的形象出现，符合了儒家对于忠君观念的要求。九一八事变后，民众更加关注苏武守节的品质...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">苏武</span>
+              
+              <span class="tag">牧羊</span>
+              
+              <span class="tag">持节不屈</span>
+              
+              <span class="tag">民族气节</span>
+              
+              <span class="tag">忠君爱国</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>培养不屈服于外敌的民族气节，贫贱不移的品质
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="compare-col">
+        <h3>右侧教材（全部）</h3>
+        <div class="lessons-list">
+          
+          <div class="lesson-compare-card">
+            <h4>岳飞的军人生活</h4>
+            <div class="lesson-meta">
+              <span>《新编南洋华侨高小国语读本》</span>
+              <span>1934年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              通过讲述岳飞的军人生活来培养儿童对于民族英雄的崇拜情绪。课文强调岳飞精忠报国的精神，&#39;还我河山&#39;的爱国情怀...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">岳飞</span>
+              
+              <span class="tag">抗金</span>
+              
+              <span class="tag">爱国主义</span>
+              
+              <span class="tag">精忠报国</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>培养儿童崇拜民族英雄的情绪，激发爱国主义精神
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>宗爷爷（宗泽）</h4>
+            <div class="lesson-meta">
+              <span>《新编南洋华侨高小国语读本》</span>
+              <span>1934年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了北宋末年金人南侵的史实和宗泽抗金的功绩。课文内容与国内遭受日本侵略的情况十分相似，通过历史内容来反应现实社会...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">宗泽</span>
+              
+              <span class="tag">抗金</span>
+              
+              <span class="tag">北宋末年</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>通过历史内容反应现实社会，培养学生的爱国热情
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>诸葛亮</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              诸葛亮生平不求荣利，但出为国家谋事，能毅实践一个忠字，他尝说：&#39;鞠躬尽瘁，死而后已&#39;这种忠实而肯牺牲的精神，真可以表示我们民族的特性...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">诸葛亮</span>
+              
+              <span class="tag">忠诚</span>
+              
+              <span class="tag">三国</span>
+              
+              <span class="tag">鞠躬尽瘁</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>用&#39;忠&#39;字对诸葛亮的一生进行概括，赞扬他为了国家奉献一生的行为，培养学生对民族英雄的崇拜情感
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>禹治水</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              介绍了大禹为了保护他人而钻研治水之术的故事，引导学生意识到大禹治水是民族的一大功绩...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">民族英雄</span>
+              
+              <span class="tag">大禹</span>
+              
+              <span class="tag">治水</span>
+              
+              <span class="tag">奉献精神</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>引导学生意识到大禹治水是民族的一大功绩
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>五胡乱华及其影响</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了汉族被少数民族侵略的事实，与国内日本侵略中国的局势类似，以此内容激起学生反抗侵略的意识与思想...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">五胡乱华</span>
+              
+              <span class="tag">外敌入侵</span>
+              
+              <span class="tag">民族危机</span>
+              
+              <span class="tag">历史教训</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>激起学生反抗侵略的意识与思想，培养民族危机感
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>北宋末年的民气</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              引导学习部分提到：&#39;敌国外患对于人民的利害关系怎样？于民众有切身利害的事，使有人为之引导指挥，一旦爆裂起来，就要发生怎样的现象？试研究我国史上人民的爱国运动—北宋末年的民气。&#39;...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">北宋末年</span>
+              
+              <span class="tag">民气</span>
+              
+              <span class="tag">爱国运动</span>
+              
+              <span class="tag">外敌入侵</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>引导学生对历史上在国人面临外敌入侵时该如何自处这一问题的思考，与国内局势紧密贴合
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>岳飞</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了北宋末年遭金人入侵的史实和岳飞保家卫国的历史事迹，文中有关于以岳飞为首的抵抗派和以秦桧为首的投降派在面临金人入侵时的不同反应的探讨...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">岳飞</span>
+              
+              <span class="tag">抗金</span>
+              
+              <span class="tag">北宋末年</span>
+              
+              <span class="tag">主战派</span>
+              
+              <span class="tag">投降派</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>通过岳飞和秦桧的不同选择，引导学生思考面对外敌入侵时应持何种态度
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>文字的起源</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              吾国数千年之文化，至今能保存勿失，全赖文字之记载。又因我国文字发明最早，至今已四千余年，以渐流传于附近诸国；或日本、朝鲜、安南等国之文字，皆根据我国文字而作。故我国先民实开东亚文化之先河。...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">文字起源</span>
+              
+              <span class="tag">中国文化</span>
+              
+              <span class="tag">东亚文化</span>
+              
+              <span class="tag">文化传承</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>通过对祖国悠久历史文化的说明和中国文化对周边国家的影响，培养华侨学子对祖国文化的认同感
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>孔子</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              提到了孔子的思想对日本、朝鲜和安南等地区的影响，这些地区的人们对孔子也十分敬重。说明了中国文化的时间悠久和影响力广泛...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">孔子</span>
+              
+              <span class="tag">儒家</span>
+              
+              <span class="tag">文化传播</span>
+              
+              <span class="tag">中日关系</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>提升华侨学子对祖国文化的自豪感，说明南洋地区的文化深受祖国文化的影响
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>周公</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              在介绍了中国礼仪传统后提问学生&#39;中日之间举动饮食有何不同&#39;这一问题，既强调了中国对日本的文化影响，又引导学生对中日文化的不同之处进行思考...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">周公</span>
+              
+              <span class="tag">礼仪</span>
+              
+              <span class="tag">中日文化</span>
+              
+              <span class="tag">文化对比</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>强调中国对日本的文化影响，引导学生思考中日文化差异
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>唐时文化传播日本</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              着重强调了中国文化向日本传播这一事实，并且描写了唐时期日本人初到中国留学的情形：&#39;先设一学校，日本学生数人向中国来，历述所经的路程，及所见唐朝文物种种之优点。至京师，见城阙宫殿之壮丽，街市之繁华，尤为咄咄羡慕不止。至学校，受办事员之指挥而上课，课业休息时，与中国同学相会。自述本国文化之简陋，大唐上国...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">唐朝</span>
+              
+              <span class="tag">中日交流</span>
+              
+              <span class="tag">文化传播</span>
+              
+              <span class="tag">日本留学</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>在内容编写上重点体现中国文化对日本文化的重要影响
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>戚继光</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              详细叙述了明朝时期倭寇作乱的历史，并且强调了动用军队抗击外敌骚扰的合理性...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">戚继光</span>
+              
+              <span class="tag">抗倭</span>
+              
+              <span class="tag">明朝</span>
+              
+              <span class="tag">民族英雄</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>强调抗击外来侵略的合理性，呼应抗日主题
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>中国敕封日本</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              对明朝时期倭寇对中国沿海的骚扰行为以及明朝政府的行动进行了讲述...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">明朝</span>
+              
+              <span class="tag">倭寇</span>
+              
+              <span class="tag">中日关系</span>
+              
+              <span class="tag">海防</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>说明历史上日本对中国的侵扰和中国的反击
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>朝鲜交涉</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              着重叙述了中日两国之间的关系，以及中国在甲午中日战争后损失巨大这一事实...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">朝鲜</span>
+              
+              <span class="tag">甲午战争</span>
+              
+              <span class="tag">中日关系</span>
+              
+              <span class="tag">历史教训</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>让学生了解中日战争历史，从历史中吸取教训
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>沿海要港的租借</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              对学生提出了&#39;中日战争之时，其他各国对之如何？中国战败以后，各国对于中国的态度怎样？试看当时各国如俄、德、法、英有怎样的举动？&#39;的疑问，引导学生对世界局势进行思考...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">租借地</span>
+              
+              <span class="tag">列强</span>
+              
+              <span class="tag">国际形势</span>
+              
+              <span class="tag">中日战争</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>培养学生注重国际局势变化的能力
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>日本维新</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              讲述了日本明治维新的历史事实，引导学生对为何渺小的日本可以称雄东亚这一问题进行客观的分析和思考，并且提出&#39;为中国全国一致对日本之行动而起注意者也&#39;...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">明治维新</span>
+              
+              <span class="tag">日本</span>
+              
+              <span class="tag">现代化</span>
+              
+              <span class="tag">历史反思</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>引导学生思考日本崛起的原因，激发学生报效祖国的决心
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>北美合众国之成立</h4>
+            <div class="lesson-meta">
+              <span>《南洋华侨历史课本教授书》</span>
+              <span>1932年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              提到国民政府不向华侨征收捐税，但华侨对祖国十分热心因此有诸多援助国内革命和助赈兴学的举措...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">美国独立</span>
+              
+              <span class="tag">华侨贡献</span>
+              
+              <span class="tag">爱国情怀</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>强调华侨对祖国的贡献，培养华侨的爱国情怀
+            </div>
+          </div>
+          
+          <div class="lesson-compare-card">
+            <h4>苏武牧羊</h4>
+            <div class="lesson-meta">
+              <span>《复兴国语课本》</span>
+              <span>1935年</span>
+              <span class="period-badge period-post-918">
+                九一八后
+              </span>
+            </div>
+            <div class="lesson-content-preview">
+              苏武出使匈奴被扣十九年，持节不屈的故事。历史上苏武常以忠君爱国、贫贱不移的形象出现，符合了儒家对于忠君观念的要求。九一八事变后，民众更加关注苏武守节的品质...
+            </div>
+            <div class="lesson-tags">
+              
+              <span class="tag">苏武</span>
+              
+              <span class="tag">牧羊</span>
+              
+              <span class="tag">持节不屈</span>
+              
+              <span class="tag">民族气节</span>
+              
+              <span class="tag">忠君爱国</span>
+              
+            </div>
+            <div class="education-intent">
+              <strong>教育意图：</strong>培养不屈服于外敌的民族气节，贫贱不移的品质
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function updateComparison() {
+  var period1 = document.getElementById('period1').value;
+  var period2 = document.getElementById('period2').value;
+  window.location.href = '/compare?period1=' + period1 + '&period2=' + period2;
+}
+</script>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>南洋侨教记忆</h4>
+        <p>基于论文《九一八事变后南洋华侨教育的变化》</p>
+        <p>数字人文研究平台</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心模块</h4>
+        <p>时空叙事 · 教材典藏</p>
+        <p>制度政策 · 人物图谱</p>
+      </div>
+      <div class="footer-col">
+        <h4>时间跨度</h4>
+        <p>1690年 - 1943年</p>
+        <p>涵盖清末至抗战时期</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 南洋侨教记忆 · 毕业设计项目 · quanjinli363</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  
+</body>
+</html>
