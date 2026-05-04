@@ -99,14 +99,22 @@ body {
 .hero-bg-v2 {
   position: absolute;
   inset: 0;
-  background: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect fill='%230f1a2e' width='800' height='600'/%3E%3Cpath d='M150 120 L180 80 L220 90 L260 70 L290 95 L310 85 L340 100 L320 140 L350 170 L330 200 L360 230 L340 260 L310 250 L290 280 L260 270 L240 300 L220 280 L180 290 L160 260 L130 250 L120 220 L140 200 L110 180 L130 150 L100 130 L120 110 Z' fill='rgba(212,165,116,0.08)' stroke='rgba(212,165,116,0.15)' stroke-width='1'/%3E%3Cpath d='M360 100 L410 60 L460 70 L500 55 L540 80 L560 70 L580 95 L600 90 L620 110 L640 105 L660 130 L650 160 L680 190 L660 220 L690 260 L670 290 L640 280 L620 310 L590 300 L560 330 L530 310 L500 340 L480 320 L450 340 L420 310 L390 330 L370 300 L340 290 L360 260 L330 240 L350 210 L320 190 L340 170 L310 150 L330 130 L350 110 Z' fill='rgba(212,165,116,0.06)' stroke='rgba(212,165,116,0.12)' stroke-width='1'/%3E%3Cpath d='M440 300 L480 280 L520 290 L550 270 L580 295 L600 285 L620 310 L640 300 L660 330 L640 360 L660 390 L640 410 L610 400 L580 420 L550 400 L530 430 L500 410 L480 430 L460 400 L440 410 L420 380 L440 360 L410 340 L430 320 Z' fill='rgba(212,165,116,0.07)' stroke='rgba(212,165,116,0.13)' stroke-width='1'/%3E%3Cpath d='M240 320 L280 310 L310 330 L340 315 L370 340 L360 370 L380 400 L360 420 L330 410 L300 440 L270 420 L250 440 L230 420 L210 430 L200 400 L220 380 L190 370 L210 350 L200 330 L220 340 Z' fill='rgba(44,95,45,0.1)' stroke='rgba(44,95,45,0.18)' stroke-width='1'/%3E%3Ccircle cx='180' cy='160' r='6' fill='rgba(212,165,116,0.3)'/%3E%3Ccircle cx='310' cy='120' r='5' fill='rgba(212,165,116,0.25)'/%3E%3Ccircle cx='430' cy='200' r='7' fill='rgba(212,165,116,0.3)'/%3E%3Ccircle cx='600' cy='180' r='5' fill='rgba(212,165,116,0.2)'/%3E%3Ccircle cx='490' cy='350' r='6' fill='rgba(212,165,116,0.25)'/%3E%3Ccircle cx='350' cy='280' r='4' fill='rgba(212,165,116,0.2)'/%3E%3Ccircle cx='550' cy='290' r='5' fill='rgba(212,165,116,0.22)'/%3E%3Ccircle cx='260' cy='360' r='4' fill='rgba(212,165,116,0.2)'/%3E%3C/svg%3E") center / cover no-repeat,
-    linear-gradient(135deg, #0f1a2e 0%, #152238 40%, #0d1525 100%);
-  opacity: 0.6;
+  background: url('../img/southeast-asia-map.jpg') center / cover no-repeat;
+  opacity: 0.25;
+  filter: saturate(0.4) brightness(0.35) contrast(1.1);
+}
+
+.hero-v2::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,26,46,0.88) 0%, rgba(15,26,46,0.75) 40%, rgba(13,21,37,0.85) 100%);
+  z-index: 1;
 }
 
 .hero-layout {
   position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   min-height: 100vh;
