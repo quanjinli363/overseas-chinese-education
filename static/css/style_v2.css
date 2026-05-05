@@ -401,6 +401,21 @@ body {
 }
 
 /* Guide Section */
+.storyline-intro {
+  font-size: 1.15rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.storyline-grid {
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 1.25rem !important;
+}
+
 .guide-section {
   padding: 5rem 0;
   background: linear-gradient(135deg, #faf8f5 0%, #f5f0eb 100%);
@@ -636,7 +651,19 @@ body {
 .page-header-v2 .page-desc {
   opacity: 0.9;
   font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-why {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.7;
+  max-width: 680px;
   margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  border-left: 3px solid rgba(255,255,255,0.5);
 }
 
 .filter-bar {
@@ -745,6 +772,17 @@ body {
 .type-policy { background: #f3e5f5; color: #7b1fa2; }
 .type-political { background: #fff3e0; color: #e65100; }
 .type-conference { background: #e8f5e9; color: #2e7d32; }
+
+.card-plain-summary {
+  font-size: 0.92rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.8rem;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--color-accent);
+}
 
 .timeline-card-v2 h3 {
   font-family: var(--font-serif);
@@ -1323,7 +1361,7 @@ body {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .figures-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-grid-v2 { grid-template-columns: repeat(2, 1fr); }
-  .guide-grid { grid-template-columns: repeat(2, 1fr); }
+  .guide-grid, .storyline-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .story-grid { grid-template-columns: 1fr; }
   .numbers-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1350,7 +1388,7 @@ body {
   
   .features-grid { grid-template-columns: 1fr; }
   .highlight-grid { grid-template-columns: 1fr; }
-  .guide-grid { grid-template-columns: 1fr; }
+  .guide-grid, .storyline-grid { grid-template-columns: 1fr !important; }
   .story-grid { grid-template-columns: 1fr; }
   .numbers-grid { grid-template-columns: repeat(2, 1fr); }
   .textbooks-grid { grid-template-columns: 1fr; }
