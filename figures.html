@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>人物图谱 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="/static/css/style_v2.css?v=9" />
+  <link rel="stylesheet" href="static/css/style_v2.css?v=9" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -20,16 +20,16 @@
       </div>
     </div>
     <div class="nav-links">
-      <a href="/" class="nav-link ">首页</a>
-      <a href="/timeline" class="nav-link ">历史时间轴</a>
-      <a href="/map" class="nav-link ">地理分布</a>
-      <a href="/textbooks" class="nav-link ">教材典藏</a>
-      <a href="/compare" class="nav-link ">教材对比</a>
-      <a href="/policies" class="nav-link ">制度政策</a>
-      <a href="/schools" class="nav-link ">侨校档案</a>
-      <a href="/figures" class="nav-link active">人物图谱</a>
-      <a href="/dashboard" class="nav-link ">数据看板</a>
-      <a href="/about" class="nav-link ">关于</a>
+      <a href="index.html" class="nav-link ">首页</a>
+      <a href="timeline.html" class="nav-link ">历史时间轴</a>
+      <a href="map.html" class="nav-link ">地理分布</a>
+      <a href="textbooks.html" class="nav-link ">教材典藏</a>
+      <a href="compare.html" class="nav-link ">教材对比</a>
+      <a href="policies.html" class="nav-link ">制度政策</a>
+      <a href="schools.html" class="nav-link ">侨校档案</a>
+      <a href="figures.html" class="nav-link active">人物图谱</a>
+      <a href="dashboard.html" class="nav-link ">数据看板</a>
+      <a href="about.html" class="nav-link ">关于</a>
     </div>
     <div class="nav-search-toggle" onclick="document.getElementById('searchOverlay').classList.add('open')" title="搜索">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -42,7 +42,7 @@
   <div id="searchOverlay" class="search-overlay">
     <div class="search-overlay-backdrop" onclick="document.getElementById('searchOverlay').classList.remove('open')"></div>
     <div class="search-overlay-content">
-      <form action="/search" method="get" class="search-overlay-form">
+      <form action="search.html" method="get" class="search-overlay-form">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b4513" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" name="q" id="searchOverlayInput" placeholder="搜索学校、政策、教材、人物、事件..." autocomplete="off" />
         <kbd>ESC</kbd>
@@ -60,171 +60,171 @@
     <p class="page-why">有人倾家荡产办学，有人冒险送教材，有人用课本唤醒民族意识——这些人的故事，比任何政策文件都鲜活。</p>
     <div class="filter-bar">
       <span>标签筛选：</span>
-      <a href="/figures" class="filter-btn active">全部</a>
+      <a href="figures.html" class="filter-btn active">全部</a>
       
-      <a href="/figures?tag=三民主义" class="filter-btn ">三民主义</a>
+      <a href="figures.html?tag=三民主义" class="filter-btn ">三民主义</a>
       
-      <a href="/figures?tag=侨务" class="filter-btn ">侨务</a>
+      <a href="figures.html?tag=侨务" class="filter-btn ">侨务</a>
       
-      <a href="/figures?tag=侨务专家" class="filter-btn ">侨务专家</a>
+      <a href="figures.html?tag=侨务专家" class="filter-btn ">侨务专家</a>
       
-      <a href="/figures?tag=侨务委员会" class="filter-btn ">侨务委员会</a>
+      <a href="figures.html?tag=侨务委员会" class="filter-btn ">侨务委员会</a>
       
-      <a href="/figures?tag=侨务官员" class="filter-btn ">侨务官员</a>
+      <a href="figures.html?tag=侨务官员" class="filter-btn ">侨务官员</a>
       
-      <a href="/figures?tag=侨教危机" class="filter-btn ">侨教危机</a>
+      <a href="figures.html?tag=侨教危机" class="filter-btn ">侨教危机</a>
       
-      <a href="/figures?tag=侨教行政" class="filter-btn ">侨教行政</a>
+      <a href="figures.html?tag=侨教行政" class="filter-btn ">侨教行政</a>
       
-      <a href="/figures?tag=侨教防御" class="filter-btn ">侨教防御</a>
+      <a href="figures.html?tag=侨教防御" class="filter-btn ">侨教防御</a>
       
-      <a href="/figures?tag=侨领" class="filter-btn ">侨领</a>
+      <a href="figures.html?tag=侨领" class="filter-btn ">侨领</a>
       
-      <a href="/figures?tag=保护侨民" class="filter-btn ">保护侨民</a>
+      <a href="figures.html?tag=保护侨民" class="filter-btn ">保护侨民</a>
       
-      <a href="/figures?tag=军事家" class="filter-btn ">军事家</a>
+      <a href="figures.html?tag=军事家" class="filter-btn ">军事家</a>
       
-      <a href="/figures?tag=创办者" class="filter-btn ">创办者</a>
+      <a href="figures.html?tag=创办者" class="filter-btn ">创办者</a>
       
-      <a href="/figures?tag=副委员长" class="filter-btn ">副委员长</a>
+      <a href="figures.html?tag=副委员长" class="filter-btn ">副委员长</a>
       
-      <a href="/figures?tag=劝学" class="filter-btn ">劝学</a>
+      <a href="figures.html?tag=劝学" class="filter-btn ">劝学</a>
       
-      <a href="/figures?tag=华侨" class="filter-btn ">华侨</a>
+      <a href="figures.html?tag=华侨" class="filter-btn ">华侨</a>
       
-      <a href="/figures?tag=华侨捐资" class="filter-btn ">华侨捐资</a>
+      <a href="figures.html?tag=华侨捐资" class="filter-btn ">华侨捐资</a>
       
-      <a href="/figures?tag=华侨教育" class="filter-btn ">华侨教育</a>
+      <a href="figures.html?tag=华侨教育" class="filter-btn ">华侨教育</a>
       
-      <a href="/figures?tag=华侨研究" class="filter-btn ">华侨研究</a>
+      <a href="figures.html?tag=华侨研究" class="filter-btn ">华侨研究</a>
       
-      <a href="/figures?tag=华侨调查" class="filter-btn ">华侨调查</a>
+      <a href="figures.html?tag=华侨调查" class="filter-btn ">华侨调查</a>
       
-      <a href="/figures?tag=南洋" class="filter-btn ">南洋</a>
+      <a href="figures.html?tag=南洋" class="filter-btn ">南洋</a>
       
-      <a href="/figures?tag=国家建设" class="filter-btn ">国家建设</a>
+      <a href="figures.html?tag=国家建设" class="filter-btn ">国家建设</a>
       
-      <a href="/figures?tag=国籍法" class="filter-btn ">国籍法</a>
+      <a href="figures.html?tag=国籍法" class="filter-btn ">国籍法</a>
       
-      <a href="/figures?tag=国语推广" class="filter-btn ">国语推广</a>
+      <a href="figures.html?tag=国语推广" class="filter-btn ">国语推广</a>
       
-      <a href="/figures?tag=外交官" class="filter-btn ">外交官</a>
+      <a href="figures.html?tag=外交官" class="filter-btn ">外交官</a>
       
-      <a href="/figures?tag=女子教育" class="filter-btn ">女子教育</a>
+      <a href="figures.html?tag=女子教育" class="filter-btn ">女子教育</a>
       
-      <a href="/figures?tag=女权" class="filter-btn ">女权</a>
+      <a href="figures.html?tag=女权" class="filter-btn ">女权</a>
       
-      <a href="/figures?tag=委员长" class="filter-btn ">委员长</a>
+      <a href="figures.html?tag=委员长" class="filter-btn ">委员长</a>
       
-      <a href="/figures?tag=学者" class="filter-btn ">学者</a>
+      <a href="figures.html?tag=学者" class="filter-btn ">学者</a>
       
-      <a href="/figures?tag=官员" class="filter-btn ">官员</a>
+      <a href="figures.html?tag=官员" class="filter-btn ">官员</a>
       
-      <a href="/figures?tag=实业家" class="filter-btn ">实业家</a>
+      <a href="figures.html?tag=实业家" class="filter-btn ">实业家</a>
       
-      <a href="/figures?tag=实地调查" class="filter-btn ">实地调查</a>
+      <a href="figures.html?tag=实地调查" class="filter-btn ">实地调查</a>
       
-      <a href="/figures?tag=对策" class="filter-btn ">对策</a>
+      <a href="figures.html?tag=对策" class="filter-btn ">对策</a>
       
-      <a href="/figures?tag=岭南画派" class="filter-btn ">岭南画派</a>
+      <a href="figures.html?tag=岭南画派" class="filter-btn ">岭南画派</a>
       
-      <a href="/figures?tag=师资培训" class="filter-btn ">师资培训</a>
+      <a href="figures.html?tag=师资培训" class="filter-btn ">师资培训</a>
       
-      <a href="/figures?tag=归国侨胞" class="filter-btn ">归国侨胞</a>
+      <a href="figures.html?tag=归国侨胞" class="filter-btn ">归国侨胞</a>
       
-      <a href="/figures?tag=慈勤女中" class="filter-btn ">慈勤女中</a>
+      <a href="figures.html?tag=慈勤女中" class="filter-btn ">慈勤女中</a>
       
-      <a href="/figures?tag=慈善家" class="filter-btn ">慈善家</a>
+      <a href="figures.html?tag=慈善家" class="filter-btn ">慈善家</a>
       
-      <a href="/figures?tag=抗日" class="filter-btn ">抗日</a>
+      <a href="figures.html?tag=抗日" class="filter-btn ">抗日</a>
       
-      <a href="/figures?tag=抗日运动" class="filter-btn ">抗日运动</a>
+      <a href="figures.html?tag=抗日运动" class="filter-btn ">抗日运动</a>
       
-      <a href="/figures?tag=政治家" class="filter-btn ">政治家</a>
+      <a href="figures.html?tag=政治家" class="filter-btn ">政治家</a>
       
-      <a href="/figures?tag=政策制定" class="filter-btn ">政策制定</a>
+      <a href="figures.html?tag=政策制定" class="filter-btn ">政策制定</a>
       
-      <a href="/figures?tag=教育会议" class="filter-btn ">教育会议</a>
+      <a href="figures.html?tag=教育会议" class="filter-btn ">教育会议</a>
       
-      <a href="/figures?tag=教育家" class="filter-btn ">教育家</a>
+      <a href="figures.html?tag=教育家" class="filter-btn ">教育家</a>
       
-      <a href="/figures?tag=教育改革" class="filter-btn ">教育改革</a>
+      <a href="figures.html?tag=教育改革" class="filter-btn ">教育改革</a>
       
-      <a href="/figures?tag=教育权利" class="filter-btn ">教育权利</a>
+      <a href="figures.html?tag=教育权利" class="filter-btn ">教育权利</a>
       
-      <a href="/figures?tag=教育管理" class="filter-btn ">教育管理</a>
+      <a href="figures.html?tag=教育管理" class="filter-btn ">教育管理</a>
       
-      <a href="/figures?tag=新加坡" class="filter-btn ">新加坡</a>
+      <a href="figures.html?tag=新加坡" class="filter-btn ">新加坡</a>
       
-      <a href="/figures?tag=新生活运动" class="filter-btn ">新生活运动</a>
+      <a href="figures.html?tag=新生活运动" class="filter-btn ">新生活运动</a>
       
-      <a href="/figures?tag=暨南大学" class="filter-btn ">暨南大学</a>
+      <a href="figures.html?tag=暨南大学" class="filter-btn ">暨南大学</a>
       
-      <a href="/figures?tag=暹罗" class="filter-btn ">暹罗</a>
+      <a href="figures.html?tag=暹罗" class="filter-btn ">暹罗</a>
       
-      <a href="/figures?tag=权益" class="filter-btn ">权益</a>
+      <a href="figures.html?tag=权益" class="filter-btn ">权益</a>
       
-      <a href="/figures?tag=校长" class="filter-btn ">校长</a>
+      <a href="figures.html?tag=校长" class="filter-btn ">校长</a>
       
-      <a href="/figures?tag=欧洲华侨" class="filter-btn ">欧洲华侨</a>
+      <a href="figures.html?tag=欧洲华侨" class="filter-btn ">欧洲华侨</a>
       
-      <a href="/figures?tag=歧视条例" class="filter-btn ">歧视条例</a>
+      <a href="figures.html?tag=歧视条例" class="filter-btn ">歧视条例</a>
       
-      <a href="/figures?tag=殖民地" class="filter-btn ">殖民地</a>
+      <a href="figures.html?tag=殖民地" class="filter-btn ">殖民地</a>
       
-      <a href="/figures?tag=民族精神" class="filter-btn ">民族精神</a>
+      <a href="figures.html?tag=民族精神" class="filter-btn ">民族精神</a>
       
-      <a href="/figures?tag=民族运动" class="filter-btn ">民族运动</a>
+      <a href="figures.html?tag=民族运动" class="filter-btn ">民族运动</a>
       
-      <a href="/figures?tag=法属越南" class="filter-btn ">法属越南</a>
+      <a href="figures.html?tag=法属越南" class="filter-btn ">法属越南</a>
       
-      <a href="/figures?tag=法律" class="filter-btn ">法律</a>
+      <a href="figures.html?tag=法律" class="filter-btn ">法律</a>
       
-      <a href="/figures?tag=海防" class="filter-btn ">海防</a>
+      <a href="figures.html?tag=海防" class="filter-btn ">海防</a>
       
-      <a href="/figures?tag=清末" class="filter-btn ">清末</a>
+      <a href="figures.html?tag=清末" class="filter-btn ">清末</a>
       
-      <a href="/figures?tag=爪哇" class="filter-btn ">爪哇</a>
+      <a href="figures.html?tag=爪哇" class="filter-btn ">爪哇</a>
       
-      <a href="/figures?tag=研究者" class="filter-btn ">研究者</a>
+      <a href="figures.html?tag=研究者" class="filter-btn ">研究者</a>
       
-      <a href="/figures?tag=社会学家" class="filter-btn ">社会学家</a>
+      <a href="figures.html?tag=社会学家" class="filter-btn ">社会学家</a>
       
-      <a href="/figures?tag=社会教育" class="filter-btn ">社会教育</a>
+      <a href="figures.html?tag=社会教育" class="filter-btn ">社会教育</a>
       
-      <a href="/figures?tag=经济" class="filter-btn ">经济</a>
+      <a href="figures.html?tag=经济" class="filter-btn ">经济</a>
       
-      <a href="/figures?tag=统计" class="filter-btn ">统计</a>
+      <a href="figures.html?tag=统计" class="filter-btn ">统计</a>
       
-      <a href="/figures?tag=维新派" class="filter-btn ">维新派</a>
+      <a href="figures.html?tag=维新派" class="filter-btn ">维新派</a>
       
-      <a href="/figures?tag=考察" class="filter-btn ">考察</a>
+      <a href="figures.html?tag=考察" class="filter-btn ">考察</a>
       
-      <a href="/figures?tag=职业教育" class="filter-btn ">职业教育</a>
+      <a href="figures.html?tag=职业教育" class="filter-btn ">职业教育</a>
       
-      <a href="/figures?tag=荷印" class="filter-btn ">荷印</a>
+      <a href="figures.html?tag=荷印" class="filter-btn ">荷印</a>
       
-      <a href="/figures?tag=获奖" class="filter-btn ">获奖</a>
+      <a href="figures.html?tag=获奖" class="filter-btn ">获奖</a>
       
-      <a href="/figures?tag=见证者" class="filter-btn ">见证者</a>
+      <a href="figures.html?tag=见证者" class="filter-btn ">见证者</a>
       
-      <a href="/figures?tag=视察" class="filter-btn ">视察</a>
+      <a href="figures.html?tag=视察" class="filter-btn ">视察</a>
       
-      <a href="/figures?tag=视察员" class="filter-btn ">视察员</a>
+      <a href="figures.html?tag=视察员" class="filter-btn ">视察员</a>
       
-      <a href="/figures?tag=议员" class="filter-btn ">议员</a>
+      <a href="figures.html?tag=议员" class="filter-btn ">议员</a>
       
-      <a href="/figures?tag=评论" class="filter-btn ">评论</a>
+      <a href="figures.html?tag=评论" class="filter-btn ">评论</a>
       
-      <a href="/figures?tag=调查" class="filter-btn ">调查</a>
+      <a href="figures.html?tag=调查" class="filter-btn ">调查</a>
       
-      <a href="/figures?tag=钟灵中学" class="filter-btn ">钟灵中学</a>
+      <a href="figures.html?tag=钟灵中学" class="filter-btn ">钟灵中学</a>
       
-      <a href="/figures?tag=闽粤社会" class="filter-btn ">闽粤社会</a>
+      <a href="figures.html?tag=闽粤社会" class="filter-btn ">闽粤社会</a>
       
-      <a href="/figures?tag=革命家" class="filter-btn ">革命家</a>
+      <a href="figures.html?tag=革命家" class="filter-btn ">革命家</a>
       
-      <a href="/figures?tag=马来亚" class="filter-btn ">马来亚</a>
+      <a href="figures.html?tag=马来亚" class="filter-btn ">马来亚</a>
       
     </div>
   </div>
@@ -252,7 +252,7 @@
             <div class="achievement">• 领导南洋华侨抗日救亡运动</div>
             
           </div>
-          <a href="/figure/figure-chenjiageng" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chenjiageng.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -274,7 +274,7 @@
             <div class="achievement">• 鼓励侨校教授国语</div>
             
           </div>
-          <a href="/figure/figure-zuobinglong" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zuobinglong.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -296,7 +296,7 @@
             <div class="achievement">• 推动南洋华侨教育研究</div>
             
           </div>
-          <a href="/figure/figure-liushimu" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-liushimu.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -318,7 +318,7 @@
             <div class="achievement">• 制定华侨教育政策</div>
             
           </div>
-          <a href="/figure/figure-zhouqigang" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zhouqigang.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -340,7 +340,7 @@
             <div class="achievement">• 致力于发展华侨教育事业</div>
             
           </div>
-          <a href="/figure/figure-chenxianyuan" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chenxianyuan.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -362,7 +362,7 @@
             <div class="achievement">• 致力于发展华侨教育事业</div>
             
           </div>
-          <a href="/figure/figure-shimingqiu" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-shimingqiu.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -384,7 +384,7 @@
             <div class="achievement">• 钟灵中学党支部书记</div>
             
           </div>
-          <a href="/figure/figure-chenqingshan" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chenqingshan.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -406,7 +406,7 @@
             <div class="achievement">• 培养女性民族意识</div>
             
           </div>
-          <a href="/figure/figure-wuxuehua" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-wuxuehua.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -428,7 +428,7 @@
             <div class="achievement">• 推动职业教育发展</div>
             
           </div>
-          <a href="/figure/figure-huangyanpei" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-huangyanpei.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -450,7 +450,7 @@
             <div class="achievement">• 推动华侨教育发展</div>
             
           </div>
-          <a href="/figure/figure-sunzhongshan" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-sunzhongshan.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -472,7 +472,7 @@
             <div class="achievement">• 揭示商务印书馆教材占比85%但与南洋实际脱节的问题</div>
             
           </div>
-          <a href="/figure/figure-qianhe" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-qianhe.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -494,7 +494,7 @@
             <div class="achievement">• 提议成立华侨教育三民主义教育实施委员会</div>
             
           </div>
-          <a href="/figure/figure-zhenghongnian" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zhenghongnian.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -516,7 +516,7 @@
             <div class="achievement">• 1936年以华侨教育视察专员身份出席新加坡华侨中学国庆活动</div>
             
           </div>
-          <a href="/figure/figure-linpusheng" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-linpusheng.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -538,7 +538,7 @@
             <div class="achievement">• 提出华侨教育改进的十项海外方面对策和本国政府方面对策</div>
             
           </div>
-          <a href="/figure/figure-luzhuoxin" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-luzhuoxin.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -560,7 +560,7 @@
             <div class="achievement">• 提出华侨社会教育的四项必要性和六项实施原则</div>
             
           </div>
-          <a href="/figure/figure-wangzhiyuan" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-wangzhiyuan.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -580,7 +580,7 @@
             <div class="achievement">• 不满政府歧视政策而向总督提出辞职</div>
             
           </div>
-          <a href="/figure/figure-linqingyuan" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-linqingyuan.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -600,7 +600,7 @@
             <div class="achievement">• 论述新生活运动对华侨恢复民族精神的重要意义</div>
             
           </div>
-          <a href="/figure/figure-ganglu" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-ganglu.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -620,7 +620,7 @@
             <div class="achievement">• 详细讲述暹罗摧残华侨教育的两个阶段——缓进同化政策时期和急进同化政策时期</div>
             
           </div>
-          <a href="/figure/figure-luowanli" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-luowanli.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -642,7 +642,7 @@
             <div class="achievement">• 1938年出版《南洋华侨与闽粤社会》开创华侨社会学研究</div>
             
           </div>
-          <a href="/figure/figure-chendda" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chendda.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -664,7 +664,7 @@
             <div class="achievement">• 梳理侨民教育法规体系</div>
             
           </div>
-          <a href="/figure/figure-xuedianceng" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-xuedianceng.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -684,7 +684,7 @@
             <div class="achievement">• 系统梳理南洋华侨历史与现状</div>
             
           </div>
-          <a href="/figure/figure-chenyin" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chenyin.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -706,7 +706,7 @@
             <div class="achievement">• 侨校教科书编辑委员会委员</div>
             
           </div>
-          <a href="/figure/figure-zhouqigang-2" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zhouqigang-2.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -728,7 +728,7 @@
             <div class="achievement">• 岭南画派创始人之一</div>
             
           </div>
-          <a href="/figure/figure-chenrenshu" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chenrenshu.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -748,7 +748,7 @@
             <div class="achievement">• 系统整理各国歧视华侨的法律条例</div>
             
           </div>
-          <a href="/figure/figure-wangpichen" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-wangpichen.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -770,7 +770,7 @@
             <div class="achievement">• 提出整理侨务计划</div>
             
           </div>
-          <a href="/figure/figure-chenlite" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-chenlite.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -792,7 +792,7 @@
             <div class="achievement">• 厦门慈勤女子中学主要捐助者</div>
             
           </div>
-          <a href="/figure/figure-huangyizu" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-huangyizu.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -814,7 +814,7 @@
             <div class="achievement">• 推动巴达维亚、泗水、三宝垄私塾改为学堂</div>
             
           </div>
-          <a href="/figure/figure-kangyuwei" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-kangyuwei.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -836,7 +836,7 @@
             <div class="achievement">• 主张华侨应提升自觉意识</div>
             
           </div>
-          <a href="/figure/figure-zhangjingxi" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zhangjingxi.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -858,7 +858,7 @@
             <div class="achievement">• 提出华侨应以经济封锁、抵制日货等方式支援抗战</div>
             
           </div>
-          <a href="/figure/figure-dengxuefeng" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-dengxuefeng.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -880,7 +880,7 @@
             <div class="achievement">• 提出华侨参与国家建设的路径</div>
             
           </div>
-          <a href="/figure/figure-guansuren" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-guansuren.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -902,7 +902,7 @@
             <div class="achievement">• 揭示华侨捐款对国家的重要贡献</div>
             
           </div>
-          <a href="/figure/figure-zhoushousy" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zhoushousy.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -924,7 +924,7 @@
             <div class="achievement">• 维护华侨权益与尊严</div>
             
           </div>
-          <a href="/figure/figure-zhanjusy" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-zhanjusy.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -946,7 +946,7 @@
             <div class="achievement">• 为华侨争取基本权益</div>
             
           </div>
-          <a href="/figure/figure-mozicai" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-mozicai.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -968,7 +968,7 @@
             <div class="achievement">• 探讨双重国籍问题的解决方案</div>
             
           </div>
-          <a href="/figure/figure-lihuanshen" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-lihuanshen.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -990,7 +990,7 @@
             <div class="achievement">• 培养大批华侨子弟</div>
             
           </div>
-          <a href="/figure/figure-lvbaohe" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-lvbaohe.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -1012,7 +1012,7 @@
             <div class="achievement">• 为侨务政策制定提供第一手资料</div>
             
           </div>
-          <a href="/figure/figure-dingpeilun" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-dingpeilun.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -1034,7 +1034,7 @@
             <div class="achievement">• 为南洋华侨教育转型做出重要贡献</div>
             
           </div>
-          <a href="/figure/figure-liushiji" class="btn btn-sm">查看详情</a>
+          <a href="figure/figure-liushiji.html" class="btn btn-sm">查看详情</a>
         </div>
       </div>
       
@@ -1138,11 +1138,11 @@
             if(item.role)meta=item.role;
             html+='<a href="'+href+'" class="so-item" onclick="closeOverlay()"><span class="so-type '+g.type+'">'+g.label.charAt(2)+'</span><div class="so-item-content"><div class="so-item-title">'+title+'</div><div class="so-item-meta">'+meta+'</div></div></a>';
           });
-          if(items.length>4)html+='<a href="/search?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
+          if(items.length>4)html+='<a href="search.html?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
           html+='</div>';
         });
         if(!html)html='<div class="so-empty">未找到相关结果</div>';
-        html+='<div class="so-footer"><a href="/search?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
+        html+='<div class="so-footer"><a href="search.html?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
         resultsDiv.innerHTML=html;
       },200);
     });
