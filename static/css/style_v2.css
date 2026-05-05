@@ -1224,7 +1224,53 @@ body {
   margin-bottom: 0.25rem;
 }
 
-/* Dashboard Section */
+/* Simplified Figure Cards */
+.figure-card-simple {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+}
+.figure-card-simple:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.figure-card-info {
+  flex: 1;
+  min-width: 0;
+}
+.figure-card-info h3 {
+  font-family: var(--font-serif);
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+.figure-plain-summary {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0.2rem 0;
+}
+.figure-card-tags {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-top: 0.35rem;
+}
+.figure-card-tags .tag { font-size: 0.7rem; padding: 0.15rem 0.45rem; }
+.figure-arrow {
+  color: var(--color-accent);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Schools page map/list toggle */
 .dashboard-section {
   padding: 2rem 0;
   background: var(--color-surface);

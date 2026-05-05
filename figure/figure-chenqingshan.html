@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>陈青山 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="../static/css/style_v2.css?v=11" />
+  <link rel="stylesheet" href="../static/css/style_v2.css?v=12" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -81,6 +81,18 @@
       </div>
       
       
+      
+      <div class="history-scene">
+        <h3>历史场景</h3>
+        <div class="scene-illustration">
+          <div class="scene-placeholder">
+            <div class="scene-icon">👤</div>
+            <div class="scene-label">陈青山</div>
+            <div class="scene-desc">革命家、军事家 · 1919-2003</div>
+            <div class="scene-hint">华校教师，在侨校里从事教学工作 · 活跃于中国</div>
+          </div>
+        </div>
+      </div>
       
       
       <div class="figure-achievements">
@@ -182,8 +194,8 @@
 .figure-lifespan, .figure-nationality { font-size: 0.95rem; color: var(--color-text-secondary); }
 .figure-quote { margin: 2rem 0; padding: 1.5rem; background: white; border-left: 4px solid var(--color-gold); }
 .figure-quote blockquote { font-size: 1.2rem; font-style: italic; color: var(--color-text); font-family: var(--font-serif); }
-.figure-achievements, .figure-schools, .figure-significance, .paper-reference { margin-bottom: 2rem; }
-.figure-achievements h3, .figure-schools h3, .figure-significance h3, .paper-reference h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem; }
+.figure-achievements, .figure-schools, .figure-significance, .paper-reference, .history-scene, .related-stories { margin-bottom: 2rem; }
+.figure-achievements h3, .figure-schools h3, .figure-significance h3, .paper-reference h3, .history-scene h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem; }
 .figure-achievements ul { padding-left: 1.5rem; }
 .figure-achievements li { margin-bottom: 0.5rem; color: var(--color-text-secondary); }
 .related-schools-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
@@ -192,6 +204,17 @@
 .related-school-card h4 { color: var(--color-primary); margin-bottom: 0.25rem; }
 .related-school-card p { font-size: 0.85rem; color: var(--color-text-secondary); }
 .paper-reference blockquote { padding: 1rem; background: white; border-left: 4px solid var(--color-primary); font-style: italic; color: var(--color-text-secondary); }
+.history-scene .scene-illustration {
+  background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd0 50%, #d4c5b0 100%);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  border: 2px dashed var(--color-accent);
+}
+.scene-icon { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.scene-label { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.3rem; }
+.scene-desc { font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
+.scene-hint { font-size: 0.85rem; color: #7a6f5f; line-height: 1.6; max-width: 500px; margin: 0 auto; font-style: italic; }
 .back-link { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; }
 .related-stories { margin-bottom: 2rem; }
 .related-stories h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem; }

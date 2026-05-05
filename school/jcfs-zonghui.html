@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>荷属华侨学务总会 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="../static/css/style_v2.css?v=11" />
+  <link rel="stylesheet" href="../static/css/style_v2.css?v=12" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -94,6 +94,18 @@
       <div class="school-description">
         <h3>学校简介</h3>
         <p>光绪32年(1906年)成立，为荷属东印度华侨教育之总机关，统筹管理荷属华侨学校事务</p>
+      </div>
+      
+      <div class="history-scene">
+        <h3>历史场景</h3>
+        <div class="scene-illustration">
+          <div class="scene-placeholder">
+            <div class="scene-icon">🏫</div>
+            <div class="scene-label">荷属华侨学务总会</div>
+            <div class="scene-desc">巴达维亚，1906年</div>
+            <div class="scene-hint">巴达维亚 — 教育组织在此扎根清末，从私塾到新式学堂，华侨的教育始终未曾中断。</div>
+          </div>
+        </div>
       </div>
       
       
@@ -186,10 +198,22 @@
 .info-item { background: white; padding: 1rem; border-radius: var(--radius); }
 .info-item label { display: block; font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.25rem; }
 .info-item value { display: block; font-size: 1.1rem; font-weight: 600; color: var(--color-primary); }
-.school-description, .school-significance, .school-curriculum, .school-events, .paper-reference { margin-bottom: 2rem; }
-.school-description h3, .school-significance h3, .school-curriculum h3, .school-events h3, .paper-reference h3 {
+.school-description, .school-significance, .school-curriculum, .school-events, .paper-reference, .history-scene, .related-stories { margin-bottom: 2rem; }
+.school-description h3, .school-significance h3, .school-curriculum h3, .school-events h3, .paper-reference h3, .history-scene h3 {
   font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem;
 }
+.history-scene .scene-illustration {
+  background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd0 50%, #d4c5b0 100%);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  border: 2px dashed var(--color-accent);
+  position: relative;
+}
+.scene-icon { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.scene-label { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.3rem; }
+.scene-desc { font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
+.scene-hint { font-size: 0.85rem; color: #7a6f5f; line-height: 1.6; max-width: 500px; margin: 0 auto; font-style: italic; }
 .curriculum-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .curriculum-tag { padding: 0.4rem 0.8rem; background: rgba(139,69,19,0.1); color: var(--color-primary); border-radius: 4px; }
 .events-list { display: flex; flex-direction: column; gap: 0.75rem; }
