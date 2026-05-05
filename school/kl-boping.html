@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>吉隆坡柏屏学校 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="../static/css/style_v2.css?v=10" />
+  <link rel="stylesheet" href="../static/css/style_v2.css?v=11" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -125,6 +125,8 @@
       </div>
       
       
+      
+      
       <div class="back-link">
         <a href="../schools.html" class="btn btn-secondary-v2">← 返回学校列表</a>
         <div class="share-bar">
@@ -160,6 +162,19 @@
 .event-year { font-weight: 600; color: var(--color-primary); min-width: 80px; }
 .paper-reference blockquote { padding: 1rem; background: white; border-left: 4px solid var(--color-primary); font-style: italic; color: var(--color-text-secondary); }
 .back-link { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; }
+.related-stories { margin-bottom: 2rem; }
+.related-stories h3 { font-family: var(--font-serif); color: var(--color-primary); margin-bottom: 1rem; }
+.related-stories-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.related-story-card { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: white; border-radius: var(--radius); text-decoration: none; color: inherit; transition: all 0.2s; border-left: 4px solid var(--color-accent); }
+.related-story-card:hover { box-shadow: var(--shadow); transform: translateX(4px); }
+.story-type-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+.badge-school { background: #e3f2fd; color: #1565c0; }
+.badge-figure { background: #f3e5f5; color: #7b1fa2; }
+.badge-policy { background: #fff3e0; color: #e65100; }
+.story-content { flex: 1; min-width: 0; }
+.story-content h4 { font-size: 0.95rem; color: var(--color-primary); margin-bottom: 0.25rem; }
+.story-content p { font-size: 0.88rem; color: var(--color-text-secondary); margin: 0; }
+.story-arrow { color: var(--color-accent); font-size: 1.2rem; flex-shrink: 0; }
 @media (max-width: 768px) {
   .school-info-grid { grid-template-columns: repeat(2, 1fr); }
 }
