@@ -4,11 +4,221 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>历史时间轴 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="static/css/style_v2.css?v=13" />
+  <link rel="stylesheet" href="/static/css/style_v2.css?v=14" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   
+<style>
+  .periods-nav {
+    background: var(--color-surface);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e0d8cf;
+    position: sticky;
+    top: 60px;
+    z-index: 50;
+  }
+  .periods-nav-inner {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .period-nav-btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 2px solid;
+    background: white;
+  }
+  .period-nav-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+  .period-nav-btn.p1 { color: #8B4513; border-color: #8B4513; }
+  .period-nav-btn.p1:hover { background: #8B4513; color: white; }
+  .period-nav-btn.p2 { color: #D2691E; border-color: #D2691E; }
+  .period-nav-btn.p2:hover { background: #D2691E; color: white; }
+  .period-nav-btn.p3 { color: #1565c0; border-color: #1565c0; }
+  .period-nav-btn.p3:hover { background: #1565c0; color: white; }
+  .period-nav-btn.p4 { color: #c62828; border-color: #c62828; }
+  .period-nav-btn.p4:hover { background: #c62828; color: white; }
+
+  .period-section {
+    padding: 3rem 0;
+    position: relative;
+  }
+  .period-section.p1 { background: linear-gradient(135deg, #fdf6ee 0%, #f5ece0 100%); }
+  .period-section.p2 { background: linear-gradient(135deg, #fef9f3 0%, #f8ede0 100%); }
+  .period-section.p3 { background: linear-gradient(135deg, #eef5fc 0%, #dce8f5 100%); }
+  .period-section.p4 { background: linear-gradient(135deg, #fef0ef 0%, #f5dddb 100%); }
+
+  .period-section + .period-section {
+    border-top: 3px dashed #d4c5b0;
+  }
+
+  .period-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .period-bracket {
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.3;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .p1 .period-bracket { color: #8B4513; }
+  .p2 .period-bracket { color: #D2691E; }
+  .p3 .period-bracket { color: #1565c0; }
+  .p4 .period-bracket { color: #c62828; }
+
+  .period-header-text { flex: 1; }
+  .period-number {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.35rem;
+  }
+  .p1 .period-number { color: #8B4513; }
+  .p2 .period-number { color: #D2691E; }
+  .p3 .period-number { color: #1565c0; }
+  .p4 .period-number { color: #c62828; }
+
+  .period-title {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .p1 .period-title { color: #8B4513; }
+  .p2 .period-title { color: #D2691E; }
+  .p3 .period-title { color: #1565c0; }
+  .p4 .period-title { color: #c62828; }
+
+  .period-time {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .period-intro {
+    font-size: 0.98rem;
+    line-height: 1.85;
+    color: var(--color-text);
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .p1 .period-intro { border-left: 4px solid #8B4513; }
+  .p2 .period-intro { border-left: 4px solid #D2691E; }
+  .p3 .period-intro { border-left: 4px solid #1565c0; }
+  .p4 .period-intro { border-left: 4px solid #c62828; }
+
+  .period-intro a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 2px;
+    font-weight: 600;
+  }
+  .period-intro a:hover { text-decoration-color: var(--color-primary); }
+
+  .period-keywords {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .period-keyword {
+    padding: 0.35rem 0.9rem;
+    border-radius: 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .p1 .period-keyword { background: rgba(139,69,19,0.12); color: #8B4513; }
+  .p2 .period-keyword { background: rgba(210,105,30,0.12); color: #D2691E; }
+  .p3 .period-keyword { background: rgba(21,101,192,0.12); color: #1565c0; }
+  .p4 .period-keyword { background: rgba(198,40,40,0.12); color: #c62828; }
+
+  .period-events-label {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid;
+  }
+  .p1 .period-events-label { color: #8B4513; border-color: rgba(139,69,19,0.3); }
+  .p2 .period-events-label { color: #D2691E; border-color: rgba(210,105,30,0.3); }
+  .p3 .period-events-label { color: #1565c0; border-color: rgba(21,101,192,0.3); }
+  .p4 .period-events-label { color: #c62828; border-color: rgba(198,40,40,0.3); }
+
+  .timeline-v2-in-period {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline-v2-in-period::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+  }
+  .p1 .timeline-v2-in-period::before { background: #8B4513; }
+  .p2 .timeline-v2-in-period::before { background: #D2691E; }
+  .p3 .timeline-v2-in-period::before { background: #1565c0; }
+  .p4 .timeline-v2-in-period::before { background: #c62828; }
+
+  .event-in-period {
+    position: relative;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: var(--radius);
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  .event-in-period:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+  }
+  .event-in-period .event-year {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+  }
+  .p1 .event-in-period .event-year { color: #8B4513; }
+  .p2 .event-in-period .event-year { color: #D2691E; }
+  .p3 .event-in-period .event-year { color: #1565c0; }
+  .p4 .event-in-period .event-year { color: #c62828; }
+
+  .event-in-period h3 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    margin: 0.3rem 0;
+  }
+  .event-in-period p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .event-in-period .event-location {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.35rem;
+  }
+</style>
+
 </head>
 <body>
   <nav class="navbar">
@@ -20,16 +230,16 @@
       </div>
     </div>
     <div class="nav-links">
-      <a href="index.html" class="nav-link ">首页</a>
-      <a href="timeline.html" class="nav-link active">历史时间轴</a>
-      <a href="map.html" class="nav-link ">地理分布</a>
-      <a href="textbooks.html" class="nav-link ">教材典藏</a>
-      <a href="compare.html" class="nav-link ">教材对比</a>
-      <a href="policies.html" class="nav-link ">制度政策</a>
-      <a href="schools.html" class="nav-link ">侨校档案</a>
-      <a href="figures.html" class="nav-link ">人物图谱</a>
-      <a href="dashboard.html" class="nav-link ">数据看板</a>
-      <a href="about.html" class="nav-link ">关于</a>
+      <a href="/" class="nav-link ">首页</a>
+      <a href="/timeline" class="nav-link active">历史时间轴</a>
+      <a href="/map" class="nav-link ">地理分布</a>
+      <a href="/textbooks" class="nav-link ">教材典藏</a>
+      <a href="/compare" class="nav-link ">教材对比</a>
+      <a href="/policies" class="nav-link ">制度政策</a>
+      <a href="/schools" class="nav-link ">侨校档案</a>
+      <a href="/figures" class="nav-link ">人物图谱</a>
+      <a href="/dashboard" class="nav-link ">数据看板</a>
+      <a href="/about" class="nav-link ">关于</a>
     </div>
     <div class="nav-search-toggle" onclick="document.getElementById('searchOverlay').classList.add('open')" title="搜索">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -42,7 +252,7 @@
   <div id="searchOverlay" class="search-overlay">
     <div class="search-overlay-backdrop" onclick="document.getElementById('searchOverlay').classList.remove('open')"></div>
     <div class="search-overlay-content">
-      <form action="search.html" method="get" class="search-overlay-form">
+      <form action="/search" method="get" class="search-overlay-form">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b4513" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" name="q" id="searchOverlayInput" placeholder="搜索学校、政策、教材、人物、事件..." autocomplete="off" />
         <kbd>ESC</kbd>
@@ -56,1356 +266,1383 @@
 <section class="page-header-v2">
   <div class="container">
     <h1>历史时间轴</h1>
-    <p class="page-desc">1690-1943年南洋华侨教育重要事件一览</p>
+    <p class="page-desc">1690—1945年南洋华侨教育发展历程</p>
     <p class="page-why">250年间，华侨教育从一间私塾发展到数百所学校。时间线上每一条都是活生生的历史——教会你"为什么要办学""谁在管学校""教科书怎么变了"。</p>
-    
-    <div class="filter-bar">
-      <span>筛选：</span>
-      <a href="timeline.html" class="filter-btn active">全部</a>
-      <a href="timeline.html?category=education" class="filter-btn">教育</a>
-      <a href="timeline.html?category=policy" class="filter-btn">政策</a>
-      <a href="timeline.html?category=political" class="filter-btn">政治</a>
-      <a href="timeline.html?category=conference" class="filter-btn">会议</a>
-      <a href="timeline.html?category=statistics" class="filter-btn">统计</a>
+  </div>
+</section>
+
+<nav class="periods-nav">
+  <div class="container">
+    <div class="periods-nav-inner">
+      <a href="#period-1" class="period-nav-btn p1">私有肇始 1690—1904</a>
+      <a href="#period-2" class="period-nav-btn p2">新式转型 1904—1911</a>
+      <a href="#period-3" class="period-nav-btn p3">制度建构 1911—1931</a>
+      <a href="#period-4" class="period-nav-btn p4">民族觉醒 1931—1945</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 第一期：私塾肇始期 -->
+<section class="period-section p1" id="period-1">
+  <div class="container">
+    <div class="period-header">
+      <span class="period-bracket">{</span>
+      <div class="period-header-text">
+        <div class="period-number">第一期</div>
+        <h2 class="period-title">私塾肇始期</h2>
+        <div class="period-time">1690 — 1904</div>
+      </div>
+    </div>
+    <div class="period-keywords">
+      <span class="period-keyword">自发办学</span>
+      <span class="period-keyword">四书五经</span>
+      <span class="period-keyword">文化传承</span>
+      <span class="period-keyword">私塾书院</span>
+    </div>
+    <div class="period-intro">
+      随着华侨群体日渐稳定且逐渐庞大，华侨子弟的教育问题开始浮上水面。这一时期的华侨教育以自主办学为主，大多是由某个较有实力的家族出资建立私塾供自家子弟读书，或是几个家族合力创办私塾。其主要的教学内容是教授四书五经、儒家经典以及珠算等实用技能。办学目的并不是为了参加科举考试，而是注重文化传承以及技能教学，从而为日后接受家族生意做准备。但私塾教学质量参差不齐，塾师水平有限，<a href="/figure/figure-chenjiageng">陈嘉庚</a>少年时就读的<a href="/school/mingcheng-1690">南轩私塾</a>"教者不负责任、学者时辍时续"，学多年仍识字甚少。1690年巴达维亚华侨创办<a href="/school/mingcheng-1690">明诚书院</a>，被视为海外华侨教育的开端。
+    </div>
+    <div class="period-events-label">这一时期的重要事件</div>
+    <div class="timeline-v2-in-period">
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1690年</span><span class="timeline-type type-education">学校建立</span></div>
+        <h3>明诚书院创立</h3>
+        <p>巴达维亚（今雅加达）创办南洋第一所华侨学校，主要讲授四书五经等儒家经典</p>
+        
+        <div class="event-location">📍 荷属东印度</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1819年</span><span class="timeline-type type-education">学校建立</span></div>
+        <h3>五福书院创立</h3>
+        <p>新加坡创办五福书院，教授《三字经》《千字文》</p>
+        
+        <div class="event-location">📍 新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1829年</span><span class="timeline-type type-education">学校建立</span></div>
+        <h3>新加坡华文私塾创办</h3>
+        <p>新加坡创办华文私塾</p>
+        
+        <div class="event-location">📍 新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1860年</span><span class="timeline-type type-policy">政策转变</span></div>
+        <h3>《北京条约》签订</h3>
+        <p>清政府宣告出国禁令局部解除，默认华侨群体存在，对华侨政策由排斥转向利用</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1903年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《奏定初等小学堂章程》</h3>
+        <p>提出奖励捐资办学的政策，鼓励华侨兴学</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1903年</span><span class="timeline-type type-education">教育改革</span></div>
+        <h3>康有为游历爪哇推动华侨教育转型</h3>
+        <p>康有为因变法失败流亡南洋，在爪哇劝华侨办&#39;新学&#39;，推动巴达维亚、泗水、三宝垄等地私塾改为学堂</p>
+        
+        <div class="event-location">📍 荷属东印度</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1904年</span><span class="timeline-type type-policy">教育改革</span></div>
+        <h3>废科举、兴学堂</h3>
+        <p>清政府开始&#39;废科举、兴学堂&#39;，中国步入新式教育阶段，南洋华侨掀起兴学热潮</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
     </div>
   </div>
 </section>
 
-<section class="timeline-section-v2">
+<!-- 第二期：新式转型期 -->
+<section class="period-section p2" id="period-2">
   <div class="container">
-    <div class="timeline-v2">
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1690</div>
-          <span class="timeline-type type-education">学校建立</span>
-          <h3>明诚书院创立</h3>
-          <p>巴达维亚（今雅加达）创办南洋第一所华侨学校，主要讲授四书五经等儒家经典</p>
-          
-          <div class="timeline-location">📍 荷属东印度</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>开启了南洋华侨教育的历史
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1819</div>
-          <span class="timeline-type type-education">学校建立</span>
-          <h3>五福书院创立</h3>
-          <p>新加坡创办五福书院，教授《三字经》《千字文》</p>
-          
-          <div class="timeline-location">📍 新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>推动新加坡早期华侨教育发展
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1829</div>
-          <span class="timeline-type type-education">学校建立</span>
-          <h3>新加坡华文私塾创办</h3>
-          <p>新加坡创办华文私塾</p>
-          
-          <div class="timeline-location">📍 新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>扩充新加坡华侨教育
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1860</div>
-          <span class="timeline-type type-policy">政策转变</span>
-          <h3>《北京条约》签订</h3>
-          <p>清政府宣告出国禁令局部解除，默认华侨群体存在，对华侨政策由排斥转向利用</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>清政府对华侨政策转变，开始鼓励华侨教育
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1903</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《奏定初等小学堂章程》</h3>
-          <p>提出奖励捐资办学的政策，鼓励华侨兴学</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>鼓励华侨捐资办学
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1903</div>
-          <span class="timeline-type type-education">教育改革</span>
-          <h3>康有为游历爪哇推动华侨教育转型</h3>
-          <p>康有为因变法失败流亡南洋，在爪哇劝华侨办&#39;新学&#39;，推动巴达维亚、泗水、三宝垄等地私塾改为学堂</p>
-          
-          <div class="timeline-location">📍 荷属东印度</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>南洋华侨教育从传统私塾向新式学堂转型的重要推动力
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1904</div>
-          <span class="timeline-type type-policy">教育改革</span>
-          <h3>废科举、兴学堂</h3>
-          <p>清政府开始&#39;废科举、兴学堂&#39;，中国步入新式教育阶段，南洋华侨掀起兴学热潮</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>南洋华侨教育从传统私塾向新式学堂转变
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1905</div>
-          <span class="timeline-type type-education">学校建立</span>
-          <h3>养正学堂成立</h3>
-          <p>新加坡养正学堂成立，采用新式教育</p>
-          
-          <div class="timeline-location">📍 新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>新加坡新式教育的代表
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1905</div>
-          <span class="timeline-type type-education">教育政策</span>
-          <h3>刘士骥赴爪哇劝学</h3>
-          <p>两广总督岑春萱派刘士骥赴爪哇劝学，约各埠&#39;马腰&#39;&#39;甲必丹&#39;到万隆开会，推动华侨兴办新式学堂</p>
-          
-          <div class="timeline-location">📍 荷属东印度</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>清政府直接介入南洋华侨教育的推动工作
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1906</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《华侨学堂章程》</h3>
-          <p>清政府颁布《华侨学堂章程》鼓励华侨华人兴办新式学堂，首次对华侨教育进行制度化管理</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>确立华侨学校的合法地位，规范管理
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1906</div>
-          <span class="timeline-type type-education">教育组织</span>
-          <h3>荷属华侨学务总会成立</h3>
-          <p>光绪32年(1906年)荷属华侨学务总会在巴达维亚成立，作为荷属东印度华侨教育的总机关</p>
-          
-          <div class="timeline-location">📍 荷属东印度</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>南洋华侨最早的教育自组织之一，为荷属华侨教育提供制度保障
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1907</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《女子师范学堂章程》</h3>
-          <p>清政府颁布女子师范学堂章程，推动女子教育</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>南洋地区开始成立女子学校
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1908</div>
-          <span class="timeline-type type-education">学校建立</span>
-          <h3>坤成女子中学创立</h3>
-          <p>吉隆坡坤成女子中学创立，开创南洋女子教育先河</p>
-          
-          <div class="timeline-location">📍 吉隆坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>推动南洋女子教育发展
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1911</div>
-          <span class="timeline-type type-political">政治事件/组织</span>
-          <h3>辛亥革命/爪哇华侨学务总会</h3>
-          <p>辛亥革命推翻清朝，建立中华民国；爪哇华侨学务总会成立</p>
-          
-          <div class="timeline-location">📍 中国/印尼</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>华侨教育开始接受民国政府指导，三民主义进入课程
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1913</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《领事管理华侨学务规程》</h3>
-          <p>北洋政府颁布规程，确立以教育部为主管机关，侨务委员会和外交部协助的管理模式</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>确立领事对侨教的监督管理权
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1915</div>
-          <span class="timeline-type type-inspection">视察活动</span>
-          <h3>高登鲤、梁家义视察南洋</h3>
-          <p>北洋政府委派高登鲤、梁家义前往南洋作为驻外侨校视察员</p>
-          
-          <div class="timeline-location">📍 南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>开始官方对南洋华侨教育的视察
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1917</div>
-          <span class="timeline-type type-education">学校建立/视察</span>
-          <h3>钟灵中学创立/黄炎培视察</h3>
-          <p>槟城钟灵中学创立；教育部派黄炎培前往南洋调查华侨教育</p>
-          
-          <div class="timeline-location">📍 槟城/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>南洋著名侨校建立，政府加强视察
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1917</div>
-          <span class="timeline-type type-policy">奖励</span>
-          <h3>颁发匾额奖励教育工作者</h3>
-          <p>北洋政府颁发匾额给陈显源、石鸣球等教育工作者</p>
-          
-          <div class="timeline-location">📍 南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>提高华侨办学积极性
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1918</div>
-          <span class="timeline-type type-policy">殖民压迫</span>
-          <h3>暹罗取缔华侨学校</h3>
-          <p>1918年(民国7年)暹罗严为取缔华侨学校：华校须注册、校长须暹人有资格者、每周每堂必授暹文若干点钟、华教员须考暹文及格。1924年取缔私塾亦须用暹人为校长</p>
-          
-          <div class="timeline-location">📍 暹罗</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>暹罗华侨教育遭受系统性同化打击的开端
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1920</div>
-          <span class="timeline-type type-education">教育改革</span>
-          <h3>马来西亚学制改革</h3>
-          <p>马来西亚将初小四年、高小三年改为小学六年一贯制，中学初中、高中各三年</p>
-          
-          <div class="timeline-location">📍 马来亚</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>推动南洋教育与国内接轨
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1920</div>
-          <span class="timeline-type type-policy">殖民压迫</span>
-          <h3>英属海峡殖民地教育注册条例取缔华校</h3>
-          <p>1920年英属海峡殖民地颁布教育注册条例取缔华校，新加坡华侨教育总会因反对该条例遭英政府忌而无形解散</p>
-          
-          <div class="timeline-location">📍 英属马来亚</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>英属殖民政府开始系统性限制华侨教育自由
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1922</div>
-          <span class="timeline-type type-education">教育改革</span>
-          <h3>马来西亚学制改革</h3>
-          <p>马来西亚地区进行学制改革</p>
-          
-          <div class="timeline-location">📍 马来亚</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>将以往初小四年、高小三年改小学六年一贯制，中学则规定初中、高中各三年
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1926</div>
-          <span class="timeline-type type-policy">机构设立</span>
-          <h3>设立侨务委员会</h3>
-          <p>国民政府设立侨务委员会，统筹管理华侨教育事务</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>正式设立专门机构管理华侨事务
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1926</div>
-          <span class="timeline-type type-political">政治事件</span>
-          <h3>新加坡星洲惨案——华侨教育遭打击</h3>
-          <p>2月28日，新加坡各公团联合会假智民夜学校开会悼念孙中山逝世一周年及反对日本出兵南满，42名职员被捕</p>
-          
-          <div class="timeline-location">📍 新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>华侨集会结社自由遭殖民政府严重限制
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1928</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《侨务委员会组织条例》</h3>
-          <p>规定可向海外选派侨务视察员或聘请顾问</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>明确侨教视导制度
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1929</div>
-          <span class="timeline-type type-conference">重要会议</span>
-          <h3>第一次南洋华侨教育会议</h3>
-          <p>在槟城钟灵中学召开，提出教材编写要求，通过三民主义教育案和国语教授原则案</p>
-          
-          <div class="timeline-location">📍 槟城</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>确立华侨教育统一方针，宣布三民主义科目加入课程
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1929</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《捐资兴学褒奖办法》</h3>
-          <p>按照捐资多寡分别授予奖状、奖章或匾额</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>鼓励南洋华侨捐资办学
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1929</div>
-          <span class="timeline-type type-conference">重要会议</span>
-          <h3>第一次南洋华侨教育会议在槟城召开</h3>
-          <p>在暨南大学南洋文化事业部主持下于槟城召开第一次南洋华侨教育会议，议决华侨教育方针应本三民主义，确立国语教授原则，要求加入三民主义课程等多项决议</p>
-          
-          <div class="timeline-location">📍 槟城</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>华侨教育的第一次大规模会议，确立了以三民主义为方针、国语为教学语言的方向
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1929</div>
-          <span class="timeline-type type-statistics">教育统计</span>
-          <h3>英属马来亚华侨学校统计——108校</h3>
-          <p>1929年英属马来亚华侨学校调查：共108校，其中新加坡36校、马六甲3校、槟榔屿17校、马来联邦52校、马来属邦6校</p>
-          
-          <div class="timeline-location">📍 英属马来亚</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>提供了英属马来亚华侨学校的全面统计数据
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1929</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>侨民教育实施纲要通过</h3>
-          <p>1933年4月11日行政院第96次会议通过侨民教育实施纲要，规定侨民学校立案须经领事转呈侨务委员会再转教育部核准，设立侨民教育基金1000万元</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>全面规范侨民教育行政体系，确立侨民学校立案制度和教育基金制度
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1930</div>
-          <span class="timeline-type type-statistics">调查统计</span>
-          <h3>《南洋华侨学校之调查与统计》成书</h3>
-          <p>钱鹤编著《南洋华侨学校之调查与统计》，统计荷属东印度182所华侨学校的课程和教材使用情况，发现商务印书馆教材占比约85%，但与南洋实际脱节</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>提供了南洋华侨学校教材使用的详细数据，揭示教材本土化不足的问题
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1931</div>
-          <span class="timeline-type type-political">政治事件</span>
-          <h3>九一八事变</h3>
-          <p>日本侵占中国东北，民族危机加深，华侨教育转向抗日救国</p>
-          
-          <div class="timeline-location">📍 中国东北</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>华侨教育内容大幅调整，强化民族主义教育
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1931</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《三民主义教育实施原则》/《华侨中小学规程》</h3>
-          <p>确立华侨教育目标是培养民族意识，规定教科书编选规则</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>确立华侨教育民族主义导向，规范教材管理
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1931</div>
-          <span class="timeline-type type-culture">出版物</span>
-          <h3>华僑问题之研究出版</h3>
-          <p>中国国民党中央执监委员会非常会议海外党务委员会印行《华侨问题之研究》，收录张敬熙、邓雪峰、关素人、周守愚、黎焕生、莫子材、詹菊似等多篇华侨问题研究文章</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>系统性的华侨问题研究著作
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1932</div>
-          <span class="timeline-type type-policy">规则/教材</span>
-          <h3>《派遣侨务专员及侨务视察员规则》/《南洋华侨历史课本教授书》出版</h3>
-          <p>规定定期派员视察南洋教育；中华书局出版历史课本</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>加强监督管理；教材体现抗日爱国内容
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1932</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《侨民学校应一律改用国语教授令》</h3>
-          <p>要求侨校统一使用国语教学，取代方言</p>
-          
-          <div class="timeline-location">📍 南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>推广国语统一，强化民族认同
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1932</div>
-          <span class="timeline-type type-education">教材出版</span>
-          <h3>《高级小学用南洋华侨历史课本教授书》出版</h3>
-          <p>洪鋆等编，中华书局出版，分四册，内容从衣食住起源到华盛顿会议，系统讲授中国和世界历史，每课配有引导学习、推究应用和参考资料</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>九一八后最重要的南洋华侨历史教材之一，课后提问大量联系现实时事
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1932</div>
-          <span class="timeline-type type-policy">殖民压迫</span>
-          <h3>荷属东印度颁布取缔私立学校条例</h3>
-          <p>1932年10月1日荷印总督公布取缔私立学校条例，规定三姓以上学生须登记、教员须持&#39;教员准字&#39;、教授巫语需荷印巫文学校毕业文凭、无准字办学处8天监禁或20盾罚金等</p>
-          
-          <div class="timeline-location">📍 荷属东印度</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>严重限制荷属华侨学校自由，迫使华校接受荷人监管
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-culture">出版物/报道</span>
-          <h3>《民族英雄》出版/《叻报》报道九一八</h3>
-          <p>王汉柏主编《民族英雄》出版；《叻报》报道九一八事变及国内抗日活动</p>
-          
-          <div class="timeline-location">📍 新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>传播民族英雄故事，报道国内局势
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《侨民教育实施纲要》</h3>
-          <p>规定华侨教育方针：培养民族意识，训练自治组织能力</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>明确九一八后侨教目标和方向
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-culture">出版物</span>
-          <h3>侨务月报创刊</h3>
-          <p>侨务月报创刊，1933年至1937年出版，系统记录了南洋华侨教育、侨务政策、殖民地同化政策及抗日情绪等重要史料，1937年全面抗战爆发后改为非常时期侨务特刊</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>为研究1930年代南洋华侨教育提供了重要的一手史料
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-political">殖民压迫</span>
-          <h3>英属马来亚拒绝华侨英文免费教育</h3>
-          <p>英属马来亚殖民地立法会议讨论教育政策时，政府拒绝为华侨提供免费英文教育。议员林清渊极力主张，但辅政司称&#39;中国人欲受中国教育，可回中国去&#39;，歧视性政策令华侨深感不满</p>
-          
-          <div class="timeline-location">📍 英属马来亚</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>暴露殖民地政府对华侨教育的歧视政策，激起了华侨社会的强烈不满
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《指导侨生回国升学规程》发布</h3>
-          <p>侨务委员会修订发布指导侨生回国升学规程，规定侨生回国升学须具备相关证件和手续，家境困难者可申请减免学费</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>规范了华侨子弟回国升学的程序和保障
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-statistics">教育统计</span>
-          <h3>英属马来亚华侨学校达373所</h3>
-          <p>1933年英属马来亚华侨学校统计达373所，其中67校旧式，36校得殖民地政府津贴，男生18,376名、女生6,477名</p>
-          
-          <div class="timeline-location">📍 英属马来亚</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>反映1930年代初英属马来亚华侨教育的规模
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1933</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>各国歧视华侨苛例达113种</h3>
-          <p>据侨务委员会统计，1933年外国政府对华侨的歧视性法规多达113种，涉及入境、居留、经商、教育等各方面</p>
-          
-          <div class="timeline-location">📍 全球</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>反映华侨在全球面临的系统性歧视
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-policy">机构/教材</span>
-          <h3>设立侨民教育处/《新编南洋华侨高小国语读本》出版</h3>
-          <p>周启刚任首任处长；中华书局出版国语读本</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>侨务职能强化；教材融入南洋本土元素和民族英雄内容
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-education">培训/统计</span>
-          <h3>侨民教育师资培训班/新加坡269所侨校</h3>
-          <p>南京举办师资培训班；新加坡有269所华侨学校</p>
-          
-          <div class="timeline-location">📍 南京/新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>培养师资；显示侨教规模
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-education">论文发表</span>
-          <h3>《华侨教育危机及其对策》发表</h3>
-          <p>廬卓辛发表《华侨教育危机及其对策》，系统分析华侨教育面临的危机：当地政府之压迫、排斥华侨纷起、限制华侨人口、同化奴化，以及侨胞部落思想太重、基金不固定、董事权限过大、设备简陋、教员无保障、功课不切实际等</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>成为研究华侨教育危机问题的重要文献
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-education">出版物/教材</span>
-          <h3>《中华民族英雄故事集》出版并指定为教材</h3>
-          <p>江苏省教育厅编纂的《中华民族英雄故事集》出版，不到一个月重印四次，销额至二万余册，被指定为全省中等学校教材。该书以江苏抗御外侮的史实为经63个标题，鼓励民族御侮精神、启发民族意识，与海外侨胞关系密切</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>民族英雄叙事被系统纳入教育体系，激发海内外青年民族意识
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-education">社会运动</span>
-          <h3>新生活运动与华侨教育</h3>
-          <p>刚鲁发表《新生活运动与华侨教育》，论述民族精神销沉与国魂丧失是国家危弱的原因，指出华侨更应推行新生活运动以恢复民族精神，从衣食住行上养成整齐清洁简单朴素的习惯和尊重礼义廉耻的精神</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>推动新生活运动在华侨中传播，将侨教改革与民族复兴相联系
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-education">论文发表</span>
-          <h3>《侨校历史教学法商榷》发表</h3>
-          <p>北冥发表《侨校历史教学法商榷》，提出侨校历史教学应具有双重性——既是中国教育又是居留地教育，强调教材裁剪的必要性和民族意识唤起的重要性，提出七项特别注重点包括日本南侵和华侨生存之关系</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>为侨校历史教学提供方法论指导，强调教学应适应华侨特殊环境
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-political">经济事件</span>
-          <h3>日货在华及南洋倾销加剧</h3>
-          <p>侨务月报大量报道日货倾销情形。日本通过贬低日金至百分之三四十、密设倾销机关等方式大量倾销日货，同时1933年日本对南洋投资达一亿九千万圆，以热帯植物栽植企业为首，与满铁及华南日商纺绩事业号称日本国外三大企业</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>加剧了华侨社会反日情绪，推动了抵制日货运动
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-culture">出版物</span>
-          <h3>抗战名人事迹专栏刊载</h3>
-          <p>侨务月报刊载古代抗倭名人事迹专栏，包括南通民族英雄曹顶（1934年第6期）、石童子之壮举（1934年第9期）、筑城御侮樊垣（1935年第1期）等，以历史上抗御外侮的英雄事迹激发华侨抗日精神</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>通过历史英雄叙事激发海外华侨的抗日意识
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1934</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>领事经理侨民教育行政规程修正公布</h3>
-          <p>1934年4月4日外交部教育部侨务委员会会同修正公布领事经理侨民教育行政规程，规定9项具体职责包括宣达教育法令、推行党义教育、调查学龄儿童、视察校务教学、培训教员等</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>确立领事管理侨民教育的制度框架
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1935</div>
-          <span class="timeline-type type-education">考察/教材</span>
-          <h3>刘士木考察南洋/《复兴国语课本》出版/《中国民族英雄列传》</h3>
-          <p>刘士木考察12个地区327所学校；商务印书馆出版国语课本；韩棐、范作乘编写民族英雄列传</p>
-          
-          <div class="timeline-location">📍 南洋/中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>促成南洋华侨教育会；教材强调苏武等民族英雄
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1935</div>
-          <span class="timeline-type type-political">殖民压迫</span>
-          <h3>暹罗取缔华校强迫班</h3>
-          <p>暹罗1932年革命后颁布教育条例，1935年4月起强制实施强迫教育，规定7-14岁华童每星期须授暹文21小时且必须在校上课。华校强迫班被取消，华童被迫转入暹校。罗万里归来痛述暹罗摧残华侨教育的两个阶段——缓进同化政策和急进同化政策</p>
-          
-          <div class="timeline-location">📍 暹罗</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>暹罗华校名存实亡，华侨子弟面临被同化的危机
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1935</div>
-          <span class="timeline-type type-education">论文发表</span>
-          <h3>《发展华侨社会教育的必要》发表</h3>
-          <p>王志远发表《发展华侨社会教育的必要》，论述华侨社会教育四项必要性：成年侨胞需通过社会教育补救、殖民政府同化政策下社会教育为当务之急、华侨社会成年人影响力大、社会教育实施便利。提出组织师生旅行团、播送收音机节目、张贴壁报画报、扩充图书馆等</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>将对华侨教育的关注从学校教育扩展到社会教育领域
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1936</div>
-          <span class="timeline-type type-policy">政策/活动</span>
-          <h3>《南洋华侨小学教科书教材编撰纲要》/陈青山入党</h3>
-          <p>明确教科书编写标准和四项基本原则；陈青山成为中共党员，钟灵中学学生组织抵制日货</p>
-          
-          <div class="timeline-location">📍 中国/槟城</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>教材内容民族化抗日化；学生参与抗日活动
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1936</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>非常时期教育方案提出</h3>
-          <p>国内教育界提出非常时期教育方案，主张高中及大学学生应接受特殊技能训练、军事训练和精神训练以培养救国运动的青年干部。方案提出平时科目与非常科目成二与一之比，建议分特殊技能、军训和精神训练三部分</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>反映了中日关系紧张背景下教育改革的紧迫性
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1936</div>
-          <span class="timeline-type type-political">舆论事件</span>
-          <h3>中日交涉紧张——华侨报纸广泛讨论</h3>
-          <p>成都、北海等事件后，中日交涉紧张，华侨报纸大量刊文讨论。新加坡《新国民日报》、暹罗《华侨日报》、菲律宾《公理报》等纷纷发表社评，坚决反对日本三大原则，主张维护领土主权完整，认为和平到绝望时应宁为玉碎不为瓦全</p>
-          
-          <div class="timeline-location">📍 南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>反映华侨社会对中日关系的高度关注和抗日情绪的高涨
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1936</div>
-          <span class="timeline-type type-education">教育政策</span>
-          <h3>华侨社会教育推进方案提出</h3>
-          <p>侨民教育处提出推进华侨民众教育的原则和方法，强调改良华侨环境、统一华侨意识、辅助发展学校教育。提出利用假期组织师生旅行团、播放优良教育电影、劝导侨众装设收音机收听祖国电台播音、张贴壁报画报、扩充图书馆等社会教育手段</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>将对华侨教育的关注从学校教育扩展到社会教育领域
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1936</div>
-          <span class="timeline-type type-policy">政府报告</span>
-          <h3>侨民教育处四周年工作报告发表</h3>
-          <p>侨民教育处发表四周年工作报告，总结1932年至1936年间侨教工作成果，包括侨校教科书编辑委员会的工作以及南洋华侨小学教科书的编撰进展</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>总结侨教工作成果，规划未来发展方向
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1936</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>侨务委员会补助侨民学校办法公布</h3>
-          <p>1936年10月1日侨务委员会公布补助侨民学校办法，规定补助标准：高中甲种1,500元、乙种1,200元；初中甲种1,000元、乙种800元；小学400元</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>为海外华校提供经费支持，确立分类补助标准
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1937</div>
-          <span class="timeline-type type-education">教材/统计</span>
-          <h3>统一编订&#39;南洋小学教科书&#39;/立案学校1845所</h3>
-          <p>成立侨民教育编辑委员会，统一编订教材；立案学校达1845所</p>
-          
-          <div class="timeline-location">📍 南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>教材统一；侨校规模扩大
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1937</div>
-          <span class="timeline-type type-culture">出版物</span>
-          <h3>侨务月报改为非常时期侨务特刊</h3>
-          <p>全面抗战爆发后，侨务月报改为非常时期侨务特刊，每半月发行一次，专载有关抗战问题的文字与消息，以便传达海外。编者在创刊号写道：&#39;我们要与敌人清算四十年来积账&#39;，号召侨胞以文字为武器参加神圣民族战争</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>标志着侨务工作全面转向抗战服务
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1937</div>
-          <span class="timeline-type type-culture">出版物/社会教育</span>
-          <h3>华侨社会教育读物刊载——周处守边御敌</h3>
-          <p>侨务月报刊载华侨社会教育读物，以周处守边御敌的故事激励华侨。叙述周处率军与西戎作战，从晚间一直战到黎明斩敌万余首级，最终因寡不敌众以身殉国的事迹。1937年第2期还刊载戚继光军将故事等，以历史抗倭叙事激发华侨爱国抗日精神</p>
-          
-          <div class="timeline-location">📍 中国/南洋</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>通过社会教育读物以历史叙事激发华侨的抗日救国意识
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1938</div>
-          <span class="timeline-type type-statistics">统计</span>
-          <h3>越南191所侨校</h3>
-          <p>越南有191所华侨学校</p>
-          
-          <div class="timeline-location">📍 越南</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>侨教在东南亚持续扩展
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1938</div>
-          <span class="timeline-type type-culture">出版物</span>
-          <h3>陈达《南洋华侨与闽粤社会》出版</h3>
-          <p>社会学家陈达1938年出版《南洋华侨与闽粤社会》，基于1934年实地调查福建广东及南洋华侨社区，开创华侨社会学研究先河</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>华侨社会学研究的奠基之作
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1939</div>
-          <span class="timeline-type type-education">学校发展</span>
-          <h3>新文龙中华中学合并/钟灵中学体育强化</h3>
-          <p>新文龙中华中学男女校合并；钟灵中学分四阶段进行体育训练</p>
-          
-          <div class="timeline-location">📍 马来亚/槟城</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>学校规模扩大；增强学生体质
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1940</div>
-          <span class="timeline-type type-policy">政策/活动</span>
-          <h3>《推进侨民教育方案》/华侨航空学生报考</h3>
-          <p>通过推进侨民教育方案；145名越南华侨学生报考国内空军</p>
-          
-          <div class="timeline-location">📍 中国/越南</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>完善师资培训；华侨参与抗战
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1940</div>
-          <span class="timeline-type type-education">教育改革</span>
-          <h3>侨民教育师资训练班设立</h3>
-          <p>1940年1月27日侨务委员会通过侨民教育师资训练班简章，规定训练班60名，半年训练期，课程包括三民主义、军训、教育方法、侨务法规、华侨移殖史等</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>为海外侨校提供经过正规训练的师资力量
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1941</div>
-          <span class="timeline-type type-statistics">统计</span>
-          <h3>新加坡1300余所侨校</h3>
-          <p>新加坡华侨学校增至1300余所，学生约10万人</p>
-          
-          <div class="timeline-location">📍 新加坡</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>显示抗日战争期间侨教快速发展
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 left">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1942</div>
-          <span class="timeline-type type-policy">政策法规</span>
-          <h3>《回国升学华侨学生奖学金办法》</h3>
-          <p>颁布奖学金办法，鼓励华侨子弟回国升学</p>
-          
-          <div class="timeline-location">📍 中国</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>促进华侨子弟归国接受教育
-          </div>
-          
-        </div>
-      </div>
-      
-      <div class="timeline-item-v2 right">
-        <div class="timeline-dot-v2"></div>
-        <div class="timeline-card-v2">
-          <div class="timeline-year-v2">1943</div>
-          <span class="timeline-type type-statistics">统计</span>
-          <h3>越南349所侨校</h3>
-          <p>越南华侨学校增至349所</p>
-          
-          <div class="timeline-location">📍 越南</div>
-          
-          
-          <div class="timeline-impact">
-            <strong>影响：</strong>抗战时期侨教蓬勃发展
-          </div>
-          
-        </div>
+    <div class="period-header">
+      <span class="period-bracket">{</span>
+      <div class="period-header-text">
+        <div class="period-number">第二期</div>
+        <h2 class="period-title">新式转型期</h2>
+        <div class="period-time">1904 — 1911</div>
       </div>
+    </div>
+    <div class="period-keywords">
+      <span class="period-keyword">废科举·兴学堂</span>
+      <span class="period-keyword">主动革新</span>
+      <span class="period-keyword">本土适应</span>
+      <span class="period-keyword">女子教育</span>
+    </div>
+    <div class="period-intro">
+      1904年，清政府开始废科举、兴学堂，东南亚华侨开始主动参照国内改革自行办学。课程逐渐从四书五经转向国语、算术、地理、外语等新学科。出现了<a href="/school/xinbali-1900s">爪哇新巴利中华学堂</a>、新加坡<a href="/school/yangzheng-1905">养正学堂</a>、<a href="/school/juanang-1908">巨港中华学校</a>等新式学堂，也出现了向女童开放的女子学堂——1908年<a href="/school/kuncheng-1908">坤成女子中学</a>在吉隆坡创办。课余活动也逐渐丰富，例如<a href="/figure/figure-zuobinglong">左秉隆</a>在新加坡领事任内创办英语辩论会，让华侨子弟用英语讨论时政。总体来看，清政府的确采取了相关行动对其进行管理，但是管理措施仅限于监督和协助，并未针对南洋华侨教育制定具体方案。
+    </div>
+    <div class="period-events-label">这一时期的重要事件</div>
+    <div class="timeline-v2-in-period">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1905年</span><span class="timeline-type type-education">学校建立</span></div>
+        <h3>养正学堂成立</h3>
+        <p>新加坡养正学堂成立，采用新式教育</p>
+        
+        <div class="event-location">📍 新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1905年</span><span class="timeline-type type-education">教育政策</span></div>
+        <h3>刘士骥赴爪哇劝学</h3>
+        <p>两广总督岑春萱派刘士骥赴爪哇劝学，约各埠&#39;马腰&#39;&#39;甲必丹&#39;到万隆开会，推动华侨兴办新式学堂</p>
+        
+        <div class="event-location">📍 荷属东印度</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1906年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《华侨学堂章程》</h3>
+        <p>清政府颁布《华侨学堂章程》鼓励华侨华人兴办新式学堂，首次对华侨教育进行制度化管理</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1906年</span><span class="timeline-type type-education">教育组织</span></div>
+        <h3>荷属华侨学务总会成立</h3>
+        <p>光绪32年(1906年)荷属华侨学务总会在巴达维亚成立，作为荷属东印度华侨教育的总机关</p>
+        
+        <div class="event-location">📍 荷属东印度</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1907年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《女子师范学堂章程》</h3>
+        <p>清政府颁布女子师范学堂章程，推动女子教育</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1908年</span><span class="timeline-type type-education">学校建立</span></div>
+        <h3>坤成女子中学创立</h3>
+        <p>吉隆坡坤成女子中学创立，开创南洋女子教育先河</p>
+        
+        <div class="event-location">📍 吉隆坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1911年</span><span class="timeline-type type-political">政治事件/组织</span></div>
+        <h3>辛亥革命/爪哇华侨学务总会</h3>
+        <p>辛亥革命推翻清朝，建立中华民国；爪哇华侨学务总会成立</p>
+        
+        <div class="event-location">📍 中国/印尼</div>
+        
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</section>
+
+<!-- 第三期：制度建构期 -->
+<section class="period-section p3" id="period-3">
+  <div class="container">
+    <div class="period-header">
+      <span class="period-bracket">{</span>
+      <div class="period-header-text">
+        <div class="period-number">第三期</div>
+        <h2 class="period-title">制度建构期</h2>
+        <div class="period-time">1911 — 1931</div>
+      </div>
+    </div>
+    <div class="period-keywords">
+      <span class="period-keyword">政府管理</span>
+      <span class="period-keyword">教材统一</span>
+      <span class="period-keyword">夹缝求存</span>
+      <span class="period-keyword">自主协商</span>
+    </div>
+    <div class="period-intro">
+      辛亥革命后，国民政府开始系统性管理南洋华侨教育。先后出台了多项法案来明确东南亚华侨教育的管理模式，确定华侨学校的设立标准、课程设置及师资要求。同时对教材编写进行了统一的要求，例如"适应当地社会环境养成生活能力激发爱国心利用环境以增加教育效能"，并且将三民主义这一科目加入南洋各地的华侨学校课程之中；在此基础上，还融入南洋本土元素如热带气候、橡胶种植等内容，并与南洋地域气候、民族宗教、语言习惯的内容相联系，从而做到教材内容与南洋实际状况的衔接。1929年召开了<a href="/policies">第一次南洋华侨教育会议</a>，1934年设立<a href="/policies">侨民教育处</a>。但与此同时，殖民政府加紧打压华校——<a href="/policies">英属学校注册条例</a>关停华校、<a href="/policies">荷属取缔私立学校条例</a>、<a href="/policies">暹罗强迫增加暹文课时</a>，侨校夹在中外政策间左右为难。总体而言，南洋华侨教育在中国政府的管理之下逐渐形成了由小学到中学，再到师范、职业专科学校和夜校等多种教育模式全面发展的教育体系。
+    </div>
+    <div class="period-events-label">这一时期的重要事件</div>
+    <div class="timeline-v2-in-period">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1913年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《领事管理华侨学务规程》</h3>
+        <p>北洋政府颁布规程，确立以教育部为主管机关，侨务委员会和外交部协助的管理模式</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1915年</span><span class="timeline-type type-inspection">视察活动</span></div>
+        <h3>高登鲤、梁家义视察南洋</h3>
+        <p>北洋政府委派高登鲤、梁家义前往南洋作为驻外侨校视察员</p>
+        
+        <div class="event-location">📍 南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1917年</span><span class="timeline-type type-education">学校建立/视察</span></div>
+        <h3>钟灵中学创立/黄炎培视察</h3>
+        <p>槟城钟灵中学创立；教育部派黄炎培前往南洋调查华侨教育</p>
+        
+        <div class="event-location">📍 槟城/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1917年</span><span class="timeline-type type-policy">奖励</span></div>
+        <h3>颁发匾额奖励教育工作者</h3>
+        <p>北洋政府颁发匾额给陈显源、石鸣球等教育工作者</p>
+        
+        <div class="event-location">📍 南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1918年</span><span class="timeline-type type-policy">殖民压迫</span></div>
+        <h3>暹罗取缔华侨学校</h3>
+        <p>1918年(民国7年)暹罗严为取缔华侨学校：华校须注册、校长须暹人有资格者、每周每堂必授暹文若干点钟、华教员须考暹文及格。1924年取缔私塾亦须用暹人为校长</p>
+        
+        <div class="event-location">📍 暹罗</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1920年</span><span class="timeline-type type-education">教育改革</span></div>
+        <h3>马来西亚学制改革</h3>
+        <p>马来西亚将初小四年、高小三年改为小学六年一贯制，中学初中、高中各三年</p>
+        
+        <div class="event-location">📍 马来亚</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1920年</span><span class="timeline-type type-policy">殖民压迫</span></div>
+        <h3>英属海峡殖民地教育注册条例取缔华校</h3>
+        <p>1920年英属海峡殖民地颁布教育注册条例取缔华校，新加坡华侨教育总会因反对该条例遭英政府忌而无形解散</p>
+        
+        <div class="event-location">📍 英属马来亚</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1922年</span><span class="timeline-type type-education">教育改革</span></div>
+        <h3>马来西亚学制改革</h3>
+        <p>马来西亚地区进行学制改革</p>
+        
+        <div class="event-location">📍 马来亚</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1926年</span><span class="timeline-type type-policy">机构设立</span></div>
+        <h3>设立侨务委员会</h3>
+        <p>国民政府设立侨务委员会，统筹管理华侨教育事务</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1926年</span><span class="timeline-type type-political">政治事件</span></div>
+        <h3>新加坡星洲惨案——华侨教育遭打击</h3>
+        <p>2月28日，新加坡各公团联合会假智民夜学校开会悼念孙中山逝世一周年及反对日本出兵南满，42名职员被捕</p>
+        
+        <div class="event-location">📍 新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1928年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《侨务委员会组织条例》</h3>
+        <p>规定可向海外选派侨务视察员或聘请顾问</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1929年</span><span class="timeline-type type-conference">重要会议</span></div>
+        <h3>第一次南洋华侨教育会议</h3>
+        <p>在槟城钟灵中学召开，提出教材编写要求，通过三民主义教育案和国语教授原则案</p>
+        
+        <div class="event-location">📍 槟城</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1929年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《捐资兴学褒奖办法》</h3>
+        <p>按照捐资多寡分别授予奖状、奖章或匾额</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1929年</span><span class="timeline-type type-conference">重要会议</span></div>
+        <h3>第一次南洋华侨教育会议在槟城召开</h3>
+        <p>在暨南大学南洋文化事业部主持下于槟城召开第一次南洋华侨教育会议，议决华侨教育方针应本三民主义，确立国语教授原则，要求加入三民主义课程等多项决议</p>
+        
+        <div class="event-location">📍 槟城</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1929年</span><span class="timeline-type type-statistics">教育统计</span></div>
+        <h3>英属马来亚华侨学校统计——108校</h3>
+        <p>1929年英属马来亚华侨学校调查：共108校，其中新加坡36校、马六甲3校、槟榔屿17校、马来联邦52校、马来属邦6校</p>
+        
+        <div class="event-location">📍 英属马来亚</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1929年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>侨民教育实施纲要通过</h3>
+        <p>1933年4月11日行政院第96次会议通过侨民教育实施纲要，规定侨民学校立案须经领事转呈侨务委员会再转教育部核准，设立侨民教育基金1000万元</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1930年</span><span class="timeline-type type-statistics">调查统计</span></div>
+        <h3>《南洋华侨学校之调查与统计》成书</h3>
+        <p>钱鹤编著《南洋华侨学校之调查与统计》，统计荷属东印度182所华侨学校的课程和教材使用情况，发现商务印书馆教材占比约85%，但与南洋实际脱节</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1931年</span><span class="timeline-type type-political">政治事件</span></div>
+        <h3>九一八事变</h3>
+        <p>日本侵占中国东北，民族危机加深，华侨教育转向抗日救国</p>
+        
+        <div class="event-location">📍 中国东北</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1931年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《三民主义教育实施原则》/《华侨中小学规程》</h3>
+        <p>确立华侨教育目标是培养民族意识，规定教科书编选规则</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1931年</span><span class="timeline-type type-culture">出版物</span></div>
+        <h3>华僑问题之研究出版</h3>
+        <p>中国国民党中央执监委员会非常会议海外党务委员会印行《华侨问题之研究》，收录张敬熙、邓雪峰、关素人、周守愚、黎焕生、莫子材、詹菊似等多篇华侨问题研究文章</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</section>
+
+<!-- 第四期：民族觉醒期 -->
+<section class="period-section p4" id="period-4">
+  <div class="container">
+    <div class="period-header">
+      <span class="period-bracket">{</span>
+      <div class="period-header-text">
+        <div class="period-number">第四期</div>
+        <h2 class="period-title">民族觉醒期</h2>
+        <div class="period-time">1931 — 1945</div>
+      </div>
+    </div>
+    <div class="period-keywords">
+      <span class="period-keyword">抗日救国</span>
+      <span class="period-keyword">民族意识</span>
+      <span class="period-keyword">自发行动</span>
+      <span class="period-keyword">坚韧不拔</span>
+    </div>
+    <div class="period-intro">
+      九一八事变后，南洋华侨对祖国的局势尤为关心，为稳定南洋地区华侨情绪，国民政府开始进一步对东南亚华侨教育进行管理，从而加强祖国与南洋华侨的联系。这一时期的变化主要体现在课程内容、教材内容与课程设置上。增加了更多重视提升学生的民族主义和爱国主义情怀的内容，以及拥护抗战的内容。华侨学校大量选用<a href="/textbooks">岳飞、宗泽、戚继光等民族英雄事迹</a>，以及苏武牧羊等持节不屈的故事。除此以外，华侨学子也自发组织了许多活动来支持抗日——泰国新民学校等校的学生自行组织"暹罗华侨学生联合会"，<a href="/figure/figure-chenqingshan">陈青山</a>在<a href="/school/zhongling-1917">钟灵中学</a>入党后成为抗日将领，<a href="/figure/figure-chenjiageng">陈嘉庚</a>倾家荡产办学、组织筹赈运动。九一八事变的影响下，南洋华侨教育在教学内容、文化课程与教材编写上的变化主要体现在：一是与爱国主义有关的内容增多，尤其是民族英雄的叙事变得更加丰富；二是教学内容与现实环境的联系更加紧密，更加符合南洋华侨的生存发展情况；三是课程体系变得更加完善，不仅注重文化素养的培养，还更加重视华侨学子身体素质的提升——增设了童子军训练和防空军演。
+    </div>
+    <div class="period-events-label">这一时期的重要事件</div>
+    <div class="timeline-v2-in-period">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1932年</span><span class="timeline-type type-policy">规则/教材</span></div>
+        <h3>《派遣侨务专员及侨务视察员规则》/《南洋华侨历史课本教授书》出版</h3>
+        <p>规定定期派员视察南洋教育；中华书局出版历史课本</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1932年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《侨民学校应一律改用国语教授令》</h3>
+        <p>要求侨校统一使用国语教学，取代方言</p>
+        
+        <div class="event-location">📍 南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1932年</span><span class="timeline-type type-education">教材出版</span></div>
+        <h3>《高级小学用南洋华侨历史课本教授书》出版</h3>
+        <p>洪鋆等编，中华书局出版，分四册，内容从衣食住起源到华盛顿会议，系统讲授中国和世界历史，每课配有引导学习、推究应用和参考资料</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1932年</span><span class="timeline-type type-policy">殖民压迫</span></div>
+        <h3>荷属东印度颁布取缔私立学校条例</h3>
+        <p>1932年10月1日荷印总督公布取缔私立学校条例，规定三姓以上学生须登记、教员须持&#39;教员准字&#39;、教授巫语需荷印巫文学校毕业文凭、无准字办学处8天监禁或20盾罚金等</p>
+        
+        <div class="event-location">📍 荷属东印度</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-culture">出版物/报道</span></div>
+        <h3>《民族英雄》出版/《叻报》报道九一八</h3>
+        <p>王汉柏主编《民族英雄》出版；《叻报》报道九一八事变及国内抗日活动</p>
+        
+        <div class="event-location">📍 新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《侨民教育实施纲要》</h3>
+        <p>规定华侨教育方针：培养民族意识，训练自治组织能力</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-culture">出版物</span></div>
+        <h3>侨务月报创刊</h3>
+        <p>侨务月报创刊，1933年至1937年出版，系统记录了南洋华侨教育、侨务政策、殖民地同化政策及抗日情绪等重要史料，1937年全面抗战爆发后改为非常时期侨务特刊</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-political">殖民压迫</span></div>
+        <h3>英属马来亚拒绝华侨英文免费教育</h3>
+        <p>英属马来亚殖民地立法会议讨论教育政策时，政府拒绝为华侨提供免费英文教育。议员林清渊极力主张，但辅政司称&#39;中国人欲受中国教育，可回中国去&#39;，歧视性政策令华侨深感不满</p>
+        
+        <div class="event-location">📍 英属马来亚</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《指导侨生回国升学规程》发布</h3>
+        <p>侨务委员会修订发布指导侨生回国升学规程，规定侨生回国升学须具备相关证件和手续，家境困难者可申请减免学费</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-statistics">教育统计</span></div>
+        <h3>英属马来亚华侨学校达373所</h3>
+        <p>1933年英属马来亚华侨学校统计达373所，其中67校旧式，36校得殖民地政府津贴，男生18,376名、女生6,477名</p>
+        
+        <div class="event-location">📍 英属马来亚</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1933年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>各国歧视华侨苛例达113种</h3>
+        <p>据侨务委员会统计，1933年外国政府对华侨的歧视性法规多达113种，涉及入境、居留、经商、教育等各方面</p>
+        
+        <div class="event-location">📍 全球</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-policy">机构/教材</span></div>
+        <h3>设立侨民教育处/《新编南洋华侨高小国语读本》出版</h3>
+        <p>周启刚任首任处长；中华书局出版国语读本</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-education">培训/统计</span></div>
+        <h3>侨民教育师资培训班/新加坡269所侨校</h3>
+        <p>南京举办师资培训班；新加坡有269所华侨学校</p>
+        
+        <div class="event-location">📍 南京/新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-education">论文发表</span></div>
+        <h3>《华侨教育危机及其对策》发表</h3>
+        <p>廬卓辛发表《华侨教育危机及其对策》，系统分析华侨教育面临的危机：当地政府之压迫、排斥华侨纷起、限制华侨人口、同化奴化，以及侨胞部落思想太重、基金不固定、董事权限过大、设备简陋、教员无保障、功课不切实际等</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-education">出版物/教材</span></div>
+        <h3>《中华民族英雄故事集》出版并指定为教材</h3>
+        <p>江苏省教育厅编纂的《中华民族英雄故事集》出版，不到一个月重印四次，销额至二万余册，被指定为全省中等学校教材。该书以江苏抗御外侮的史实为经63个标题，鼓励民族御侮精神、启发民族意识，与海外侨胞关系密切</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-education">社会运动</span></div>
+        <h3>新生活运动与华侨教育</h3>
+        <p>刚鲁发表《新生活运动与华侨教育》，论述民族精神销沉与国魂丧失是国家危弱的原因，指出华侨更应推行新生活运动以恢复民族精神，从衣食住行上养成整齐清洁简单朴素的习惯和尊重礼义廉耻的精神</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-education">论文发表</span></div>
+        <h3>《侨校历史教学法商榷》发表</h3>
+        <p>北冥发表《侨校历史教学法商榷》，提出侨校历史教学应具有双重性——既是中国教育又是居留地教育，强调教材裁剪的必要性和民族意识唤起的重要性，提出七项特别注重点包括日本南侵和华侨生存之关系</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-political">经济事件</span></div>
+        <h3>日货在华及南洋倾销加剧</h3>
+        <p>侨务月报大量报道日货倾销情形。日本通过贬低日金至百分之三四十、密设倾销机关等方式大量倾销日货，同时1933年日本对南洋投资达一亿九千万圆，以热帯植物栽植企业为首，与满铁及华南日商纺绩事业号称日本国外三大企业</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-culture">出版物</span></div>
+        <h3>抗战名人事迹专栏刊载</h3>
+        <p>侨务月报刊载古代抗倭名人事迹专栏，包括南通民族英雄曹顶（1934年第6期）、石童子之壮举（1934年第9期）、筑城御侮樊垣（1935年第1期）等，以历史上抗御外侮的英雄事迹激发华侨抗日精神</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1934年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>领事经理侨民教育行政规程修正公布</h3>
+        <p>1934年4月4日外交部教育部侨务委员会会同修正公布领事经理侨民教育行政规程，规定9项具体职责包括宣达教育法令、推行党义教育、调查学龄儿童、视察校务教学、培训教员等</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1935年</span><span class="timeline-type type-education">考察/教材</span></div>
+        <h3>刘士木考察南洋/《复兴国语课本》出版/《中国民族英雄列传》</h3>
+        <p>刘士木考察12个地区327所学校；商务印书馆出版国语课本；韩棐、范作乘编写民族英雄列传</p>
+        
+        <div class="event-location">📍 南洋/中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1935年</span><span class="timeline-type type-political">殖民压迫</span></div>
+        <h3>暹罗取缔华校强迫班</h3>
+        <p>暹罗1932年革命后颁布教育条例，1935年4月起强制实施强迫教育，规定7-14岁华童每星期须授暹文21小时且必须在校上课。华校强迫班被取消，华童被迫转入暹校。罗万里归来痛述暹罗摧残华侨教育的两个阶段——缓进同化政策和急进同化政策</p>
+        
+        <div class="event-location">📍 暹罗</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1935年</span><span class="timeline-type type-education">论文发表</span></div>
+        <h3>《发展华侨社会教育的必要》发表</h3>
+        <p>王志远发表《发展华侨社会教育的必要》，论述华侨社会教育四项必要性：成年侨胞需通过社会教育补救、殖民政府同化政策下社会教育为当务之急、华侨社会成年人影响力大、社会教育实施便利。提出组织师生旅行团、播送收音机节目、张贴壁报画报、扩充图书馆等</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1936年</span><span class="timeline-type type-policy">政策/活动</span></div>
+        <h3>《南洋华侨小学教科书教材编撰纲要》/陈青山入党</h3>
+        <p>明确教科书编写标准和四项基本原则；陈青山成为中共党员，钟灵中学学生组织抵制日货</p>
+        
+        <div class="event-location">📍 中国/槟城</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1936年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>非常时期教育方案提出</h3>
+        <p>国内教育界提出非常时期教育方案，主张高中及大学学生应接受特殊技能训练、军事训练和精神训练以培养救国运动的青年干部。方案提出平时科目与非常科目成二与一之比，建议分特殊技能、军训和精神训练三部分</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1936年</span><span class="timeline-type type-political">舆论事件</span></div>
+        <h3>中日交涉紧张——华侨报纸广泛讨论</h3>
+        <p>成都、北海等事件后，中日交涉紧张，华侨报纸大量刊文讨论。新加坡《新国民日报》、暹罗《华侨日报》、菲律宾《公理报》等纷纷发表社评，坚决反对日本三大原则，主张维护领土主权完整，认为和平到绝望时应宁为玉碎不为瓦全</p>
+        
+        <div class="event-location">📍 南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1936年</span><span class="timeline-type type-education">教育政策</span></div>
+        <h3>华侨社会教育推进方案提出</h3>
+        <p>侨民教育处提出推进华侨民众教育的原则和方法，强调改良华侨环境、统一华侨意识、辅助发展学校教育。提出利用假期组织师生旅行团、播放优良教育电影、劝导侨众装设收音机收听祖国电台播音、张贴壁报画报、扩充图书馆等社会教育手段</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1936年</span><span class="timeline-type type-policy">政府报告</span></div>
+        <h3>侨民教育处四周年工作报告发表</h3>
+        <p>侨民教育处发表四周年工作报告，总结1932年至1936年间侨教工作成果，包括侨校教科书编辑委员会的工作以及南洋华侨小学教科书的编撰进展</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1936年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>侨务委员会补助侨民学校办法公布</h3>
+        <p>1936年10月1日侨务委员会公布补助侨民学校办法，规定补助标准：高中甲种1,500元、乙种1,200元；初中甲种1,000元、乙种800元；小学400元</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1937年</span><span class="timeline-type type-education">教材/统计</span></div>
+        <h3>统一编订&#39;南洋小学教科书&#39;/立案学校1845所</h3>
+        <p>成立侨民教育编辑委员会，统一编订教材；立案学校达1845所</p>
+        
+        <div class="event-location">📍 南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1937年</span><span class="timeline-type type-culture">出版物</span></div>
+        <h3>侨务月报改为非常时期侨务特刊</h3>
+        <p>全面抗战爆发后，侨务月报改为非常时期侨务特刊，每半月发行一次，专载有关抗战问题的文字与消息，以便传达海外。编者在创刊号写道：&#39;我们要与敌人清算四十年来积账&#39;，号召侨胞以文字为武器参加神圣民族战争</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1937年</span><span class="timeline-type type-culture">出版物/社会教育</span></div>
+        <h3>华侨社会教育读物刊载——周处守边御敌</h3>
+        <p>侨务月报刊载华侨社会教育读物，以周处守边御敌的故事激励华侨。叙述周处率军与西戎作战，从晚间一直战到黎明斩敌万余首级，最终因寡不敌众以身殉国的事迹。1937年第2期还刊载戚继光军将故事等，以历史抗倭叙事激发华侨爱国抗日精神</p>
+        
+        <div class="event-location">📍 中国/南洋</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1938年</span><span class="timeline-type type-statistics">统计</span></div>
+        <h3>越南191所侨校</h3>
+        <p>越南有191所华侨学校</p>
+        
+        <div class="event-location">📍 越南</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1938年</span><span class="timeline-type type-culture">出版物</span></div>
+        <h3>陈达《南洋华侨与闽粤社会》出版</h3>
+        <p>社会学家陈达1938年出版《南洋华侨与闽粤社会》，基于1934年实地调查福建广东及南洋华侨社区，开创华侨社会学研究先河</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1939年</span><span class="timeline-type type-education">学校发展</span></div>
+        <h3>新文龙中华中学合并/钟灵中学体育强化</h3>
+        <p>新文龙中华中学男女校合并；钟灵中学分四阶段进行体育训练</p>
+        
+        <div class="event-location">📍 马来亚/槟城</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1940年</span><span class="timeline-type type-policy">政策/活动</span></div>
+        <h3>《推进侨民教育方案》/华侨航空学生报考</h3>
+        <p>通过推进侨民教育方案；145名越南华侨学生报考国内空军</p>
+        
+        <div class="event-location">📍 中国/越南</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1940年</span><span class="timeline-type type-education">教育改革</span></div>
+        <h3>侨民教育师资训练班设立</h3>
+        <p>1940年1月27日侨务委员会通过侨民教育师资训练班简章，规定训练班60名，半年训练期，课程包括三民主义、军训、教育方法、侨务法规、华侨移殖史等</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1941年</span><span class="timeline-type type-statistics">统计</span></div>
+        <h3>新加坡1300余所侨校</h3>
+        <p>新加坡华侨学校增至1300余所，学生约10万人</p>
+        
+        <div class="event-location">📍 新加坡</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1942年</span><span class="timeline-type type-policy">政策法规</span></div>
+        <h3>《回国升学华侨学生奖学金办法》</h3>
+        <p>颁布奖学金办法，鼓励华侨子弟回国升学</p>
+        
+        <div class="event-location">📍 中国</div>
+        
+      </div>
+      
+      
+      
+      <div class="event-in-period">
+        <div><span class="event-year">1943年</span><span class="timeline-type type-statistics">统计</span></div>
+        <h3>越南349所侨校</h3>
+        <p>越南华侨学校增至349所</p>
+        
+        <div class="event-location">📍 越南</div>
+        
+      </div>
+      
       
     </div>
   </div>
@@ -1507,11 +1744,11 @@
             if(item.role)meta=item.role;
             html+='<a href="'+href+'" class="so-item" onclick="closeOverlay()"><span class="so-type '+g.type+'">'+g.label.charAt(2)+'</span><div class="so-item-content"><div class="so-item-title">'+title+'</div><div class="so-item-meta">'+meta+'</div></div></a>';
           });
-          if(items.length>4)html+='<a href="search.html?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
+          if(items.length>4)html+='<a href="/search?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
           html+='</div>';
         });
         if(!html)html='<div class="so-empty">未找到相关结果</div>';
-        html+='<div class="so-footer"><a href="search.html?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
+        html+='<div class="so-footer"><a href="/search?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
         resultsDiv.innerHTML=html;
       },200);
     });
