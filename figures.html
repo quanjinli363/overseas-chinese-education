@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>人物图谱 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="static/css/style_v2.css?v=16" />
+  <link rel="stylesheet" href="static/css/style_v2.css?v=17" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -20,16 +20,16 @@
       </div>
     </div>
     <div class="nav-links">
-      <a href="index.html" class="nav-link ">首页</a>
-      <a href="timeline.html" class="nav-link ">历史时间轴</a>
-      <a href="map.html" class="nav-link ">地理分布</a>
-      <a href="textbooks.html" class="nav-link ">教材典藏</a>
-      <a href="compare.html" class="nav-link ">教材对比</a>
-      <a href="policies.html" class="nav-link ">制度政策</a>
-      <a href="schools.html" class="nav-link ">侨校档案</a>
-      <a href="figures.html" class="nav-link active">人物图谱</a>
-      <a href="dashboard.html" class="nav-link ">数据看板</a>
-      <a href="about.html" class="nav-link ">关于</a>
+      <a href="/" class="nav-link ">首页</a>
+      <a href="/timeline" class="nav-link ">历史时间轴</a>
+      <a href="/map" class="nav-link ">地理分布</a>
+      <a href="/textbooks" class="nav-link ">教材典藏</a>
+      <a href="/compare" class="nav-link ">教材对比</a>
+      <a href="/policies" class="nav-link ">制度政策</a>
+      <a href="/schools" class="nav-link ">侨校档案</a>
+      <a href="/figures" class="nav-link active">人物图谱</a>
+      <a href="/dashboard" class="nav-link ">数据看板</a>
+      <a href="/about" class="nav-link ">关于</a>
     </div>
     <div class="nav-search-toggle" onclick="document.getElementById('searchOverlay').classList.add('open')" title="搜索">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -42,7 +42,7 @@
   <div id="searchOverlay" class="search-overlay">
     <div class="search-overlay-backdrop" onclick="document.getElementById('searchOverlay').classList.remove('open')"></div>
     <div class="search-overlay-content">
-      <form action="search.html" method="get" class="search-overlay-form">
+      <form action="/search" method="get" class="search-overlay-form">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003884" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" name="q" id="searchOverlayInput" placeholder="搜索学校、政策、教材、人物、事件..." autocomplete="off" />
         <kbd>ESC</kbd>
@@ -60,173 +60,173 @@
     <p class="page-why">有人倾家荡产办学，有人冒险送教材，有人用课本唤醒民族意识——这些人的故事，比任何政策文件都鲜活。</p>
     <div class="filter-bar">
       <span>标签筛选：</span>
-      <a href="figures.html" class="filter-btn active">全部</a>
+      <a href="/figures" class="filter-btn active">全部</a>
       
-      <a href="figures.html?tag=三民主义" class="filter-btn ">三民主义</a>
+      <a href="/figures?tag=三民主义" class="filter-btn ">三民主义</a>
       
-      <a href="figures.html?tag=侨务" class="filter-btn ">侨务</a>
+      <a href="/figures?tag=侨务" class="filter-btn ">侨务</a>
       
-      <a href="figures.html?tag=侨务专家" class="filter-btn ">侨务专家</a>
+      <a href="/figures?tag=侨务专家" class="filter-btn ">侨务专家</a>
       
-      <a href="figures.html?tag=侨务委员会" class="filter-btn ">侨务委员会</a>
+      <a href="/figures?tag=侨务委员会" class="filter-btn ">侨务委员会</a>
       
-      <a href="figures.html?tag=侨务官员" class="filter-btn ">侨务官员</a>
+      <a href="/figures?tag=侨务官员" class="filter-btn ">侨务官员</a>
       
-      <a href="figures.html?tag=侨教危机" class="filter-btn ">侨教危机</a>
+      <a href="/figures?tag=侨教危机" class="filter-btn ">侨教危机</a>
       
-      <a href="figures.html?tag=侨教行政" class="filter-btn ">侨教行政</a>
+      <a href="/figures?tag=侨教行政" class="filter-btn ">侨教行政</a>
       
-      <a href="figures.html?tag=侨教防御" class="filter-btn ">侨教防御</a>
+      <a href="/figures?tag=侨教防御" class="filter-btn ">侨教防御</a>
       
-      <a href="figures.html?tag=侨领" class="filter-btn ">侨领</a>
+      <a href="/figures?tag=侨领" class="filter-btn ">侨领</a>
       
-      <a href="figures.html?tag=保护侨民" class="filter-btn ">保护侨民</a>
+      <a href="/figures?tag=保护侨民" class="filter-btn ">保护侨民</a>
       
-      <a href="figures.html?tag=军事家" class="filter-btn ">军事家</a>
+      <a href="/figures?tag=军事家" class="filter-btn ">军事家</a>
       
-      <a href="figures.html?tag=创办者" class="filter-btn ">创办者</a>
+      <a href="/figures?tag=创办者" class="filter-btn ">创办者</a>
       
-      <a href="figures.html?tag=副委员长" class="filter-btn ">副委员长</a>
+      <a href="/figures?tag=副委员长" class="filter-btn ">副委员长</a>
       
-      <a href="figures.html?tag=劝学" class="filter-btn ">劝学</a>
+      <a href="/figures?tag=劝学" class="filter-btn ">劝学</a>
       
-      <a href="figures.html?tag=华侨" class="filter-btn ">华侨</a>
+      <a href="/figures?tag=华侨" class="filter-btn ">华侨</a>
       
-      <a href="figures.html?tag=华侨捐资" class="filter-btn ">华侨捐资</a>
+      <a href="/figures?tag=华侨捐资" class="filter-btn ">华侨捐资</a>
       
-      <a href="figures.html?tag=华侨教育" class="filter-btn ">华侨教育</a>
+      <a href="/figures?tag=华侨教育" class="filter-btn ">华侨教育</a>
       
-      <a href="figures.html?tag=华侨研究" class="filter-btn ">华侨研究</a>
+      <a href="/figures?tag=华侨研究" class="filter-btn ">华侨研究</a>
       
-      <a href="figures.html?tag=华侨调查" class="filter-btn ">华侨调查</a>
+      <a href="/figures?tag=华侨调查" class="filter-btn ">华侨调查</a>
       
-      <a href="figures.html?tag=南洋" class="filter-btn ">南洋</a>
+      <a href="/figures?tag=南洋" class="filter-btn ">南洋</a>
       
-      <a href="figures.html?tag=国家建设" class="filter-btn ">国家建设</a>
+      <a href="/figures?tag=国家建设" class="filter-btn ">国家建设</a>
       
-      <a href="figures.html?tag=国籍法" class="filter-btn ">国籍法</a>
+      <a href="/figures?tag=国籍法" class="filter-btn ">国籍法</a>
       
-      <a href="figures.html?tag=国语推广" class="filter-btn ">国语推广</a>
+      <a href="/figures?tag=国语推广" class="filter-btn ">国语推广</a>
       
-      <a href="figures.html?tag=外交官" class="filter-btn ">外交官</a>
+      <a href="/figures?tag=外交官" class="filter-btn ">外交官</a>
       
-      <a href="figures.html?tag=女子教育" class="filter-btn ">女子教育</a>
+      <a href="/figures?tag=女子教育" class="filter-btn ">女子教育</a>
       
-      <a href="figures.html?tag=女权" class="filter-btn ">女权</a>
+      <a href="/figures?tag=女权" class="filter-btn ">女权</a>
       
-      <a href="figures.html?tag=委员长" class="filter-btn ">委员长</a>
+      <a href="/figures?tag=委员长" class="filter-btn ">委员长</a>
       
-      <a href="figures.html?tag=学者" class="filter-btn ">学者</a>
+      <a href="/figures?tag=学者" class="filter-btn ">学者</a>
       
-      <a href="figures.html?tag=官员" class="filter-btn ">官员</a>
+      <a href="/figures?tag=官员" class="filter-btn ">官员</a>
       
-      <a href="figures.html?tag=实业家" class="filter-btn ">实业家</a>
+      <a href="/figures?tag=实业家" class="filter-btn ">实业家</a>
       
-      <a href="figures.html?tag=实地调查" class="filter-btn ">实地调查</a>
+      <a href="/figures?tag=实地调查" class="filter-btn ">实地调查</a>
       
-      <a href="figures.html?tag=对策" class="filter-btn ">对策</a>
+      <a href="/figures?tag=对策" class="filter-btn ">对策</a>
       
-      <a href="figures.html?tag=岭南画派" class="filter-btn ">岭南画派</a>
+      <a href="/figures?tag=岭南画派" class="filter-btn ">岭南画派</a>
       
-      <a href="figures.html?tag=师资培训" class="filter-btn ">师资培训</a>
+      <a href="/figures?tag=师资培训" class="filter-btn ">师资培训</a>
       
-      <a href="figures.html?tag=归国侨胞" class="filter-btn ">归国侨胞</a>
+      <a href="/figures?tag=归国侨胞" class="filter-btn ">归国侨胞</a>
       
-      <a href="figures.html?tag=慈勤女中" class="filter-btn ">慈勤女中</a>
+      <a href="/figures?tag=慈勤女中" class="filter-btn ">慈勤女中</a>
       
-      <a href="figures.html?tag=慈善家" class="filter-btn ">慈善家</a>
+      <a href="/figures?tag=慈善家" class="filter-btn ">慈善家</a>
       
-      <a href="figures.html?tag=抗日" class="filter-btn ">抗日</a>
+      <a href="/figures?tag=抗日" class="filter-btn ">抗日</a>
       
-      <a href="figures.html?tag=抗日运动" class="filter-btn ">抗日运动</a>
+      <a href="/figures?tag=抗日运动" class="filter-btn ">抗日运动</a>
       
-      <a href="figures.html?tag=政治家" class="filter-btn ">政治家</a>
+      <a href="/figures?tag=政治家" class="filter-btn ">政治家</a>
       
-      <a href="figures.html?tag=政策制定" class="filter-btn ">政策制定</a>
+      <a href="/figures?tag=政策制定" class="filter-btn ">政策制定</a>
       
-      <a href="figures.html?tag=教育会议" class="filter-btn ">教育会议</a>
+      <a href="/figures?tag=教育会议" class="filter-btn ">教育会议</a>
       
-      <a href="figures.html?tag=教育家" class="filter-btn ">教育家</a>
+      <a href="/figures?tag=教育家" class="filter-btn ">教育家</a>
       
-      <a href="figures.html?tag=教育改革" class="filter-btn ">教育改革</a>
+      <a href="/figures?tag=教育改革" class="filter-btn ">教育改革</a>
       
-      <a href="figures.html?tag=教育权利" class="filter-btn ">教育权利</a>
+      <a href="/figures?tag=教育权利" class="filter-btn ">教育权利</a>
       
-      <a href="figures.html?tag=教育管理" class="filter-btn ">教育管理</a>
+      <a href="/figures?tag=教育管理" class="filter-btn ">教育管理</a>
       
-      <a href="figures.html?tag=新加坡" class="filter-btn ">新加坡</a>
+      <a href="/figures?tag=新加坡" class="filter-btn ">新加坡</a>
       
-      <a href="figures.html?tag=新生活运动" class="filter-btn ">新生活运动</a>
+      <a href="/figures?tag=新生活运动" class="filter-btn ">新生活运动</a>
       
-      <a href="figures.html?tag=暨南大学" class="filter-btn ">暨南大学</a>
+      <a href="/figures?tag=暨南大学" class="filter-btn ">暨南大学</a>
       
-      <a href="figures.html?tag=暹罗" class="filter-btn ">暹罗</a>
+      <a href="/figures?tag=暹罗" class="filter-btn ">暹罗</a>
       
-      <a href="figures.html?tag=权益" class="filter-btn ">权益</a>
+      <a href="/figures?tag=权益" class="filter-btn ">权益</a>
       
-      <a href="figures.html?tag=校长" class="filter-btn ">校长</a>
+      <a href="/figures?tag=校长" class="filter-btn ">校长</a>
       
-      <a href="figures.html?tag=欧洲华侨" class="filter-btn ">欧洲华侨</a>
+      <a href="/figures?tag=欧洲华侨" class="filter-btn ">欧洲华侨</a>
       
-      <a href="figures.html?tag=歧视条例" class="filter-btn ">歧视条例</a>
+      <a href="/figures?tag=歧视条例" class="filter-btn ">歧视条例</a>
       
-      <a href="figures.html?tag=殖民地" class="filter-btn ">殖民地</a>
+      <a href="/figures?tag=殖民地" class="filter-btn ">殖民地</a>
       
-      <a href="figures.html?tag=民族精神" class="filter-btn ">民族精神</a>
+      <a href="/figures?tag=民族精神" class="filter-btn ">民族精神</a>
       
-      <a href="figures.html?tag=民族运动" class="filter-btn ">民族运动</a>
+      <a href="/figures?tag=民族运动" class="filter-btn ">民族运动</a>
       
-      <a href="figures.html?tag=法属越南" class="filter-btn ">法属越南</a>
+      <a href="/figures?tag=法属越南" class="filter-btn ">法属越南</a>
       
-      <a href="figures.html?tag=法律" class="filter-btn ">法律</a>
+      <a href="/figures?tag=法律" class="filter-btn ">法律</a>
       
-      <a href="figures.html?tag=海防" class="filter-btn ">海防</a>
+      <a href="/figures?tag=海防" class="filter-btn ">海防</a>
       
-      <a href="figures.html?tag=清末" class="filter-btn ">清末</a>
+      <a href="/figures?tag=清末" class="filter-btn ">清末</a>
       
-      <a href="figures.html?tag=爪哇" class="filter-btn ">爪哇</a>
+      <a href="/figures?tag=爪哇" class="filter-btn ">爪哇</a>
       
-      <a href="figures.html?tag=研究者" class="filter-btn ">研究者</a>
+      <a href="/figures?tag=研究者" class="filter-btn ">研究者</a>
       
-      <a href="figures.html?tag=社会学家" class="filter-btn ">社会学家</a>
+      <a href="/figures?tag=社会学家" class="filter-btn ">社会学家</a>
       
-      <a href="figures.html?tag=社会教育" class="filter-btn ">社会教育</a>
+      <a href="/figures?tag=社会教育" class="filter-btn ">社会教育</a>
       
-      <a href="figures.html?tag=经济" class="filter-btn ">经济</a>
+      <a href="/figures?tag=经济" class="filter-btn ">经济</a>
       
-      <a href="figures.html?tag=统计" class="filter-btn ">统计</a>
+      <a href="/figures?tag=统计" class="filter-btn ">统计</a>
       
-      <a href="figures.html?tag=维新派" class="filter-btn ">维新派</a>
+      <a href="/figures?tag=维新派" class="filter-btn ">维新派</a>
       
-      <a href="figures.html?tag=考察" class="filter-btn ">考察</a>
+      <a href="/figures?tag=考察" class="filter-btn ">考察</a>
       
-      <a href="figures.html?tag=职业教育" class="filter-btn ">职业教育</a>
+      <a href="/figures?tag=职业教育" class="filter-btn ">职业教育</a>
       
-      <a href="figures.html?tag=荷印" class="filter-btn ">荷印</a>
+      <a href="/figures?tag=荷印" class="filter-btn ">荷印</a>
       
-      <a href="figures.html?tag=获奖" class="filter-btn ">获奖</a>
+      <a href="/figures?tag=获奖" class="filter-btn ">获奖</a>
       
-      <a href="figures.html?tag=见证者" class="filter-btn ">见证者</a>
+      <a href="/figures?tag=见证者" class="filter-btn ">见证者</a>
       
-      <a href="figures.html?tag=视察" class="filter-btn ">视察</a>
+      <a href="/figures?tag=视察" class="filter-btn ">视察</a>
       
-      <a href="figures.html?tag=视察员" class="filter-btn ">视察员</a>
+      <a href="/figures?tag=视察员" class="filter-btn ">视察员</a>
       
-      <a href="figures.html?tag=议员" class="filter-btn ">议员</a>
+      <a href="/figures?tag=议员" class="filter-btn ">议员</a>
       
-      <a href="figures.html?tag=评论" class="filter-btn ">评论</a>
+      <a href="/figures?tag=评论" class="filter-btn ">评论</a>
       
-      <a href="figures.html?tag=调查" class="filter-btn ">调查</a>
+      <a href="/figures?tag=调查" class="filter-btn ">调查</a>
       
-      <a href="figures.html?tag=钟灵中学" class="filter-btn ">钟灵中学</a>
+      <a href="/figures?tag=钟灵中学" class="filter-btn ">钟灵中学</a>
       
-      <a href="figures.html?tag=闽粤社会" class="filter-btn ">闽粤社会</a>
+      <a href="/figures?tag=闽粤社会" class="filter-btn ">闽粤社会</a>
       
-      <a href="figures.html?tag=革命" class="filter-btn ">革命</a>
+      <a href="/figures?tag=革命" class="filter-btn ">革命</a>
       
-      <a href="figures.html?tag=革命家" class="filter-btn ">革命家</a>
+      <a href="/figures?tag=革命家" class="filter-btn ">革命家</a>
       
-      <a href="figures.html?tag=马来亚" class="filter-btn ">马来亚</a>
+      <a href="/figures?tag=马来亚" class="filter-btn ">马来亚</a>
       
     </div>
   </div>
@@ -236,7 +236,7 @@
   <div class="container">
     <div class="figures-grid">
       
-      <a href="figure/figure-chenjiageng.html" class="figure-card-simple">
+      <a href="/figure/figure-chenjiageng" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈嘉庚</h3>
@@ -256,7 +256,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zuobinglong.html" class="figure-card-simple">
+      <a href="/figure/figure-zuobinglong" class="figure-card-simple">
         <div class="figure-avatar">左</div>
         <div class="figure-card-info">
           <h3>左秉隆</h3>
@@ -276,7 +276,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-liushimu.html" class="figure-card-simple">
+      <a href="/figure/figure-liushimu" class="figure-card-simple">
         <div class="figure-avatar">刘</div>
         <div class="figure-card-info">
           <h3>刘士木</h3>
@@ -296,7 +296,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zhouqigang.html" class="figure-card-simple">
+      <a href="/figure/figure-zhouqigang" class="figure-card-simple">
         <div class="figure-avatar">周</div>
         <div class="figure-card-info">
           <h3>周启刚</h3>
@@ -316,7 +316,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-chenxianyuan.html" class="figure-card-simple">
+      <a href="/figure/figure-chenxianyuan" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈显源</h3>
@@ -336,7 +336,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-shimingqiu.html" class="figure-card-simple">
+      <a href="/figure/figure-shimingqiu" class="figure-card-simple">
         <div class="figure-avatar">石</div>
         <div class="figure-card-info">
           <h3>石鸣球</h3>
@@ -356,7 +356,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-chenqingshan.html" class="figure-card-simple">
+      <a href="/figure/figure-chenqingshan" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈青山</h3>
@@ -376,7 +376,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-wuxuehua.html" class="figure-card-simple">
+      <a href="/figure/figure-wuxuehua" class="figure-card-simple">
         <div class="figure-avatar">吴</div>
         <div class="figure-card-info">
           <h3>吴雪华</h3>
@@ -396,7 +396,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-huangyanpei.html" class="figure-card-simple">
+      <a href="/figure/figure-huangyanpei" class="figure-card-simple">
         <div class="figure-avatar">黄</div>
         <div class="figure-card-info">
           <h3>黄炎培</h3>
@@ -416,7 +416,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-sunzhongshan.html" class="figure-card-simple">
+      <a href="/figure/figure-sunzhongshan" class="figure-card-simple">
         <div class="figure-avatar">孙</div>
         <div class="figure-card-info">
           <h3>孙中山</h3>
@@ -436,7 +436,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-qianhe.html" class="figure-card-simple">
+      <a href="/figure/figure-qianhe" class="figure-card-simple">
         <div class="figure-avatar">钱</div>
         <div class="figure-card-info">
           <h3>钱鹤</h3>
@@ -456,7 +456,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zhenghongnian.html" class="figure-card-simple">
+      <a href="/figure/figure-zhenghongnian" class="figure-card-simple">
         <div class="figure-avatar">郑</div>
         <div class="figure-card-info">
           <h3>郑洪年</h3>
@@ -476,7 +476,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-linpusheng.html" class="figure-card-simple">
+      <a href="/figure/figure-linpusheng" class="figure-card-simple">
         <div class="figure-avatar">李</div>
         <div class="figure-card-info">
           <h3>李朴生</h3>
@@ -496,7 +496,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-luzhuoxin.html" class="figure-card-simple">
+      <a href="/figure/figure-luzhuoxin" class="figure-card-simple">
         <div class="figure-avatar">廬</div>
         <div class="figure-card-info">
           <h3>廬卓辛</h3>
@@ -516,7 +516,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-wangzhiyuan.html" class="figure-card-simple">
+      <a href="/figure/figure-wangzhiyuan" class="figure-card-simple">
         <div class="figure-avatar">王</div>
         <div class="figure-card-info">
           <h3>王志远</h3>
@@ -536,7 +536,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-linqingyuan.html" class="figure-card-simple">
+      <a href="/figure/figure-linqingyuan" class="figure-card-simple">
         <div class="figure-avatar">林</div>
         <div class="figure-card-info">
           <h3>林清渊</h3>
@@ -556,7 +556,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-ganglu.html" class="figure-card-simple">
+      <a href="/figure/figure-ganglu" class="figure-card-simple">
         <div class="figure-avatar">刚</div>
         <div class="figure-card-info">
           <h3>刚鲁</h3>
@@ -576,7 +576,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-luowanli.html" class="figure-card-simple">
+      <a href="/figure/figure-luowanli" class="figure-card-simple">
         <div class="figure-avatar">罗</div>
         <div class="figure-card-info">
           <h3>罗万里</h3>
@@ -596,7 +596,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-chendda.html" class="figure-card-simple">
+      <a href="/figure/figure-chendda" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈达</h3>
@@ -616,7 +616,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-xuedianceng.html" class="figure-card-simple">
+      <a href="/figure/figure-xuedianceng" class="figure-card-simple">
         <div class="figure-avatar">薛</div>
         <div class="figure-card-info">
           <h3>薛典曾</h3>
@@ -636,7 +636,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-chenyin.html" class="figure-card-simple">
+      <a href="/figure/figure-chenyin" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈因</h3>
@@ -654,7 +654,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zhouqigang-2.html" class="figure-card-simple">
+      <a href="/figure/figure-zhouqigang-2" class="figure-card-simple">
         <div class="figure-avatar">周</div>
         <div class="figure-card-info">
           <h3>周启刚</h3>
@@ -674,7 +674,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-chenrenshu.html" class="figure-card-simple">
+      <a href="/figure/figure-chenrenshu" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈树人</h3>
@@ -694,7 +694,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-wangpichen.html" class="figure-card-simple">
+      <a href="/figure/figure-wangpichen" class="figure-card-simple">
         <div class="figure-avatar">王</div>
         <div class="figure-card-info">
           <h3>王辟尘</h3>
@@ -712,7 +712,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-chenlite.html" class="figure-card-simple">
+      <a href="/figure/figure-chenlite" class="figure-card-simple">
         <div class="figure-avatar">陈</div>
         <div class="figure-card-info">
           <h3>陈里特</h3>
@@ -730,7 +730,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-huangyizu.html" class="figure-card-simple">
+      <a href="/figure/figure-huangyizu" class="figure-card-simple">
         <div class="figure-avatar">黄</div>
         <div class="figure-card-info">
           <h3>黄奕住</h3>
@@ -750,7 +750,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-kangyuwei.html" class="figure-card-simple">
+      <a href="/figure/figure-kangyuwei" class="figure-card-simple">
         <div class="figure-avatar">康</div>
         <div class="figure-card-info">
           <h3>康有为</h3>
@@ -770,7 +770,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zhangjingxi.html" class="figure-card-simple">
+      <a href="/figure/figure-zhangjingxi" class="figure-card-simple">
         <div class="figure-avatar">张</div>
         <div class="figure-card-info">
           <h3>张敬熙</h3>
@@ -790,7 +790,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-dengxuefeng.html" class="figure-card-simple">
+      <a href="/figure/figure-dengxuefeng" class="figure-card-simple">
         <div class="figure-avatar">邓</div>
         <div class="figure-card-info">
           <h3>邓雪峰</h3>
@@ -810,7 +810,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-guansuren.html" class="figure-card-simple">
+      <a href="/figure/figure-guansuren" class="figure-card-simple">
         <div class="figure-avatar">关</div>
         <div class="figure-card-info">
           <h3>关素人</h3>
@@ -830,7 +830,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zhoushousy.html" class="figure-card-simple">
+      <a href="/figure/figure-zhoushousy" class="figure-card-simple">
         <div class="figure-avatar">周</div>
         <div class="figure-card-info">
           <h3>周守愚</h3>
@@ -850,7 +850,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-zhanjusy.html" class="figure-card-simple">
+      <a href="/figure/figure-zhanjusy" class="figure-card-simple">
         <div class="figure-avatar">詹</div>
         <div class="figure-card-info">
           <h3>詹菊似</h3>
@@ -870,7 +870,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-mozicai.html" class="figure-card-simple">
+      <a href="/figure/figure-mozicai" class="figure-card-simple">
         <div class="figure-avatar">莫</div>
         <div class="figure-card-info">
           <h3>莫子材</h3>
@@ -890,7 +890,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-lihuanshen.html" class="figure-card-simple">
+      <a href="/figure/figure-lihuanshen" class="figure-card-simple">
         <div class="figure-avatar">黎</div>
         <div class="figure-card-info">
           <h3>黎焕生</h3>
@@ -910,7 +910,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-lvbaohe.html" class="figure-card-simple">
+      <a href="/figure/figure-lvbaohe" class="figure-card-simple">
         <div class="figure-avatar">吕</div>
         <div class="figure-card-info">
           <h3>吕宝和</h3>
@@ -930,7 +930,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-dingpeilun.html" class="figure-card-simple">
+      <a href="/figure/figure-dingpeilun" class="figure-card-simple">
         <div class="figure-avatar">丁</div>
         <div class="figure-card-info">
           <h3>丁培纶</h3>
@@ -950,7 +950,7 @@
         <span class="figure-arrow">→</span>
       </a>
       
-      <a href="figure/figure-liushiji.html" class="figure-card-simple">
+      <a href="/figure/figure-liushiji" class="figure-card-simple">
         <div class="figure-avatar">刘</div>
         <div class="figure-card-info">
           <h3>刘士骥</h3>
@@ -1070,11 +1070,11 @@
             if(item.role)meta=item.role;
             html+='<a href="'+href+'" class="so-item" onclick="closeOverlay()"><span class="so-type '+g.type+'">'+g.label.charAt(2)+'</span><div class="so-item-content"><div class="so-item-title">'+title+'</div><div class="so-item-meta">'+meta+'</div></div></a>';
           });
-          if(items.length>4)html+='<a href="search.html?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
+          if(items.length>4)html+='<a href="/search?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
           html+='</div>';
         });
         if(!html)html='<div class="so-empty">未找到相关结果</div>';
-        html+='<div class="so-footer"><a href="search.html?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
+        html+='<div class="so-footer"><a href="/search?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
         resultsDiv.innerHTML=html;
       },200);
     });
