@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>历史时间轴 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="static/css/style_v2.css?v=15" />
+  <link rel="stylesheet" href="/static/css/style_v2.css?v=16" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -13,7 +13,7 @@
   .periods-nav {
     background: var(--color-surface);
     padding: 1.5rem 0;
-    border-bottom: 1px solid #e0d8cf;
+    border-bottom: 1px solid #e8e8e8;
     position: sticky;
     top: 60px;
     z-index: 50;
@@ -35,26 +35,26 @@
     background: white;
   }
   .period-nav-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
-  .period-nav-btn.p1 { color: #8B4513; border-color: #8B4513; }
-  .period-nav-btn.p1:hover { background: #8B4513; color: white; }
-  .period-nav-btn.p2 { color: #D2691E; border-color: #D2691E; }
-  .period-nav-btn.p2:hover { background: #D2691E; color: white; }
-  .period-nav-btn.p3 { color: #1565c0; border-color: #1565c0; }
-  .period-nav-btn.p3:hover { background: #1565c0; color: white; }
-  .period-nav-btn.p4 { color: #c62828; border-color: #c62828; }
-  .period-nav-btn.p4:hover { background: #c62828; color: white; }
+  .period-nav-btn.p1 { color: #003884; border-color: #003884; }
+  .period-nav-btn.p1:hover { background: #003884; color: white; }
+  .period-nav-btn.p2 { color: #ff6602; border-color: #ff6602; }
+  .period-nav-btn.p2:hover { background: #ff6602; color: white; }
+  .period-nav-btn.p3 { color: #ff6602; border-color: #ff6602; }
+  .period-nav-btn.p3:hover { background: #ff6602; color: white; }
+  .period-nav-btn.p4 { color: #b71c1c; border-color: #b71c1c; }
+  .period-nav-btn.p4:hover { background: #b71c1c; color: white; }
 
   .period-section {
     padding: 3rem 0;
     position: relative;
   }
-  .period-section.p1 { background: linear-gradient(135deg, #fdf6ee 0%, #f5ece0 100%); }
-  .period-section.p2 { background: linear-gradient(135deg, #fef9f3 0%, #f8ede0 100%); }
-  .period-section.p3 { background: linear-gradient(135deg, #eef5fc 0%, #dce8f5 100%); }
-  .period-section.p4 { background: linear-gradient(135deg, #fef0ef 0%, #f5dddb 100%); }
+  .period-section.p1 { background: linear-gradient(135deg, #eef2f7 0%, #e4eaf3 100%); }
+  .period-section.p2 { background: linear-gradient(135deg, #eef2f7 0%, #e4eaf3 100%); }
+  .period-section.p3 { background: linear-gradient(135deg, #fff4eb 0%, #fde8d8 100%); }
+  .period-section.p4 { background: linear-gradient(135deg, #fdf0f0 0%, #f8e0e0 100%); }
 
   .period-section + .period-section {
-    border-top: 3px dashed #d4c5b0;
+    border-top: 3px dashed #e8e8e8;
   }
 
   .period-header {
@@ -71,10 +71,10 @@
     flex-shrink: 0;
     user-select: none;
   }
-  .p1 .period-bracket { color: #8B4513; }
-  .p2 .period-bracket { color: #D2691E; }
-  .p3 .period-bracket { color: #1565c0; }
-  .p4 .period-bracket { color: #c62828; }
+  .p1 .period-bracket { color: #003884; }
+  .p2 .period-bracket { color: #ff6602; }
+  .p3 .period-bracket { color: #ff6602; }
+  .p4 .period-bracket { color: #b71c1c; }
 
   .period-header-text { flex: 1; }
   .period-number {
@@ -85,10 +85,10 @@
     letter-spacing: 0.1em;
     margin-bottom: 0.35rem;
   }
-  .p1 .period-number { color: #8B4513; }
-  .p2 .period-number { color: #D2691E; }
-  .p3 .period-number { color: #1565c0; }
-  .p4 .period-number { color: #c62828; }
+  .p1 .period-number { color: #003884; }
+  .p2 .period-number { color: #ff6602; }
+  .p3 .period-number { color: #ff6602; }
+  .p4 .period-number { color: #b71c1c; }
 
   .period-title {
     font-family: var(--font-serif);
@@ -96,10 +96,10 @@
     font-weight: 700;
     margin-bottom: 0.25rem;
   }
-  .p1 .period-title { color: #8B4513; }
-  .p2 .period-title { color: #D2691E; }
-  .p3 .period-title { color: #1565c0; }
-  .p4 .period-title { color: #c62828; }
+  .p1 .period-title { color: #003884; }
+  .p2 .period-title { color: #ff6602; }
+  .p3 .period-title { color: #ff6602; }
+  .p4 .period-title { color: #b71c1c; }
 
   .period-time {
     font-size: 0.95rem;
@@ -117,10 +117,10 @@
     margin-bottom: 1.5rem;
     position: relative;
   }
-  .p1 .period-intro { border-left: 4px solid #8B4513; }
-  .p2 .period-intro { border-left: 4px solid #D2691E; }
-  .p3 .period-intro { border-left: 4px solid #1565c0; }
-  .p4 .period-intro { border-left: 4px solid #c62828; }
+  .p1 .period-intro { border-left: 4px solid #003884; }
+  .p2 .period-intro { border-left: 4px solid #ff6602; }
+  .p3 .period-intro { border-left: 4px solid #ff6602; }
+  .p4 .period-intro { border-left: 4px solid #b71c1c; }
 
   .period-intro a {
     color: var(--color-primary);
@@ -143,10 +143,10 @@
     font-size: 0.82rem;
     font-weight: 600;
   }
-  .p1 .period-keyword { background: rgba(139,69,19,0.12); color: #8B4513; }
-  .p2 .period-keyword { background: rgba(210,105,30,0.12); color: #D2691E; }
-  .p3 .period-keyword { background: rgba(21,101,192,0.12); color: #1565c0; }
-  .p4 .period-keyword { background: rgba(198,40,40,0.12); color: #c62828; }
+  .p1 .period-keyword { background: rgba(139,69,19,0.12); color: #003884; }
+  .p2 .period-keyword { background: rgba(210,105,30,0.12); color: #ff6602; }
+  .p3 .period-keyword { background: rgba(21,101,192,0.12); color: #ff6602; }
+  .p4 .period-keyword { background: rgba(198,40,40,0.12); color: #b71c1c; }
 
   .period-events-label {
     font-family: var(--font-serif);
@@ -156,10 +156,10 @@
     padding-bottom: 0.5rem;
     border-bottom: 2px solid;
   }
-  .p1 .period-events-label { color: #8B4513; border-color: rgba(139,69,19,0.3); }
-  .p2 .period-events-label { color: #D2691E; border-color: rgba(210,105,30,0.3); }
-  .p3 .period-events-label { color: #1565c0; border-color: rgba(21,101,192,0.3); }
-  .p4 .period-events-label { color: #c62828; border-color: rgba(198,40,40,0.3); }
+  .p1 .period-events-label { color: #003884; border-color: rgba(139,69,19,0.3); }
+  .p2 .period-events-label { color: #ff6602; border-color: rgba(210,105,30,0.3); }
+  .p3 .period-events-label { color: #ff6602; border-color: rgba(21,101,192,0.3); }
+  .p4 .period-events-label { color: #b71c1c; border-color: rgba(198,40,40,0.3); }
 
   .timeline-v2-in-period {
     position: relative;
@@ -173,10 +173,10 @@
     bottom: 0;
     width: 3px;
   }
-  .p1 .timeline-v2-in-period::before { background: #8B4513; }
-  .p2 .timeline-v2-in-period::before { background: #D2691E; }
-  .p3 .timeline-v2-in-period::before { background: #1565c0; }
-  .p4 .timeline-v2-in-period::before { background: #c62828; }
+  .p1 .timeline-v2-in-period::before { background: #003884; }
+  .p2 .timeline-v2-in-period::before { background: #ff6602; }
+  .p3 .timeline-v2-in-period::before { background: #ff6602; }
+  .p4 .timeline-v2-in-period::before { background: #b71c1c; }
 
   .event-in-period {
     position: relative;
@@ -196,10 +196,10 @@
     font-size: 0.85rem;
     margin-right: 0.5rem;
   }
-  .p1 .event-in-period .event-year { color: #8B4513; }
-  .p2 .event-in-period .event-year { color: #D2691E; }
-  .p3 .event-in-period .event-year { color: #1565c0; }
-  .p4 .event-in-period .event-year { color: #c62828; }
+  .p1 .event-in-period .event-year { color: #003884; }
+  .p2 .event-in-period .event-year { color: #ff6602; }
+  .p3 .event-in-period .event-year { color: #ff6602; }
+  .p4 .event-in-period .event-year { color: #b71c1c; }
 
   .event-in-period h3 {
     font-family: var(--font-serif);
@@ -230,16 +230,16 @@
       </div>
     </div>
     <div class="nav-links">
-      <a href="index.html" class="nav-link ">首页</a>
-      <a href="timeline.html" class="nav-link active">历史时间轴</a>
-      <a href="map.html" class="nav-link ">地理分布</a>
-      <a href="textbooks.html" class="nav-link ">教材典藏</a>
-      <a href="compare.html" class="nav-link ">教材对比</a>
-      <a href="policies.html" class="nav-link ">制度政策</a>
-      <a href="schools.html" class="nav-link ">侨校档案</a>
-      <a href="figures.html" class="nav-link ">人物图谱</a>
-      <a href="dashboard.html" class="nav-link ">数据看板</a>
-      <a href="about.html" class="nav-link ">关于</a>
+      <a href="/" class="nav-link ">首页</a>
+      <a href="/timeline" class="nav-link active">历史时间轴</a>
+      <a href="/map" class="nav-link ">地理分布</a>
+      <a href="/textbooks" class="nav-link ">教材典藏</a>
+      <a href="/compare" class="nav-link ">教材对比</a>
+      <a href="/policies" class="nav-link ">制度政策</a>
+      <a href="/schools" class="nav-link ">侨校档案</a>
+      <a href="/figures" class="nav-link ">人物图谱</a>
+      <a href="/dashboard" class="nav-link ">数据看板</a>
+      <a href="/about" class="nav-link ">关于</a>
     </div>
     <div class="nav-search-toggle" onclick="document.getElementById('searchOverlay').classList.add('open')" title="搜索">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -252,8 +252,8 @@
   <div id="searchOverlay" class="search-overlay">
     <div class="search-overlay-backdrop" onclick="document.getElementById('searchOverlay').classList.remove('open')"></div>
     <div class="search-overlay-content">
-      <form action="search.html" method="get" class="search-overlay-form">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b4513" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <form action="/search" method="get" class="search-overlay-form">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003884" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" name="q" id="searchOverlayInput" placeholder="搜索学校、政策、教材、人物、事件..." autocomplete="off" />
         <kbd>ESC</kbd>
       </form>
@@ -300,7 +300,7 @@
       <span class="period-keyword">私塾书院</span>
     </div>
     <div class="period-intro">
-      随着华侨群体日渐稳定且逐渐庞大，华侨子弟的教育问题开始浮上水面。这一时期的华侨教育以自主办学为主，大多是由某个较有实力的家族出资建立私塾供自家子弟读书，或是几个家族合力创办私塾。其主要的教学内容是教授四书五经、儒家经典以及珠算等实用技能。办学目的并不是为了参加科举考试，而是注重文化传承以及技能教学，从而为日后接受家族生意做准备。但私塾教学质量参差不齐，塾师水平有限，<a href="figure/figure-chenjiageng.html">陈嘉庚</a>少年时就读的<a href="school/mingcheng-1690.html">南轩私塾</a>"教者不负责任、学者时辍时续"，学多年仍识字甚少。1690年巴达维亚华侨创办<a href="school/mingcheng-1690.html">明诚书院</a>，被视为海外华侨教育的开端。
+      随着华侨群体日渐稳定且逐渐庞大，华侨子弟的教育问题开始浮上水面。这一时期的华侨教育以自主办学为主，大多是由某个较有实力的家族出资建立私塾供自家子弟读书，或是几个家族合力创办私塾。其主要的教学内容是教授四书五经、儒家经典以及珠算等实用技能。办学目的并不是为了参加科举考试，而是注重文化传承以及技能教学，从而为日后接受家族生意做准备。但私塾教学质量参差不齐，塾师水平有限，<a href="/figure/figure-chenjiageng">陈嘉庚</a>少年时就读的<a href="/school/mingcheng-1690">南轩私塾</a>"教者不负责任、学者时辍时续"，学多年仍识字甚少。1690年巴达维亚华侨创办<a href="/school/mingcheng-1690">明诚书院</a>，被视为海外华侨教育的开端。
     </div>
     <div class="period-events-label">这一时期的重要事件</div>
     <div class="timeline-v2-in-period">
@@ -529,7 +529,7 @@
       <span class="period-keyword">女子教育</span>
     </div>
     <div class="period-intro">
-      1904年，清政府开始废科举、兴学堂，东南亚华侨开始主动参照国内改革自行办学。课程逐渐从四书五经转向国语、算术、地理、外语等新学科。出现了<a href="school/xinbali-1900s.html">爪哇新巴利中华学堂</a>、新加坡<a href="school/yangzheng-1905.html">养正学堂</a>、<a href="school/juanang-1908.html">巨港中华学校</a>等新式学堂，也出现了向女童开放的女子学堂——1908年<a href="school/kuncheng-1908.html">坤成女子中学</a>在吉隆坡创办。课余活动也逐渐丰富，例如<a href="figure/figure-zuobinglong.html">左秉隆</a>在新加坡领事任内创办英语辩论会，让华侨子弟用英语讨论时政。总体来看，清政府的确采取了相关行动对其进行管理，但是管理措施仅限于监督和协助，并未针对南洋华侨教育制定具体方案。
+      1904年，清政府开始废科举、兴学堂，东南亚华侨开始主动参照国内改革自行办学。课程逐渐从四书五经转向国语、算术、地理、外语等新学科。出现了<a href="/school/xinbali-1900s">爪哇新巴利中华学堂</a>、新加坡<a href="/school/yangzheng-1905">养正学堂</a>、<a href="/school/juanang-1908">巨港中华学校</a>等新式学堂，也出现了向女童开放的女子学堂——1908年<a href="/school/kuncheng-1908">坤成女子中学</a>在吉隆坡创办。课余活动也逐渐丰富，例如<a href="/figure/figure-zuobinglong">左秉隆</a>在新加坡领事任内创办英语辩论会，让华侨子弟用英语讨论时政。总体来看，清政府的确采取了相关行动对其进行管理，但是管理措施仅限于监督和协助，并未针对南洋华侨教育制定具体方案。
     </div>
     <div class="period-events-label">这一时期的重要事件</div>
     <div class="timeline-v2-in-period">
@@ -767,7 +767,7 @@
       <span class="period-keyword">自主协商</span>
     </div>
     <div class="period-intro">
-      辛亥革命后，国民政府开始系统性管理南洋华侨教育。先后出台了多项法案来明确东南亚华侨教育的管理模式，确定华侨学校的设立标准、课程设置及师资要求。同时对教材编写进行了统一的要求，例如"适应当地社会环境养成生活能力激发爱国心利用环境以增加教育效能"，并且将三民主义这一科目加入南洋各地的华侨学校课程之中；在此基础上，还融入南洋本土元素如热带气候、橡胶种植等内容，并与南洋地域气候、民族宗教、语言习惯的内容相联系，从而做到教材内容与南洋实际状况的衔接。1929年召开了<a href="policies.html">第一次南洋华侨教育会议</a>，1934年设立<a href="policies.html">侨民教育处</a>。但与此同时，殖民政府加紧打压华校——<a href="policies.html">英属学校注册条例</a>关停华校、<a href="policies.html">荷属取缔私立学校条例</a>、<a href="policies.html">暹罗强迫增加暹文课时</a>，侨校夹在中外政策间左右为难。总体而言，南洋华侨教育在中国政府的管理之下逐渐形成了由小学到中学，再到师范、职业专科学校和夜校等多种教育模式全面发展的教育体系。
+      辛亥革命后，国民政府开始系统性管理南洋华侨教育。先后出台了多项法案来明确东南亚华侨教育的管理模式，确定华侨学校的设立标准、课程设置及师资要求。同时对教材编写进行了统一的要求，例如"适应当地社会环境养成生活能力激发爱国心利用环境以增加教育效能"，并且将三民主义这一科目加入南洋各地的华侨学校课程之中；在此基础上，还融入南洋本土元素如热带气候、橡胶种植等内容，并与南洋地域气候、民族宗教、语言习惯的内容相联系，从而做到教材内容与南洋实际状况的衔接。1929年召开了<a href="/policies">第一次南洋华侨教育会议</a>，1934年设立<a href="/policies">侨民教育处</a>。但与此同时，殖民政府加紧打压华校——<a href="/policies">英属学校注册条例</a>关停华校、<a href="/policies">荷属取缔私立学校条例</a>、<a href="/policies">暹罗强迫增加暹文课时</a>，侨校夹在中外政策间左右为难。总体而言，南洋华侨教育在中国政府的管理之下逐渐形成了由小学到中学，再到师范、职业专科学校和夜校等多种教育模式全面发展的教育体系。
     </div>
     <div class="period-events-label">这一时期的重要事件</div>
     <div class="timeline-v2-in-period">
@@ -1104,7 +1104,7 @@
       <span class="period-keyword">坚韧不拔</span>
     </div>
     <div class="period-intro">
-      九一八事变后，南洋华侨对祖国的局势尤为关心，为稳定南洋地区华侨情绪，国民政府开始进一步对东南亚华侨教育进行管理，从而加强祖国与南洋华侨的联系。这一时期的变化主要体现在课程内容、教材内容与课程设置上。增加了更多重视提升学生的民族主义和爱国主义情怀的内容，以及拥护抗战的内容。华侨学校大量选用<a href="textbooks.html">岳飞、宗泽、戚继光等民族英雄事迹</a>，以及苏武牧羊等持节不屈的故事。除此以外，华侨学子也自发组织了许多活动来支持抗日——泰国新民学校等校的学生自行组织"暹罗华侨学生联合会"，<a href="figure/figure-chenqingshan.html">陈青山</a>在<a href="school/zhongling-1917.html">钟灵中学</a>入党后成为抗日将领，<a href="figure/figure-chenjiageng.html">陈嘉庚</a>倾家荡产办学、组织筹赈运动。九一八事变的影响下，南洋华侨教育在教学内容、文化课程与教材编写上的变化主要体现在：一是与爱国主义有关的内容增多，尤其是民族英雄的叙事变得更加丰富；二是教学内容与现实环境的联系更加紧密，更加符合南洋华侨的生存发展情况；三是课程体系变得更加完善，不仅注重文化素养的培养，还更加重视华侨学子身体素质的提升——增设了童子军训练和防空军演。
+      九一八事变后，南洋华侨对祖国的局势尤为关心，为稳定南洋地区华侨情绪，国民政府开始进一步对东南亚华侨教育进行管理，从而加强祖国与南洋华侨的联系。这一时期的变化主要体现在课程内容、教材内容与课程设置上。增加了更多重视提升学生的民族主义和爱国主义情怀的内容，以及拥护抗战的内容。华侨学校大量选用<a href="/textbooks">岳飞、宗泽、戚继光等民族英雄事迹</a>，以及苏武牧羊等持节不屈的故事。除此以外，华侨学子也自发组织了许多活动来支持抗日——泰国新民学校等校的学生自行组织"暹罗华侨学生联合会"，<a href="/figure/figure-chenqingshan">陈青山</a>在<a href="/school/zhongling-1917">钟灵中学</a>入党后成为抗日将领，<a href="/figure/figure-chenjiageng">陈嘉庚</a>倾家荡产办学、组织筹赈运动。九一八事变的影响下，南洋华侨教育在教学内容、文化课程与教材编写上的变化主要体现在：一是与爱国主义有关的内容增多，尤其是民族英雄的叙事变得更加丰富；二是教学内容与现实环境的联系更加紧密，更加符合南洋华侨的生存发展情况；三是课程体系变得更加完善，不仅注重文化素养的培养，还更加重视华侨学子身体素质的提升——增设了童子军训练和防空军演。
     </div>
     <div class="period-events-label">这一时期的重要事件</div>
     <div class="timeline-v2-in-period">
@@ -1744,11 +1744,11 @@
             if(item.role)meta=item.role;
             html+='<a href="'+href+'" class="so-item" onclick="closeOverlay()"><span class="so-type '+g.type+'">'+g.label.charAt(2)+'</span><div class="so-item-content"><div class="so-item-title">'+title+'</div><div class="so-item-meta">'+meta+'</div></div></a>';
           });
-          if(items.length>4)html+='<a href="search.html?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
+          if(items.length>4)html+='<a href="/search?q='+encodeURIComponent(q)+'&category='+g.key+'" class="so-more">查看全部 '+items.length+' 条结果</a>';
           html+='</div>';
         });
         if(!html)html='<div class="so-empty">未找到相关结果</div>';
-        html+='<div class="so-footer"><a href="search.html?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
+        html+='<div class="so-footer"><a href="/search?q='+encodeURIComponent(q)+'">查看完整搜索结果 →</a></div>';
         resultsDiv.innerHTML=html;
       },200);
     });
