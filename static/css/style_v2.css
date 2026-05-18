@@ -331,7 +331,7 @@ body {
 }
 
 .feature-card {
-  background: #003884;
+  background: #D2691E;
   padding: 1.25rem;
   border-radius: 0;
   box-shadow: var(--shadow-sm);
@@ -344,7 +344,7 @@ body {
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-  background: #1a4a8c;
+  background: #bf5c18;
 }
 
 .feature-icon {
@@ -424,9 +424,15 @@ body {
 }
 
 .guide-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1.5rem;
+}
+
+.guide-grid .guide-card {
+  flex: 0 0 320px;
+  max-width: 360px;
 }
 
 .guide-card {
