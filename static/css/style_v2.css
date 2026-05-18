@@ -76,7 +76,7 @@ body {
   color: #1a1a1a;
   font-size: 0.85rem;
   padding: 0.4rem 0.6rem;
-  border-radius: var(--radius);
+  border-radius: 0;
   transition: all 0.2s;
 }
 
@@ -331,7 +331,7 @@ body {
 }
 
 .feature-card {
-  background: #003884;
+  background: #2c241b;
   padding: 1.25rem;
   border-radius: 0;
   box-shadow: var(--shadow-sm);
@@ -344,7 +344,7 @@ body {
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-  background: #1a4a8c;
+  background: #3d3229;
 }
 
 .feature-icon {
@@ -634,7 +634,7 @@ body {
 }
 
 .numbers-section .section-title-v2 {
-  color: white;
+  color: #1a1a1a;
 }
 
 /* Page Header v2 */
@@ -788,7 +788,7 @@ body {
 
 /* Newcomer Banner */
 .newcomer-banner {
-  background: linear-gradient(135deg, #eef2f7 0%, #e4eaf3 50%, #d8e1ee 100%);
+  background: linear-gradient(135deg, #f5f8fc 0%, #f0f4fa 50%, #e8eef7 100%);
   border-bottom: 2px solid #003884;
   padding: 1rem 0;
 }
