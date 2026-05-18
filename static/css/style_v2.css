@@ -331,7 +331,7 @@ body {
 }
 
 .feature-card {
-  background: #D2691E;
+  background: #8B2500;
   padding: 1.25rem;
   border-radius: 0;
   box-shadow: var(--shadow-sm);
@@ -344,7 +344,7 @@ body {
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-  background: #bf5c18;
+  background: #6b1d00;
 }
 
 .feature-icon {
