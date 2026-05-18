@@ -331,7 +331,7 @@ body {
 }
 
 .feature-card {
-  background: #2c241b;
+  background: #003884;
   padding: 1.25rem;
   border-radius: 0;
   box-shadow: var(--shadow-sm);
@@ -344,7 +344,7 @@ body {
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-  background: #3d3229;
+  background: #1a4a8c;
 }
 
 .feature-icon {
@@ -420,12 +420,12 @@ body {
 
 .guide-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+  background: linear-gradient(135deg, #f0f5fa 0%, #e8f0f8 100%);
 }
 
 .guide-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
