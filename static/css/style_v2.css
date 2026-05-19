@@ -331,7 +331,7 @@ body {
 }
 
 .feature-card {
-  background: #8B2500;
+  background: #dbaf8a;
   padding: 1.25rem;
   border-radius: 0;
   box-shadow: var(--shadow-sm);
@@ -344,7 +344,7 @@ body {
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-  background: #6b1d00;
+  background: #c49a7a;
 }
 
 .feature-icon {
@@ -356,12 +356,12 @@ body {
   font-family: var(--font-serif);
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
-  color: #ffffff;
+  color: #75564d;
 }
 
 .feature-card p {
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.85);
+  color: rgba(117, 86, 77, 0.85);
   line-height: 1.6;
 }
 
