@@ -1,12 +1,12 @@
 :root {
-  --color-bg: #f5f7fa;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-text: #1a1a1a;
   --color-text-secondary: #4a4a4a;
-  --color-primary: #003884;
-  --color-primary-light: #1a4a8c;
-  --color-accent: #ff6602;
-  --color-secondary: #2c5f2d;
+  --color-primary: #1a1a1a;
+  --color-primary-light: #333333;
+  --color-accent: #555555;
+  --color-secondary: #1a1a1a;
   --color-gold: #c9a227;
   --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
   --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
@@ -83,7 +83,7 @@ body {
 .nav-link:hover, .nav-link.active {
   color: #1a1a1a;
   background: transparent;
-  border-bottom: 2px solid #ff6602;
+  border-bottom: 2px solid #555555;
 }
 
 .nav-toggle { display: none; }
@@ -146,7 +146,7 @@ body {
   font-weight: 700;
   margin-bottom: 0.3rem;
   line-height: 1.15;
-  background: linear-gradient(135deg, #fff 0%, #ff6602 100%);
+  background: linear-gradient(135deg, #fff 0%, #555555 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -221,7 +221,7 @@ body {
 }
 
 .hero-intro p strong {
-  color: #ff6602;
+  color: #555555;
   font-weight: 600;
 }
 
@@ -272,7 +272,7 @@ body {
 }
 
 .btn-primary-v2:hover {
-  background: #ff6602;
+  background: #555555;
   transform: translateY(-2px);
   box-shadow: var(--shadow);
 }
@@ -456,7 +456,7 @@ body {
 }
 
 .guide-card-primary {
-  background: linear-gradient(135deg, #003884, #1a4a8c);
+  background: linear-gradient(135deg, #1a1a1a, #333333);
   color: white;
 }
 
@@ -483,9 +483,9 @@ body {
   justify-content: center;
   font-weight: 700;
   font-size: 1.1rem;
-  background: rgba(0,56,132,0.1);
+  background: rgba(26,26,26,0.1);
   color: var(--color-primary);
-  border: 2px solid rgba(0,56,132,0.2);
+  border: 2px solid rgba(26,26,26,0.2);
   flex-shrink: 0;
 }
 
@@ -522,7 +522,7 @@ body {
   background: var(--color-bg);
   border-radius: 0;
   padding: 2rem;
-  border: 2px solid #003884;
+  border: 2px solid #1a1a1a;
   transition: all 0.3s;
 }
 
@@ -537,7 +537,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-primary);
-  background: rgba(0,56,132,0.08);
+  background: rgba(26,26,26,0.08);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   margin-bottom: 1rem;
@@ -776,7 +776,7 @@ body {
   margin-left: 0.5rem;
 }
 
-.type-education { background: #e3f2fd; color: #1565c0; }
+.type-education { background: #e3f2fd; color: #333333; }
 .type-policy { background: #f3e5f5; color: #7b1fa2; }
 .type-political { background: #fff3e0; color: #e65100; }
 .type-conference { background: #e8f5e9; color: #2e7d32; }
@@ -795,7 +795,7 @@ body {
 /* Newcomer Banner */
 .newcomer-banner {
   background: linear-gradient(135deg, #f5f8fc 0%, #f0f4fa 50%, #e8eef7 100%);
-  border-bottom: 2px solid #003884;
+  border-bottom: 2px solid #1a1a1a;
   padding: 1rem 0;
 }
 .newcomer-inner {
@@ -834,10 +834,10 @@ body {
   font-weight: 600;
   white-space: nowrap;
   transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(0,56,132,0.3);
+  box-shadow: 0 2px 8px rgba(26,26,26,0.3);
 }
 .newcomer-cta:hover {
-  background: #ff6602 !important;
+  background: #555555 !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255,102,2,0.4);
 }
@@ -927,7 +927,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.period-pre-918 { background: #e3f2fd; color: #1565c0; }
+.period-pre-918 { background: #e3f2fd; color: #333333; }
 .period-post-918 { background: #ffebee; color: #c62828; }
 
 .textbook-header h3 {
@@ -958,7 +958,7 @@ body {
 
 .lesson-tag {
   padding: 0.25rem 0.5rem;
-  background: rgba(0,56,132,0.1);
+  background: rgba(26,26,26,0.1);
   color: var(--color-primary);
   border-radius: 4px;
   font-size: 0.8rem;
@@ -1024,7 +1024,7 @@ body {
 .tag {
   display: inline-block;
   padding: 0.15rem 0.4rem;
-  background: rgba(0,56,132,0.1);
+  background: rgba(26,26,26,0.1);
   color: var(--color-primary);
   border-radius: 3px;
   font-size: 0.75rem;
@@ -1446,7 +1446,7 @@ body {
 }
 
 .footer-col h4 {
-  color: #003884;
+  color: #1a1a1a;
   margin-bottom: 1rem;
 }
 
@@ -1641,7 +1641,7 @@ body {
   color: white;
   flex-shrink: 0;
 }
-.so-type.school { background: #1565c0; }
+.so-type.school { background: #333333; }
 .so-type.policy { background: #7b1fa2; }
 .so-type.textbook { background: #c62828; }
 .so-type.figure { background: #2e7d32; }
@@ -1751,14 +1751,14 @@ body {
 .search-suggestion-tag {
   display: inline-block;
   padding: 0.35rem 0.75rem;
-  background: rgba(0,56,132,0.08);
+  background: rgba(26,26,26,0.08);
   color: var(--color-primary);
   border-radius: 20px;
   font-size: 0.85rem;
   text-decoration: none;
   transition: all 0.2s;
 }
-.search-suggestion-tag:hover { background: rgba(0,56,132,0.15); }
+.search-suggestion-tag:hover { background: rgba(26,26,26,0.15); }
 
 .search-result-summary {
   margin-bottom: 1.5rem;
@@ -1805,7 +1805,7 @@ body {
   color: white;
   margin-bottom: 0.5rem;
 }
-.search-result-type.school { background: #1565c0; }
+.search-result-type.school { background: #333333; }
 .search-result-type.policy { background: #7b1fa2; }
 .search-result-type.textbook { background: #c62828; }
 .search-result-type.figure { background: #2e7d32; }
@@ -1878,7 +1878,7 @@ body {
 .matched-lesson-tag {
   display: inline-block;
   padding: 0.15rem 0.5rem;
-  background: rgba(0,56,132,0.1);
+  background: rgba(26,26,26,0.1);
   color: var(--color-primary);
   border-radius: 4px;
   font-size: 0.8rem;
