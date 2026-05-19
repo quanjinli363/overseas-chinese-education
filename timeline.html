@@ -14,10 +14,31 @@
 
 /* Hero */
 .timeline-hero {
-  padding: 6rem 0 4rem;
+  position: relative;
+  padding: 8rem 0 5rem;
   text-align: center;
   border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  background-color: #f5f3ee;
+  overflow: hidden;
+}
+
+.timeline-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('static/img/南洋地图.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0.12;
+  z-index: 0;
+}
+
+.timeline-hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .timeline-hero-label {
