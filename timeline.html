@@ -417,6 +417,61 @@
   transform: translateY(-2px);
 }
 
+/* ==================== Accordion ==================== */
+.accordion-header {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.accordion-header:hover {
+  opacity: 0.7;
+}
+
+.accordion-header h3 {
+  margin: 0;
+}
+
+.accordion-arrow {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.accordion-arrow svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--period-color);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.accordion-header.active .accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease 0.1s,
+              padding 0.4s ease;
+}
+
+.accordion-content.open {
+  opacity: 1;
+}
+
 /* ==================== Responsive ==================== */
 @media (max-width: 768px) {
   .period-magazine {
@@ -547,10 +602,11 @@
 
     <!-- Timeline Events -->
     <div class="period-events-section reveal">
-      <div class="period-events-header">
+      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
         <h3>这一时期的重要事件</h3>
+        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline">
+      <div class="period-timeline accordion-content">
         
         
         <div class="timeline-event-item">
@@ -802,10 +858,11 @@
     </div>
 
     <div class="period-events-section reveal">
-      <div class="period-events-header">
+      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
         <h3>这一时期的重要事件</h3>
+        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline">
+      <div class="period-timeline accordion-content">
         
         
         
@@ -1069,10 +1126,11 @@
     </div>
 
     <div class="period-events-section reveal">
-      <div class="period-events-header">
+      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
         <h3>这一时期的重要事件</h3>
+        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline">
+      <div class="period-timeline accordion-content">
         
         
         
@@ -1468,10 +1526,11 @@
     </div>
 
     <div class="period-events-section reveal">
-      <div class="period-events-header">
+      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
         <h3>这一时期的重要事件</h3>
+        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline">
+      <div class="period-timeline accordion-content">
         
         
         
@@ -2150,6 +2209,42 @@
     <a href="schools.html" class="btn reveal reveal-delay-2">浏览侨校档案 →</a>
   </div>
 </section>
+
+<script>
+// Accordion functionality
+function toggleAccordion(header) {
+  const content = header.nextElementSibling;
+  const isOpen = header.classList.contains('active');
+  
+  // Close all other accordions
+  document.querySelectorAll('.accordion-header').forEach(function(h) {
+    if (h !== header && h.classList.contains('active')) {
+      h.classList.remove('active');
+      var c = h.nextElementSibling;
+      c.style.maxHeight = null;
+      c.classList.remove('open');
+    }
+  });
+  
+  if (isOpen) {
+    header.classList.remove('active');
+    content.style.maxHeight = null;
+    content.classList.remove('open');
+  } else {
+    header.classList.add('active');
+    content.classList.add('open');
+    content.style.maxHeight = content.scrollHeight + 'px';
+  }
+}
+
+// Auto-open first accordion on page load
+document.addEventListener('DOMContentLoaded', function() {
+  var firstAccordion = document.querySelector('.accordion-header');
+  if (firstAccordion) {
+    toggleAccordion(firstAccordion);
+  }
+});
+</script>
 
 
   </main>
