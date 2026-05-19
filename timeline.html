@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>历史时间轴 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="static/css/style_v2.css?v=27" />
+  <link rel="stylesheet" href="static/css/style_v2.css?v=28" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -417,35 +417,80 @@
   transform: translateY(-2px);
 }
 
-/* ==================== Accordion ==================== */
-.accordion-header {
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 1rem 0;
+/* ==================== Event Accordion ==================== */
+.timeline-event-item {
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+
+.timeline-event-item:last-child {
+  padding-bottom: 0;
+}
+
+/* The dot on the timeline */
+.timeline-event-item::before {
+  content: '';
+  position: absolute;
+  left: -3rem;
+  top: 0.35rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--period-color);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--period-color);
   transition: all 0.3s ease;
 }
 
-.accordion-header:hover {
+.timeline-event-item:hover::before {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px var(--period-color);
+}
+
+/* Event header: clickable area */
+.timeline-event-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-event-header:hover {
   opacity: 0.7;
 }
 
-.accordion-header h3 {
-  margin: 0;
-}
-
-.accordion-arrow {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.timeline-event-year {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--period-color);
+  line-height: 1;
   flex-shrink: 0;
+  min-width: 4rem;
 }
 
-.accordion-arrow svg {
+.timeline-event-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* Accordion arrow */
+.event-arrow {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-arrow svg {
   width: 100%;
   height: 100%;
   stroke: var(--period-color);
@@ -455,21 +500,52 @@
   stroke-linejoin: round;
 }
 
-.accordion-header.active .accordion-arrow {
+.timeline-event-header.active .event-arrow {
   transform: rotate(180deg);
 }
 
-.accordion-content {
+/* Collapsible content */
+.timeline-event-content {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.4s ease 0.1s,
-              padding 0.4s ease;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              padding 0.3s ease;
+  padding-left: 0;
 }
 
-.accordion-content.open {
+.timeline-event-content.open {
   opacity: 1;
+}
+
+/* Event type tag */
+.timeline-event-type {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--period-color);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  padding: 0.15rem 0;
+  font-weight: 500;
+}
+
+/* Event description */
+.timeline-event-desc {
+  font-size: 0.95rem;
+  color: var(--gray);
+  line-height: 1.85;
+  margin-bottom: 0.5rem;
+}
+
+/* Event location */
+.timeline-event-location {
+  font-size: 0.85rem;
+  color: var(--light-gray);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 /* ==================== Responsive ==================== */
@@ -602,93 +678,110 @@
 
     <!-- Timeline Events -->
     <div class="period-events-section reveal">
-      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
+      <div class="period-events-header">
         <h3>这一时期的重要事件</h3>
-        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline accordion-content">
+      <div class="period-timeline">
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1690</span>
             <span class="timeline-event-title">明诚书院创立</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校建立</span>
-          <p class="timeline-event-desc">巴达维亚（今雅加达）创办南洋第一所华侨学校，主要讲授四书五经等儒家经典</p>
-          
-          <div class="timeline-event-location">📍 荷属东印度</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校建立</span>
+            <p class="timeline-event-desc">巴达维亚（今雅加达）创办南洋第一所华侨学校，主要讲授四书五经等儒家经典</p>
+            
+            <div class="timeline-event-location">📍 荷属东印度</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1819</span>
             <span class="timeline-event-title">五福书院创立</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校建立</span>
-          <p class="timeline-event-desc">新加坡创办五福书院，教授《三字经》《千字文》</p>
-          
-          <div class="timeline-event-location">📍 新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校建立</span>
+            <p class="timeline-event-desc">新加坡创办五福书院，教授《三字经》《千字文》</p>
+            
+            <div class="timeline-event-location">📍 新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1829</span>
             <span class="timeline-event-title">新加坡华文私塾创办</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校建立</span>
-          <p class="timeline-event-desc">新加坡创办华文私塾</p>
-          
-          <div class="timeline-event-location">📍 新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校建立</span>
+            <p class="timeline-event-desc">新加坡创办华文私塾</p>
+            
+            <div class="timeline-event-location">📍 新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1860</span>
             <span class="timeline-event-title">《北京条约》签订</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策转变</span>
-          <p class="timeline-event-desc">清政府宣告出国禁令局部解除，默认华侨群体存在，对华侨政策由排斥转向利用</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策转变</span>
+            <p class="timeline-event-desc">清政府宣告出国禁令局部解除，默认华侨群体存在，对华侨政策由排斥转向利用</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1903</span>
             <span class="timeline-event-title">《奏定初等小学堂章程》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">提出奖励捐资办学的政策，鼓励华侨兴学</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">提出奖励捐资办学的政策，鼓励华侨兴学</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1903</span>
             <span class="timeline-event-title">康有为游历爪哇推动华侨教育转型</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育改革</span>
-          <p class="timeline-event-desc">康有为因变法失败流亡南洋，在爪哇劝华侨办&#39;新学&#39;，推动巴达维亚、泗水、三宝垄等地私塾改为学堂</p>
-          
-          <div class="timeline-event-location">📍 荷属东印度</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育改革</span>
+            <p class="timeline-event-desc">康有为因变法失败流亡南洋，在爪哇劝华侨办&#39;新学&#39;，推动巴达维亚、泗水、三宝垄等地私塾改为学堂</p>
+            
+            <div class="timeline-event-location">📍 荷属东印度</div>
+            
+          </div>
         </div>
         
         
@@ -858,11 +951,10 @@
     </div>
 
     <div class="period-events-section reveal">
-      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
+      <div class="period-events-header">
         <h3>这一时期的重要事件</h3>
-        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline accordion-content">
+      <div class="period-timeline">
         
         
         
@@ -878,99 +970,120 @@
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1904</span>
             <span class="timeline-event-title">废科举、兴学堂</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育改革</span>
-          <p class="timeline-event-desc">清政府开始&#39;废科举、兴学堂&#39;，中国步入新式教育阶段，南洋华侨掀起兴学热潮</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育改革</span>
+            <p class="timeline-event-desc">清政府开始&#39;废科举、兴学堂&#39;，中国步入新式教育阶段，南洋华侨掀起兴学热潮</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1905</span>
             <span class="timeline-event-title">养正学堂成立</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校建立</span>
-          <p class="timeline-event-desc">新加坡养正学堂成立，采用新式教育</p>
-          
-          <div class="timeline-event-location">📍 新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校建立</span>
+            <p class="timeline-event-desc">新加坡养正学堂成立，采用新式教育</p>
+            
+            <div class="timeline-event-location">📍 新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1905</span>
             <span class="timeline-event-title">刘士骥赴爪哇劝学</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育政策</span>
-          <p class="timeline-event-desc">两广总督岑春萱派刘士骥赴爪哇劝学，约各埠&#39;马腰&#39;&#39;甲必丹&#39;到万隆开会，推动华侨兴办新式学堂</p>
-          
-          <div class="timeline-event-location">📍 荷属东印度</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育政策</span>
+            <p class="timeline-event-desc">两广总督岑春萱派刘士骥赴爪哇劝学，约各埠&#39;马腰&#39;&#39;甲必丹&#39;到万隆开会，推动华侨兴办新式学堂</p>
+            
+            <div class="timeline-event-location">📍 荷属东印度</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1906</span>
             <span class="timeline-event-title">《华侨学堂章程》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">清政府颁布《华侨学堂章程》鼓励华侨华人兴办新式学堂，首次对华侨教育进行制度化管理</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">清政府颁布《华侨学堂章程》鼓励华侨华人兴办新式学堂，首次对华侨教育进行制度化管理</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1906</span>
             <span class="timeline-event-title">荷属华侨学务总会成立</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育组织</span>
-          <p class="timeline-event-desc">光绪32年(1906年)荷属华侨学务总会在巴达维亚成立，作为荷属东印度华侨教育的总机关</p>
-          
-          <div class="timeline-event-location">📍 荷属东印度</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育组织</span>
+            <p class="timeline-event-desc">光绪32年(1906年)荷属华侨学务总会在巴达维亚成立，作为荷属东印度华侨教育的总机关</p>
+            
+            <div class="timeline-event-location">📍 荷属东印度</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1907</span>
             <span class="timeline-event-title">《女子师范学堂章程》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">清政府颁布女子师范学堂章程，推动女子教育</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">清政府颁布女子师范学堂章程，推动女子教育</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1908</span>
             <span class="timeline-event-title">坤成女子中学创立</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校建立</span>
-          <p class="timeline-event-desc">吉隆坡坤成女子中学创立，开创南洋女子教育先河</p>
-          
-          <div class="timeline-event-location">📍 吉隆坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校建立</span>
+            <p class="timeline-event-desc">吉隆坡坤成女子中学创立，开创南洋女子教育先河</p>
+            
+            <div class="timeline-event-location">📍 吉隆坡</div>
+            
+          </div>
         </div>
         
         
@@ -1126,11 +1239,10 @@
     </div>
 
     <div class="period-events-section reveal">
-      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
+      <div class="period-events-header">
         <h3>这一时期的重要事件</h3>
-        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline accordion-content">
+      <div class="period-timeline">
         
         
         
@@ -1160,253 +1272,307 @@
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1911</span>
             <span class="timeline-event-title">辛亥革命/爪哇华侨学务总会</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政治事件/组织</span>
-          <p class="timeline-event-desc">辛亥革命推翻清朝，建立中华民国；爪哇华侨学务总会成立</p>
-          
-          <div class="timeline-event-location">📍 中国/印尼</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政治事件/组织</span>
+            <p class="timeline-event-desc">辛亥革命推翻清朝，建立中华民国；爪哇华侨学务总会成立</p>
+            
+            <div class="timeline-event-location">📍 中国/印尼</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1913</span>
             <span class="timeline-event-title">《领事管理华侨学务规程》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">北洋政府颁布规程，确立以教育部为主管机关，侨务委员会和外交部协助的管理模式</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">北洋政府颁布规程，确立以教育部为主管机关，侨务委员会和外交部协助的管理模式</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1915</span>
             <span class="timeline-event-title">高登鲤、梁家义视察南洋</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">视察活动</span>
-          <p class="timeline-event-desc">北洋政府委派高登鲤、梁家义前往南洋作为驻外侨校视察员</p>
-          
-          <div class="timeline-event-location">📍 南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">视察活动</span>
+            <p class="timeline-event-desc">北洋政府委派高登鲤、梁家义前往南洋作为驻外侨校视察员</p>
+            
+            <div class="timeline-event-location">📍 南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1917</span>
             <span class="timeline-event-title">钟灵中学创立/黄炎培视察</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校建立/视察</span>
-          <p class="timeline-event-desc">槟城钟灵中学创立；教育部派黄炎培前往南洋调查华侨教育</p>
-          
-          <div class="timeline-event-location">📍 槟城/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校建立/视察</span>
+            <p class="timeline-event-desc">槟城钟灵中学创立；教育部派黄炎培前往南洋调查华侨教育</p>
+            
+            <div class="timeline-event-location">📍 槟城/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1917</span>
             <span class="timeline-event-title">颁发匾额奖励教育工作者</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">奖励</span>
-          <p class="timeline-event-desc">北洋政府颁发匾额给陈显源、石鸣球等教育工作者</p>
-          
-          <div class="timeline-event-location">📍 南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">奖励</span>
+            <p class="timeline-event-desc">北洋政府颁发匾额给陈显源、石鸣球等教育工作者</p>
+            
+            <div class="timeline-event-location">📍 南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1918</span>
             <span class="timeline-event-title">暹罗取缔华侨学校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">殖民压迫</span>
-          <p class="timeline-event-desc">1918年(民国7年)暹罗严为取缔华侨学校：华校须注册、校长须暹人有资格者、每周每堂必授暹文若干点钟、华教员须考暹文及格。1924年取缔私塾亦须用暹人为校长</p>
-          
-          <div class="timeline-event-location">📍 暹罗</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">殖民压迫</span>
+            <p class="timeline-event-desc">1918年(民国7年)暹罗严为取缔华侨学校：华校须注册、校长须暹人有资格者、每周每堂必授暹文若干点钟、华教员须考暹文及格。1924年取缔私塾亦须用暹人为校长</p>
+            
+            <div class="timeline-event-location">📍 暹罗</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1920</span>
             <span class="timeline-event-title">马来西亚学制改革</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育改革</span>
-          <p class="timeline-event-desc">马来西亚将初小四年、高小三年改为小学六年一贯制，中学初中、高中各三年</p>
-          
-          <div class="timeline-event-location">📍 马来亚</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育改革</span>
+            <p class="timeline-event-desc">马来西亚将初小四年、高小三年改为小学六年一贯制，中学初中、高中各三年</p>
+            
+            <div class="timeline-event-location">📍 马来亚</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1920</span>
             <span class="timeline-event-title">英属海峡殖民地教育注册条例取缔华校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">殖民压迫</span>
-          <p class="timeline-event-desc">1920年英属海峡殖民地颁布教育注册条例取缔华校，新加坡华侨教育总会因反对该条例遭英政府忌而无形解散</p>
-          
-          <div class="timeline-event-location">📍 英属马来亚</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">殖民压迫</span>
+            <p class="timeline-event-desc">1920年英属海峡殖民地颁布教育注册条例取缔华校，新加坡华侨教育总会因反对该条例遭英政府忌而无形解散</p>
+            
+            <div class="timeline-event-location">📍 英属马来亚</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1922</span>
             <span class="timeline-event-title">马来西亚学制改革</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育改革</span>
-          <p class="timeline-event-desc">马来西亚地区进行学制改革</p>
-          
-          <div class="timeline-event-location">📍 马来亚</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育改革</span>
+            <p class="timeline-event-desc">马来西亚地区进行学制改革</p>
+            
+            <div class="timeline-event-location">📍 马来亚</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1926</span>
             <span class="timeline-event-title">设立侨务委员会</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">机构设立</span>
-          <p class="timeline-event-desc">国民政府设立侨务委员会，统筹管理华侨教育事务</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">机构设立</span>
+            <p class="timeline-event-desc">国民政府设立侨务委员会，统筹管理华侨教育事务</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1926</span>
             <span class="timeline-event-title">新加坡星洲惨案——华侨教育遭打击</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政治事件</span>
-          <p class="timeline-event-desc">2月28日，新加坡各公团联合会假智民夜学校开会悼念孙中山逝世一周年及反对日本出兵南满，42名职员被捕</p>
-          
-          <div class="timeline-event-location">📍 新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政治事件</span>
+            <p class="timeline-event-desc">2月28日，新加坡各公团联合会假智民夜学校开会悼念孙中山逝世一周年及反对日本出兵南满，42名职员被捕</p>
+            
+            <div class="timeline-event-location">📍 新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1928</span>
             <span class="timeline-event-title">《侨务委员会组织条例》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">规定可向海外选派侨务视察员或聘请顾问</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">规定可向海外选派侨务视察员或聘请顾问</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1929</span>
             <span class="timeline-event-title">第一次南洋华侨教育会议</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">重要会议</span>
-          <p class="timeline-event-desc">在槟城钟灵中学召开，提出教材编写要求，通过三民主义教育案和国语教授原则案</p>
-          
-          <div class="timeline-event-location">📍 槟城</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">重要会议</span>
+            <p class="timeline-event-desc">在槟城钟灵中学召开，提出教材编写要求，通过三民主义教育案和国语教授原则案</p>
+            
+            <div class="timeline-event-location">📍 槟城</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1929</span>
             <span class="timeline-event-title">《捐资兴学褒奖办法》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">按照捐资多寡分别授予奖状、奖章或匾额</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">按照捐资多寡分别授予奖状、奖章或匾额</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1929</span>
             <span class="timeline-event-title">第一次南洋华侨教育会议在槟城召开</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">重要会议</span>
-          <p class="timeline-event-desc">在暨南大学南洋文化事业部主持下于槟城召开第一次南洋华侨教育会议，议决华侨教育方针应本三民主义，确立国语教授原则，要求加入三民主义课程等多项决议</p>
-          
-          <div class="timeline-event-location">📍 槟城</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">重要会议</span>
+            <p class="timeline-event-desc">在暨南大学南洋文化事业部主持下于槟城召开第一次南洋华侨教育会议，议决华侨教育方针应本三民主义，确立国语教授原则，要求加入三民主义课程等多项决议</p>
+            
+            <div class="timeline-event-location">📍 槟城</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1929</span>
             <span class="timeline-event-title">英属马来亚华侨学校统计——108校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育统计</span>
-          <p class="timeline-event-desc">1929年英属马来亚华侨学校调查：共108校，其中新加坡36校、马六甲3校、槟榔屿17校、马来联邦52校、马来属邦6校</p>
-          
-          <div class="timeline-event-location">📍 英属马来亚</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育统计</span>
+            <p class="timeline-event-desc">1929年英属马来亚华侨学校调查：共108校，其中新加坡36校、马六甲3校、槟榔屿17校、马来联邦52校、马来属邦6校</p>
+            
+            <div class="timeline-event-location">📍 英属马来亚</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1929</span>
             <span class="timeline-event-title">侨民教育实施纲要通过</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">1933年4月11日行政院第96次会议通过侨民教育实施纲要，规定侨民学校立案须经领事转呈侨务委员会再转教育部核准，设立侨民教育基金1000万元</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">1933年4月11日行政院第96次会议通过侨民教育实施纲要，规定侨民学校立案须经领事转呈侨务委员会再转教育部核准，设立侨民教育基金1000万元</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1930</span>
             <span class="timeline-event-title">《南洋华侨学校之调查与统计》成书</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">调查统计</span>
-          <p class="timeline-event-desc">钱鹤编著《南洋华侨学校之调查与统计》，统计荷属东印度182所华侨学校的课程和教材使用情况，发现商务印书馆教材占比约85%，但与南洋实际脱节</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">调查统计</span>
+            <p class="timeline-event-desc">钱鹤编著《南洋华侨学校之调查与统计》，统计荷属东印度182所华侨学校的课程和教材使用情况，发现商务印书馆教材占比约85%，但与南洋实际脱节</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
@@ -1526,11 +1692,10 @@
     </div>
 
     <div class="period-events-section reveal">
-      <div class="period-events-header accordion-header" onclick="toggleAccordion(this)">
+      <div class="period-events-header">
         <h3>这一时期的重要事件</h3>
-        <span class="accordion-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="period-timeline accordion-content">
+      <div class="period-timeline">
         
         
         
@@ -1596,603 +1761,732 @@
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1931</span>
             <span class="timeline-event-title">九一八事变</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政治事件</span>
-          <p class="timeline-event-desc">日本侵占中国东北，民族危机加深，华侨教育转向抗日救国</p>
-          
-          <div class="timeline-event-location">📍 中国东北</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政治事件</span>
+            <p class="timeline-event-desc">日本侵占中国东北，民族危机加深，华侨教育转向抗日救国</p>
+            
+            <div class="timeline-event-location">📍 中国东北</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1931</span>
             <span class="timeline-event-title">《三民主义教育实施原则》/《华侨中小学规程》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">确立华侨教育目标是培养民族意识，规定教科书编选规则</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">确立华侨教育目标是培养民族意识，规定教科书编选规则</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1931</span>
             <span class="timeline-event-title">华僑问题之研究出版</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物</span>
-          <p class="timeline-event-desc">中国国民党中央执监委员会非常会议海外党务委员会印行《华侨问题之研究》，收录张敬熙、邓雪峰、关素人、周守愚、黎焕生、莫子材、詹菊似等多篇华侨问题研究文章</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物</span>
+            <p class="timeline-event-desc">中国国民党中央执监委员会非常会议海外党务委员会印行《华侨问题之研究》，收录张敬熙、邓雪峰、关素人、周守愚、黎焕生、莫子材、詹菊似等多篇华侨问题研究文章</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1932</span>
             <span class="timeline-event-title">《派遣侨务专员及侨务视察员规则》/《南洋华侨历史课本教授书》出版</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">规则/教材</span>
-          <p class="timeline-event-desc">规定定期派员视察南洋教育；中华书局出版历史课本</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规则/教材</span>
+            <p class="timeline-event-desc">规定定期派员视察南洋教育；中华书局出版历史课本</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1932</span>
             <span class="timeline-event-title">《侨民学校应一律改用国语教授令》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">要求侨校统一使用国语教学，取代方言</p>
-          
-          <div class="timeline-event-location">📍 南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">要求侨校统一使用国语教学，取代方言</p>
+            
+            <div class="timeline-event-location">📍 南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1932</span>
             <span class="timeline-event-title">《高级小学用南洋华侨历史课本教授书》出版</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教材出版</span>
-          <p class="timeline-event-desc">洪鋆等编，中华书局出版，分四册，内容从衣食住起源到华盛顿会议，系统讲授中国和世界历史，每课配有引导学习、推究应用和参考资料</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教材出版</span>
+            <p class="timeline-event-desc">洪鋆等编，中华书局出版，分四册，内容从衣食住起源到华盛顿会议，系统讲授中国和世界历史，每课配有引导学习、推究应用和参考资料</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1932</span>
             <span class="timeline-event-title">荷属东印度颁布取缔私立学校条例</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">殖民压迫</span>
-          <p class="timeline-event-desc">1932年10月1日荷印总督公布取缔私立学校条例，规定三姓以上学生须登记、教员须持&#39;教员准字&#39;、教授巫语需荷印巫文学校毕业文凭、无准字办学处8天监禁或20盾罚金等</p>
-          
-          <div class="timeline-event-location">📍 荷属东印度</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">殖民压迫</span>
+            <p class="timeline-event-desc">1932年10月1日荷印总督公布取缔私立学校条例，规定三姓以上学生须登记、教员须持&#39;教员准字&#39;、教授巫语需荷印巫文学校毕业文凭、无准字办学处8天监禁或20盾罚金等</p>
+            
+            <div class="timeline-event-location">📍 荷属东印度</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">《民族英雄》出版/《叻报》报道九一八</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物/报道</span>
-          <p class="timeline-event-desc">王汉柏主编《民族英雄》出版；《叻报》报道九一八事变及国内抗日活动</p>
-          
-          <div class="timeline-event-location">📍 新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物/报道</span>
+            <p class="timeline-event-desc">王汉柏主编《民族英雄》出版；《叻报》报道九一八事变及国内抗日活动</p>
+            
+            <div class="timeline-event-location">📍 新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">《侨民教育实施纲要》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">规定华侨教育方针：培养民族意识，训练自治组织能力</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">规定华侨教育方针：培养民族意识，训练自治组织能力</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">侨务月报创刊</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物</span>
-          <p class="timeline-event-desc">侨务月报创刊，1933年至1937年出版，系统记录了南洋华侨教育、侨务政策、殖民地同化政策及抗日情绪等重要史料，1937年全面抗战爆发后改为非常时期侨务特刊</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物</span>
+            <p class="timeline-event-desc">侨务月报创刊，1933年至1937年出版，系统记录了南洋华侨教育、侨务政策、殖民地同化政策及抗日情绪等重要史料，1937年全面抗战爆发后改为非常时期侨务特刊</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">英属马来亚拒绝华侨英文免费教育</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">殖民压迫</span>
-          <p class="timeline-event-desc">英属马来亚殖民地立法会议讨论教育政策时，政府拒绝为华侨提供免费英文教育。议员林清渊极力主张，但辅政司称&#39;中国人欲受中国教育，可回中国去&#39;，歧视性政策令华侨深感不满</p>
-          
-          <div class="timeline-event-location">📍 英属马来亚</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">殖民压迫</span>
+            <p class="timeline-event-desc">英属马来亚殖民地立法会议讨论教育政策时，政府拒绝为华侨提供免费英文教育。议员林清渊极力主张，但辅政司称&#39;中国人欲受中国教育，可回中国去&#39;，歧视性政策令华侨深感不满</p>
+            
+            <div class="timeline-event-location">📍 英属马来亚</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">《指导侨生回国升学规程》发布</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">侨务委员会修订发布指导侨生回国升学规程，规定侨生回国升学须具备相关证件和手续，家境困难者可申请减免学费</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">侨务委员会修订发布指导侨生回国升学规程，规定侨生回国升学须具备相关证件和手续，家境困难者可申请减免学费</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">英属马来亚华侨学校达373所</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育统计</span>
-          <p class="timeline-event-desc">1933年英属马来亚华侨学校统计达373所，其中67校旧式，36校得殖民地政府津贴，男生18,376名、女生6,477名</p>
-          
-          <div class="timeline-event-location">📍 英属马来亚</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育统计</span>
+            <p class="timeline-event-desc">1933年英属马来亚华侨学校统计达373所，其中67校旧式，36校得殖民地政府津贴，男生18,376名、女生6,477名</p>
+            
+            <div class="timeline-event-location">📍 英属马来亚</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1933</span>
             <span class="timeline-event-title">各国歧视华侨苛例达113种</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">据侨务委员会统计，1933年外国政府对华侨的歧视性法规多达113种，涉及入境、居留、经商、教育等各方面</p>
-          
-          <div class="timeline-event-location">📍 全球</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">据侨务委员会统计，1933年外国政府对华侨的歧视性法规多达113种，涉及入境、居留、经商、教育等各方面</p>
+            
+            <div class="timeline-event-location">📍 全球</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">设立侨民教育处/《新编南洋华侨高小国语读本》出版</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">机构/教材</span>
-          <p class="timeline-event-desc">周启刚任首任处长；中华书局出版国语读本</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">机构/教材</span>
+            <p class="timeline-event-desc">周启刚任首任处长；中华书局出版国语读本</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">侨民教育师资培训班/新加坡269所侨校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">培训/统计</span>
-          <p class="timeline-event-desc">南京举办师资培训班；新加坡有269所华侨学校</p>
-          
-          <div class="timeline-event-location">📍 南京/新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">培训/统计</span>
+            <p class="timeline-event-desc">南京举办师资培训班；新加坡有269所华侨学校</p>
+            
+            <div class="timeline-event-location">📍 南京/新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">《华侨教育危机及其对策》发表</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">论文发表</span>
-          <p class="timeline-event-desc">廬卓辛发表《华侨教育危机及其对策》，系统分析华侨教育面临的危机：当地政府之压迫、排斥华侨纷起、限制华侨人口、同化奴化，以及侨胞部落思想太重、基金不固定、董事权限过大、设备简陋、教员无保障、功课不切实际等</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">论文发表</span>
+            <p class="timeline-event-desc">廬卓辛发表《华侨教育危机及其对策》，系统分析华侨教育面临的危机：当地政府之压迫、排斥华侨纷起、限制华侨人口、同化奴化，以及侨胞部落思想太重、基金不固定、董事权限过大、设备简陋、教员无保障、功课不切实际等</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">《中华民族英雄故事集》出版并指定为教材</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物/教材</span>
-          <p class="timeline-event-desc">江苏省教育厅编纂的《中华民族英雄故事集》出版，不到一个月重印四次，销额至二万余册，被指定为全省中等学校教材。该书以江苏抗御外侮的史实为经63个标题，鼓励民族御侮精神、启发民族意识，与海外侨胞关系密切</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物/教材</span>
+            <p class="timeline-event-desc">江苏省教育厅编纂的《中华民族英雄故事集》出版，不到一个月重印四次，销额至二万余册，被指定为全省中等学校教材。该书以江苏抗御外侮的史实为经63个标题，鼓励民族御侮精神、启发民族意识，与海外侨胞关系密切</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">新生活运动与华侨教育</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">社会运动</span>
-          <p class="timeline-event-desc">刚鲁发表《新生活运动与华侨教育》，论述民族精神销沉与国魂丧失是国家危弱的原因，指出华侨更应推行新生活运动以恢复民族精神，从衣食住行上养成整齐清洁简单朴素的习惯和尊重礼义廉耻的精神</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">社会运动</span>
+            <p class="timeline-event-desc">刚鲁发表《新生活运动与华侨教育》，论述民族精神销沉与国魂丧失是国家危弱的原因，指出华侨更应推行新生活运动以恢复民族精神，从衣食住行上养成整齐清洁简单朴素的习惯和尊重礼义廉耻的精神</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">《侨校历史教学法商榷》发表</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">论文发表</span>
-          <p class="timeline-event-desc">北冥发表《侨校历史教学法商榷》，提出侨校历史教学应具有双重性——既是中国教育又是居留地教育，强调教材裁剪的必要性和民族意识唤起的重要性，提出七项特别注重点包括日本南侵和华侨生存之关系</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">论文发表</span>
+            <p class="timeline-event-desc">北冥发表《侨校历史教学法商榷》，提出侨校历史教学应具有双重性——既是中国教育又是居留地教育，强调教材裁剪的必要性和民族意识唤起的重要性，提出七项特别注重点包括日本南侵和华侨生存之关系</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">日货在华及南洋倾销加剧</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">经济事件</span>
-          <p class="timeline-event-desc">侨务月报大量报道日货倾销情形。日本通过贬低日金至百分之三四十、密设倾销机关等方式大量倾销日货，同时1933年日本对南洋投资达一亿九千万圆，以热帯植物栽植企业为首，与满铁及华南日商纺绩事业号称日本国外三大企业</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">经济事件</span>
+            <p class="timeline-event-desc">侨务月报大量报道日货倾销情形。日本通过贬低日金至百分之三四十、密设倾销机关等方式大量倾销日货，同时1933年日本对南洋投资达一亿九千万圆，以热帯植物栽植企业为首，与满铁及华南日商纺绩事业号称日本国外三大企业</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">抗战名人事迹专栏刊载</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物</span>
-          <p class="timeline-event-desc">侨务月报刊载古代抗倭名人事迹专栏，包括南通民族英雄曹顶（1934年第6期）、石童子之壮举（1934年第9期）、筑城御侮樊垣（1935年第1期）等，以历史上抗御外侮的英雄事迹激发华侨抗日精神</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物</span>
+            <p class="timeline-event-desc">侨务月报刊载古代抗倭名人事迹专栏，包括南通民族英雄曹顶（1934年第6期）、石童子之壮举（1934年第9期）、筑城御侮樊垣（1935年第1期）等，以历史上抗御外侮的英雄事迹激发华侨抗日精神</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1934</span>
             <span class="timeline-event-title">领事经理侨民教育行政规程修正公布</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">1934年4月4日外交部教育部侨务委员会会同修正公布领事经理侨民教育行政规程，规定9项具体职责包括宣达教育法令、推行党义教育、调查学龄儿童、视察校务教学、培训教员等</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">1934年4月4日外交部教育部侨务委员会会同修正公布领事经理侨民教育行政规程，规定9项具体职责包括宣达教育法令、推行党义教育、调查学龄儿童、视察校务教学、培训教员等</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1935</span>
             <span class="timeline-event-title">刘士木考察南洋/《复兴国语课本》出版/《中国民族英雄列传》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">考察/教材</span>
-          <p class="timeline-event-desc">刘士木考察12个地区327所学校；商务印书馆出版国语课本；韩棐、范作乘编写民族英雄列传</p>
-          
-          <div class="timeline-event-location">📍 南洋/中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">考察/教材</span>
+            <p class="timeline-event-desc">刘士木考察12个地区327所学校；商务印书馆出版国语课本；韩棐、范作乘编写民族英雄列传</p>
+            
+            <div class="timeline-event-location">📍 南洋/中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1935</span>
             <span class="timeline-event-title">暹罗取缔华校强迫班</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">殖民压迫</span>
-          <p class="timeline-event-desc">暹罗1932年革命后颁布教育条例，1935年4月起强制实施强迫教育，规定7-14岁华童每星期须授暹文21小时且必须在校上课。华校强迫班被取消，华童被迫转入暹校。罗万里归来痛述暹罗摧残华侨教育的两个阶段——缓进同化政策和急进同化政策</p>
-          
-          <div class="timeline-event-location">📍 暹罗</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">殖民压迫</span>
+            <p class="timeline-event-desc">暹罗1932年革命后颁布教育条例，1935年4月起强制实施强迫教育，规定7-14岁华童每星期须授暹文21小时且必须在校上课。华校强迫班被取消，华童被迫转入暹校。罗万里归来痛述暹罗摧残华侨教育的两个阶段——缓进同化政策和急进同化政策</p>
+            
+            <div class="timeline-event-location">📍 暹罗</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1935</span>
             <span class="timeline-event-title">《发展华侨社会教育的必要》发表</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">论文发表</span>
-          <p class="timeline-event-desc">王志远发表《发展华侨社会教育的必要》，论述华侨社会教育四项必要性：成年侨胞需通过社会教育补救、殖民政府同化政策下社会教育为当务之急、华侨社会成年人影响力大、社会教育实施便利。提出组织师生旅行团、播送收音机节目、张贴壁报画报、扩充图书馆等</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">论文发表</span>
+            <p class="timeline-event-desc">王志远发表《发展华侨社会教育的必要》，论述华侨社会教育四项必要性：成年侨胞需通过社会教育补救、殖民政府同化政策下社会教育为当务之急、华侨社会成年人影响力大、社会教育实施便利。提出组织师生旅行团、播送收音机节目、张贴壁报画报、扩充图书馆等</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1936</span>
             <span class="timeline-event-title">《南洋华侨小学教科书教材编撰纲要》/陈青山入党</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策/活动</span>
-          <p class="timeline-event-desc">明确教科书编写标准和四项基本原则；陈青山成为中共党员，钟灵中学学生组织抵制日货</p>
-          
-          <div class="timeline-event-location">📍 中国/槟城</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策/活动</span>
+            <p class="timeline-event-desc">明确教科书编写标准和四项基本原则；陈青山成为中共党员，钟灵中学学生组织抵制日货</p>
+            
+            <div class="timeline-event-location">📍 中国/槟城</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1936</span>
             <span class="timeline-event-title">非常时期教育方案提出</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">国内教育界提出非常时期教育方案，主张高中及大学学生应接受特殊技能训练、军事训练和精神训练以培养救国运动的青年干部。方案提出平时科目与非常科目成二与一之比，建议分特殊技能、军训和精神训练三部分</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">国内教育界提出非常时期教育方案，主张高中及大学学生应接受特殊技能训练、军事训练和精神训练以培养救国运动的青年干部。方案提出平时科目与非常科目成二与一之比，建议分特殊技能、军训和精神训练三部分</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1936</span>
             <span class="timeline-event-title">中日交涉紧张——华侨报纸广泛讨论</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">舆论事件</span>
-          <p class="timeline-event-desc">成都、北海等事件后，中日交涉紧张，华侨报纸大量刊文讨论。新加坡《新国民日报》、暹罗《华侨日报》、菲律宾《公理报》等纷纷发表社评，坚决反对日本三大原则，主张维护领土主权完整，认为和平到绝望时应宁为玉碎不为瓦全</p>
-          
-          <div class="timeline-event-location">📍 南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">舆论事件</span>
+            <p class="timeline-event-desc">成都、北海等事件后，中日交涉紧张，华侨报纸大量刊文讨论。新加坡《新国民日报》、暹罗《华侨日报》、菲律宾《公理报》等纷纷发表社评，坚决反对日本三大原则，主张维护领土主权完整，认为和平到绝望时应宁为玉碎不为瓦全</p>
+            
+            <div class="timeline-event-location">📍 南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1936</span>
             <span class="timeline-event-title">华侨社会教育推进方案提出</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育政策</span>
-          <p class="timeline-event-desc">侨民教育处提出推进华侨民众教育的原则和方法，强调改良华侨环境、统一华侨意识、辅助发展学校教育。提出利用假期组织师生旅行团、播放优良教育电影、劝导侨众装设收音机收听祖国电台播音、张贴壁报画报、扩充图书馆等社会教育手段</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育政策</span>
+            <p class="timeline-event-desc">侨民教育处提出推进华侨民众教育的原则和方法，强调改良华侨环境、统一华侨意识、辅助发展学校教育。提出利用假期组织师生旅行团、播放优良教育电影、劝导侨众装设收音机收听祖国电台播音、张贴壁报画报、扩充图书馆等社会教育手段</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1936</span>
             <span class="timeline-event-title">侨民教育处四周年工作报告发表</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政府报告</span>
-          <p class="timeline-event-desc">侨民教育处发表四周年工作报告，总结1932年至1936年间侨教工作成果，包括侨校教科书编辑委员会的工作以及南洋华侨小学教科书的编撰进展</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政府报告</span>
+            <p class="timeline-event-desc">侨民教育处发表四周年工作报告，总结1932年至1936年间侨教工作成果，包括侨校教科书编辑委员会的工作以及南洋华侨小学教科书的编撰进展</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1936</span>
             <span class="timeline-event-title">侨务委员会补助侨民学校办法公布</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">1936年10月1日侨务委员会公布补助侨民学校办法，规定补助标准：高中甲种1,500元、乙种1,200元；初中甲种1,000元、乙种800元；小学400元</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">1936年10月1日侨务委员会公布补助侨民学校办法，规定补助标准：高中甲种1,500元、乙种1,200元；初中甲种1,000元、乙种800元；小学400元</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1937</span>
             <span class="timeline-event-title">统一编订&#39;南洋小学教科书&#39;/立案学校1845所</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教材/统计</span>
-          <p class="timeline-event-desc">成立侨民教育编辑委员会，统一编订教材；立案学校达1845所</p>
-          
-          <div class="timeline-event-location">📍 南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教材/统计</span>
+            <p class="timeline-event-desc">成立侨民教育编辑委员会，统一编订教材；立案学校达1845所</p>
+            
+            <div class="timeline-event-location">📍 南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1937</span>
             <span class="timeline-event-title">侨务月报改为非常时期侨务特刊</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物</span>
-          <p class="timeline-event-desc">全面抗战爆发后，侨务月报改为非常时期侨务特刊，每半月发行一次，专载有关抗战问题的文字与消息，以便传达海外。编者在创刊号写道：&#39;我们要与敌人清算四十年来积账&#39;，号召侨胞以文字为武器参加神圣民族战争</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物</span>
+            <p class="timeline-event-desc">全面抗战爆发后，侨务月报改为非常时期侨务特刊，每半月发行一次，专载有关抗战问题的文字与消息，以便传达海外。编者在创刊号写道：&#39;我们要与敌人清算四十年来积账&#39;，号召侨胞以文字为武器参加神圣民族战争</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1937</span>
             <span class="timeline-event-title">华侨社会教育读物刊载——周处守边御敌</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物/社会教育</span>
-          <p class="timeline-event-desc">侨务月报刊载华侨社会教育读物，以周处守边御敌的故事激励华侨。叙述周处率军与西戎作战，从晚间一直战到黎明斩敌万余首级，最终因寡不敌众以身殉国的事迹。1937年第2期还刊载戚继光军将故事等，以历史抗倭叙事激发华侨爱国抗日精神</p>
-          
-          <div class="timeline-event-location">📍 中国/南洋</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物/社会教育</span>
+            <p class="timeline-event-desc">侨务月报刊载华侨社会教育读物，以周处守边御敌的故事激励华侨。叙述周处率军与西戎作战，从晚间一直战到黎明斩敌万余首级，最终因寡不敌众以身殉国的事迹。1937年第2期还刊载戚继光军将故事等，以历史抗倭叙事激发华侨爱国抗日精神</p>
+            
+            <div class="timeline-event-location">📍 中国/南洋</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1938</span>
             <span class="timeline-event-title">越南191所侨校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">统计</span>
-          <p class="timeline-event-desc">越南有191所华侨学校</p>
-          
-          <div class="timeline-event-location">📍 越南</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">统计</span>
+            <p class="timeline-event-desc">越南有191所华侨学校</p>
+            
+            <div class="timeline-event-location">📍 越南</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1938</span>
             <span class="timeline-event-title">陈达《南洋华侨与闽粤社会》出版</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">出版物</span>
-          <p class="timeline-event-desc">社会学家陈达1938年出版《南洋华侨与闽粤社会》，基于1934年实地调查福建广东及南洋华侨社区，开创华侨社会学研究先河</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">出版物</span>
+            <p class="timeline-event-desc">社会学家陈达1938年出版《南洋华侨与闽粤社会》，基于1934年实地调查福建广东及南洋华侨社区，开创华侨社会学研究先河</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1939</span>
             <span class="timeline-event-title">新文龙中华中学合并/钟灵中学体育强化</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">学校发展</span>
-          <p class="timeline-event-desc">新文龙中华中学男女校合并；钟灵中学分四阶段进行体育训练</p>
-          
-          <div class="timeline-event-location">📍 马来亚/槟城</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">学校发展</span>
+            <p class="timeline-event-desc">新文龙中华中学男女校合并；钟灵中学分四阶段进行体育训练</p>
+            
+            <div class="timeline-event-location">📍 马来亚/槟城</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1940</span>
             <span class="timeline-event-title">《推进侨民教育方案》/华侨航空学生报考</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策/活动</span>
-          <p class="timeline-event-desc">通过推进侨民教育方案；145名越南华侨学生报考国内空军</p>
-          
-          <div class="timeline-event-location">📍 中国/越南</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策/活动</span>
+            <p class="timeline-event-desc">通过推进侨民教育方案；145名越南华侨学生报考国内空军</p>
+            
+            <div class="timeline-event-location">📍 中国/越南</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1940</span>
             <span class="timeline-event-title">侨民教育师资训练班设立</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">教育改革</span>
-          <p class="timeline-event-desc">1940年1月27日侨务委员会通过侨民教育师资训练班简章，规定训练班60名，半年训练期，课程包括三民主义、军训、教育方法、侨务法规、华侨移殖史等</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教育改革</span>
+            <p class="timeline-event-desc">1940年1月27日侨务委员会通过侨民教育师资训练班简章，规定训练班60名，半年训练期，课程包括三民主义、军训、教育方法、侨务法规、华侨移殖史等</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1941</span>
             <span class="timeline-event-title">新加坡1300余所侨校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">统计</span>
-          <p class="timeline-event-desc">新加坡华侨学校增至1300余所，学生约10万人</p>
-          
-          <div class="timeline-event-location">📍 新加坡</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">统计</span>
+            <p class="timeline-event-desc">新加坡华侨学校增至1300余所，学生约10万人</p>
+            
+            <div class="timeline-event-location">📍 新加坡</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1942</span>
             <span class="timeline-event-title">《回国升学华侨学生奖学金办法》</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">政策法规</span>
-          <p class="timeline-event-desc">颁布奖学金办法，鼓励华侨子弟回国升学</p>
-          
-          <div class="timeline-event-location">📍 中国</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策法规</span>
+            <p class="timeline-event-desc">颁布奖学金办法，鼓励华侨子弟回国升学</p>
+            
+            <div class="timeline-event-location">📍 中国</div>
+            
+          </div>
         </div>
         
         
         
         <div class="timeline-event-item">
-          <div class="timeline-event-header">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
             <span class="timeline-event-year">1943</span>
             <span class="timeline-event-title">越南349所侨校</span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
-          <span class="timeline-event-type">统计</span>
-          <p class="timeline-event-desc">越南华侨学校增至349所</p>
-          
-          <div class="timeline-event-location">📍 越南</div>
-          
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">统计</span>
+            <p class="timeline-event-desc">越南华侨学校增至349所</p>
+            
+            <div class="timeline-event-location">📍 越南</div>
+            
+          </div>
         </div>
         
         
@@ -2211,39 +2505,23 @@
 </section>
 
 <script>
-// Accordion functionality
-function toggleAccordion(header) {
+// Event accordion functionality
+function toggleEvent(header) {
   const content = header.nextElementSibling;
   const isOpen = header.classList.contains('active');
   
-  // Close all other accordions
-  document.querySelectorAll('.accordion-header').forEach(function(h) {
-    if (h !== header && h.classList.contains('active')) {
-      h.classList.remove('active');
-      var c = h.nextElementSibling;
-      c.style.maxHeight = null;
-      c.classList.remove('open');
-    }
-  });
-  
   if (isOpen) {
     header.classList.remove('active');
-    content.style.maxHeight = null;
     content.classList.remove('open');
+    content.style.maxHeight = null;
+    content.style.paddingTop = '0';
   } else {
     header.classList.add('active');
     content.classList.add('open');
     content.style.maxHeight = content.scrollHeight + 'px';
+    content.style.paddingTop = '0.75rem';
   }
 }
-
-// Auto-open first accordion on page load
-document.addEventListener('DOMContentLoaded', function() {
-  var firstAccordion = document.querySelector('.accordion-header');
-  if (firstAccordion) {
-    toggleAccordion(firstAccordion);
-  }
-});
 </script>
 
 
