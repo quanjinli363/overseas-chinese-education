@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>首页 - 九一八事变后南洋华侨教育数字人文平台</title>
-  <link rel="stylesheet" href="static/css/style_v2.css?v=23" />
+  <link rel="stylesheet" href="static/css/style_v2.css?v=24" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -53,123 +53,150 @@
 
   <main>
     
-<!-- Newcomer Banner -->
-<section class="newcomer-banner">
-  <div class="container">
-    <div class="newcomer-inner">
-      <div class="newcomer-text">
-        <span class="newcomer-emoji">🎓</span>
-        <div>
-          <h3>第一次来？从这个故事开始</h3>
-          <p>1931年九一八事变后，远在万里之外的南洋华侨学校发生了什么变化？</p>
-        </div>
-      </div>
-      <a href="timeline.html" class="btn newcomer-cta">跟着时间线走 →</a>
-    </div>
-  </div>
-</section>
 
-<!-- Hero Section -->
+<!-- Hero Section: F-pattern visual flow -->
 <section class="hero-v2">
   <div class="hero-bg-v2"></div>
   <div class="hero-layout">
-    <div class="hero-left">
-      <p class="hero-eyebrow">数字人文平台</p>
+    <div class="hero-left reveal">
+      <p class="hero-eyebrow">数字人文平台 · 1690—1943</p>
       <h1 class="hero-title-v2">南洋侨教记忆</h1>
-      <p class="hero-title-en">Education & Identity: Overseas Chinese Schools in Southeast Asia, 1690–1943</p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="stat-num">72</span>
-          <span class="stat-label">所侨校</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-num">71</span>
-          <span class="stat-label">项政策</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-num">3</span>
-          <span class="stat-label">部教材</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-num">37</span>
-          <span class="stat-label">位人物</span>
-        </div>
-      </div>
+      <p class="hero-title-en">Overseas Chinese Education in Southeast Asia</p>
+      <p class="hero-lead">
+        从私塾到新式学堂，从自发办学到国家介入，从文化传承到救亡图存——
+        一段被遗忘的海外华人教育史。
+      </p>
       <div class="hero-actions-v2">
-        <a href="timeline.html" class="btn btn-primary-v2">📖 从这里开始</a>
+        <a href="timeline.html" class="btn btn-primary-v2">📖 开始探索</a>
         <a href="map.html" class="btn btn-secondary-v2">🗺️ 查看地图</a>
       </div>
     </div>
-    <div class="hero-right">
-      <div class="hero-intro">
-        <h3 class="intro-heading">这段历史讲什么？</h3>
-        <p>在近代以前，中国对"化外之民"的歧视由来已久，那些离开中国土地前往周边国家的人往往被视为<strong>弃民</strong>，不被当时的政府重视。</p>
-        <p>清朝，沿海劳动人民受到封建剥削压迫选择出洋谋生。鸦片战争后，厦门成为通商口岸，附近的劳动人民被外国洋行拐骗到南洋当苦力。这群人幸存下来后，又牵引同乡同族继续南下——<strong>华侨社区就这样在南洋扎下了根</strong>。</p>
-        <p>到了近代，中国政府意识到了南洋华侨的经济实力与处境，开始对其拉拢，而<strong>华文教育就是一项重要手段</strong>。进入民国后，国民政府更是通过派遣专业团队考察侨校、在国内开办侨校、推行侨生归国优待政策等方式，培养海外华侨的文化认同。</p>
-        <p>1931年，日本侵占中国东北。远在万里之外的南洋华侨学校，教科书开始出现了岳飞、戚继光的故事，体育课多了军训，历史课多了"日本侵略"的章节——<strong>华侨教育从此改变</strong>。</p>
-        <p>华侨教育的发展与近代中国民族救亡运动息息相关。中国政府对侨生的热情背后，潜藏着实用主义倾向——政府希望通过培养南洋侨生，使侨民在未来可为中国所用，并最终实现<strong>民族的救亡图存</strong>。</p>
-        <p>本平台从<strong>学校、教材、政策、人物</strong>四个维度，带你看清这段被遗忘的历史：华侨如何在异国他乡，用教育守护中国人的身份认同。</p>
+    <div class="hero-right reveal reveal-delay-2">
+      <div class="hero-stats-row">
+        <div class="hero-stat-item">
+          <span class="stat-num">72</span>
+          <span class="stat-label">所侨校</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="stat-num">71</span>
+          <span class="stat-label">项政策</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="stat-num">37</span>
+          <span class="stat-label">位人物</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="stat-num">250+</span>
+          <span class="stat-label">年历史</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Beginner Guide -->
-<section class="guide-section">
+<!-- Section 1: Why did they build schools? (Image left, text right) -->
+<section class="magazine-section">
   <div class="container">
-    <h2 class="section-title-v2">第一次来？跟着这条线索走</h2>
-    <div class="guide-grid storyline-grid">
-      <a href="timeline.html" class="guide-card guide-card-primary">
-        <div class="guide-step">1</div>
-        <div class="guide-content">
-          <h3>一切从1690年说起</h3>
-          <p>印尼巴达维亚的华侨创办了明诚书院——海外第一所中文学校。他们教四书五经，要把"中国人的身份"一代代传下去。</p>
+    <div class="magazine-row reveal">
+      <div class="magazine-visual">
+        <div class="magazine-image-wrap">
+          <img src="static/img/southeast-asia-map.jpg" alt="南洋地图" loading="lazy">
+          <span class="magazine-image-caption">南洋群岛新地图 · 1948</span>
         </div>
-      </a>
-      <a href="schools.html" class="guide-card">
-        <div class="guide-step">2</div>
-        <div class="guide-content">
-          <h3>私塾变成了新式学堂</h3>
-          <p>清末"废科举、兴学堂"，南洋华侨紧跟改革。到1930年代，仅新加坡就有260多所侨校，教的是国语、算术、体育。</p>
-        </div>
-      </a>
-      <a href="policies.html" class="guide-card">
-        <div class="guide-step">3</div>
-        <div class="guide-content">
-          <h3>中国政府开始"管"侨校了</h3>
-          <p>国民政府派专员到南洋，审定教材、派出教师、统一考试。71条政策，一步步把侨校纳入"国家教育体系"。</p>
-        </div>
-      </a>
-
+      </div>
+      <div class="magazine-content">
+        <span class="magazine-label">Chapter 01</span>
+        <h2 class="magazine-title">为什么要办学？</h2>
+        <p class="magazine-text">
+          华人一到南洋，第一件事就是办学。1690年，印尼巴达维亚华侨创办<strong>明诚书院</strong>——海外第一所中文学校。他们教四书五经，不是为科举，而是为了把"中国人的身份"一代代传下去。
+        </p>
+        <p class="magazine-text">
+          到了清末，"废科举、兴学堂"的浪潮席卷南洋。私塾纷纷换上"学校"招牌，四书五经让位于国文算术。到1930年代，仅新加坡就有260多所侨校。
+        </p>
+        <a href="schools.html" class="magazine-link">浏览侨校档案 →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Story Cards -->
+<!-- Section 2: What changed in textbooks? (Text left, image right) -->
+<section class="magazine-section magazine-alt">
+  <div class="container">
+    <div class="magazine-row magazine-row-reverse reveal">
+      <div class="magazine-content">
+        <span class="magazine-label">Chapter 02</span>
+        <h2 class="magazine-title">课本里多了什么？</h2>
+        <p class="magazine-text">
+          1931年九一八事变后，南洋华侨课本里开始频繁出现<strong>岳飞、宗泽、戚继光</strong>。这不是巧合——编者故意挑选"抵抗外敌入侵"的故事，来回应日本侵略的现实。
+        </p>
+        <p class="magazine-text">
+          地理课多了"东北失地"，历史课多了"五胡乱华"的追问，体育课多了军训——教育成了救亡的武器。
+        </p>
+        <a href="textbooks.html" class="magazine-link">查看教材对比 →</a>
+      </div>
+      <div class="magazine-visual">
+        <div class="magazine-image-wrap">
+          <img src="static/img/textbook-reform.jpg" alt="教材改革" loading="lazy" onerror="this.src='/static/img/southeast-asia-map.jpg'">
+          <span class="magazine-image-caption">九一八事变前后教材内容对比</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Who controlled the schools? (Image left, text right) -->
+<section class="magazine-section">
+  <div class="container">
+    <div class="magazine-row reveal">
+      <div class="magazine-visual">
+        <div class="magazine-image-wrap">
+          <img src="static/img/southeast-asia-map.jpg" alt="政策制度" loading="lazy">
+          <span class="magazine-image-caption">71条政策如何塑造侨校命运</span>
+        </div>
+      </div>
+      <div class="magazine-content">
+        <span class="magazine-label">Chapter 03</span>
+        <h2 class="magazine-title">谁在管理侨校？</h2>
+        <p class="magazine-text">
+          清政府只说"你们办学我给奖状"，民国政府则直接介入：1934年设<strong>侨民教育处</strong>，审定教材、派出教师、统一考试。
+        </p>
+        <p class="magazine-text">
+          但殖民政府也在行动——英国出台注册条例，荷兰取缔私立学校，暹罗强迫增加暹文课时。71条中外政策，共同塑造了华侨学校的命运。
+        </p>
+        <a href="policies.html" class="magazine-link">浏览政策文件 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Key Stories Grid -->
 <section class="story-section">
   <div class="container">
-    <h2 class="section-title-v2">三个关键故事</h2>
+    <div class="section-header reveal">
+      <span class="section-label">Stories</span>
+      <h2 class="section-title-v2">三个关键视角</h2>
+    </div>
     <div class="story-grid">
-      <div class="story-card">
-        <div class="story-tag">从私塾到新式学堂</div>
-        <h3>华侨为什么要自己办学？</h3>
-        <p>华人到南洋后第一件事就是办学。1690年，印尼巴达维亚华侨创办<strong>明诚书院</strong>——海外第一所中文学校。他们教的不是当地语言，而是四书五经：华侨要把"中国人的身份"传给孩子。</p>
-        <p class="story-detail">1904年清政府"废科举、兴学堂"后，南洋华侨紧跟国内改革，新式学堂从私塾变成正规学校。女子学校也出现了——1908年，吉隆坡有了<strong>坤成女子中学</strong>。</p>
-        <a href="schools.html" class="story-link">查看侨校档案 →</a>
+      <div class="story-card reveal reveal-delay-1">
+        <div class="story-tag">地理分布</div>
+        <h3>72所侨校散布何处？</h3>
+        <p>从印尼到马来亚，从暹罗到菲律宾，华侨学校在东南亚各大商埠生根发芽。地图上一目了然——哪里华人多，哪里就有中文学校。</p>
+        <a href="map.html" class="story-link">查看地图 →</a>
       </div>
-      <div class="story-card">
-        <div class="story-tag">教材里的民族意识</div>
-        <h3>九一八后的课本变了什么？</h3>
-        <p>1931年九一八事变后，南洋华侨课本里开始频繁出现<strong>岳飞、宗泽、戚继光</strong>。这不是巧合——课本故意挑选"抵抗外敌入侵"的故事，来回应日本侵略的现实。</p>
-        <p class="story-detail">《南洋华侨历史课本教授书》甚至在"五胡乱华"一课后提问："敌人入侵时，人民该怎么应对？"——用历史暗喻当下，培养学生的危机意识。</p>
-        <a href="textbooks.html" class="story-link">翻阅原始教材 →</a>
+      <div class="story-card reveal reveal-delay-2">
+        <div class="story-tag">时间轴</div>
+        <h3>250年如何走过？</h3>
+        <p>从1690年明诚书院到1943年抗战教育总动员，四个阶段的华侨教育折射出中国近现代史的缩影——从文化保存到民族救亡。</p>
+        <a href="timeline.html" class="story-link">查看时间轴 →</a>
       </div>
-      <div class="story-card">
-        <div class="story-tag">71条政策如何塑造命运</div>
-        <h3>谁在管华侨学校？</h3>
-        <p>清政府只说"你们办学我给奖状"，民国政府则直接派人：1934年设<strong>侨民教育处</strong>，审定教材、派教师、给经费。1936年编出统一的"南洋小学教科书"。</p>
-        <p class="story-detail">但殖民政府也不闲着——<strong>英国</strong>出台学校注册条例关停华校，<strong>荷兰</strong>取缔私立学校，<strong>暹罗</strong>强迫增加暹文课时。华侨学校夹在中外政策之间，左右为难。</p>
-        <a href="policies.html" class="story-link">浏览71条政策 →</a>
+      <div class="story-card reveal reveal-delay-3">
+        <div class="story-tag">人物图谱</div>
+        <h3>谁在推动这一切？</h3>
+        <p>陈嘉庚捐资办学、孙中山思想传播、黄炎培倡导职业教育——37位关键人物，或捐资、或编纂、或推动政策，改变了华侨教育的面貌。</p>
+        <a href="figures.html" class="story-link">查看人物 →</a>
       </div>
     </div>
   </div>
@@ -178,84 +205,98 @@
 <!-- Key Numbers -->
 <section class="numbers-section">
   <div class="container">
-    <h2 class="section-title-v2">关键数据</h2>
+    <div class="section-header reveal">
+      <span class="section-label">Data</span>
+      <h2 class="section-title-v2">关键数据</h2>
+    </div>
     <div class="numbers-grid">
-      <div class="number-card">
-        <div class="number-icon">🏫</div>
+      <div class="number-card reveal reveal-delay-1">
         <div class="number-value">1690</div>
-        <div class="number-label">海外第一所侨校创立</div>
+        <div class="number-label">第一所侨校创立</div>
         <div class="number-desc">巴达维亚明诚书院</div>
       </div>
-      <div class="number-card">
-        <div class="number-icon">📈</div>
+      <div class="number-card reveal reveal-delay-2">
         <div class="number-value">269→1300+</div>
         <div class="number-label">新加坡侨校增长</div>
-        <div class="number-desc">1934到1941年，7年间增长近5倍</div>
+        <div class="number-desc">1934到1941年增长近5倍</div>
       </div>
-      <div class="number-card">
-        <div class="number-icon">📜</div>
+      <div class="number-card reveal reveal-delay-3">
+        <div class="number-value">71</div>
+        <div class="number-label">政策文件</div>
+        <div class="number-desc">中西方政府共同塑造</div>
+      </div>
+      <div class="number-card reveal reveal-delay-4">
         <div class="number-value">113</div>
-        <div class="number-label">歧视华侨的苛例</div>
-        <div class="number-desc">各国限制华侨教育的法规达113种</div>
-      </div>
-      <div class="number-card">
-        <div class="number-icon">¥</div>
-        <div class="number-value">400万</div>
-        <div class="number-label">陈嘉庚捐建厦大</div>
-        <div class="number-desc">华侨个人捐资办学最多的一人</div>
+        <div class="number-label">歧视性苛例</div>
+        <div class="number-desc">各国限制华侨教育法规</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features -->
+<!-- Feature Cards -->
 <section class="features-section">
   <div class="container">
-    <h2 class="section-title-v2">探索更多</h2>
+    <div class="section-header reveal">
+      <span class="section-label">Explore</span>
+      <h2 class="section-title-v2">探索更多</h2>
+    </div>
     <div class="features-grid">
-      <a href="timeline.html" class="feature-card">
+      <a href="timeline.html" class="feature-card reveal reveal-delay-1">
         <div class="feature-icon">📅</div>
         <h3>时空叙事</h3>
-        <p>1690→1943，按时间梳理250年华侨教育史</p>
+        <p>按时间梳理250年华侨教育史</p>
       </a>
-      <a href="map.html" class="feature-card">
+      <a href="map.html" class="feature-card reveal reveal-delay-2">
         <div class="feature-icon">🗺️</div>
         <h3>地理分布</h3>
-        <p>72所侨校散布在哪里？地图上一目了然</p>
+        <p>72所侨校在地图上一目了然</p>
       </a>
-      <a href="textbooks.html" class="feature-card">
+      <a href="textbooks.html" class="feature-card reveal reveal-delay-3">
         <div class="feature-icon">📚</div>
         <h3>教材典藏</h3>
-        <p>看看九一八前后的课本有什么不同</p>
+        <p>九一八前后课本深度对比</p>
       </a>
-      <a href="compare.html" class="feature-card">
+      <a href="compare.html" class="feature-card reveal reveal-delay-1">
         <div class="feature-icon">⚖️</div>
         <h3>教材对比</h3>
         <p>前后对照，变化一目了然</p>
       </a>
-      <a href="policies.html" class="feature-card">
+      <a href="policies.html" class="feature-card reveal reveal-delay-2">
         <div class="feature-icon">📜</div>
         <h3>制度政策</h3>
-        <p>中西方政策如何夹击华侨学校</p>
+        <p>中西方政策如何夹击侨校</p>
       </a>
-      <a href="schools.html" class="feature-card">
+      <a href="schools.html" class="feature-card reveal reveal-delay-3">
         <div class="feature-icon">🏫</div>
         <h3>侨校档案</h3>
         <p>每所学校的前世今生</p>
       </a>
-      <a href="figures.html" class="feature-card">
+      <a href="figures.html" class="feature-card reveal reveal-delay-1">
         <div class="feature-icon">👥</div>
         <h3>人物图谱</h3>
-        <p>谁在办学、谁在管学、谁在教书</p>
+        <p>谁在办学、管学、教书</p>
       </a>
-      <a href="dashboard.html" class="feature-card">
+      <a href="dashboard.html" class="feature-card reveal reveal-delay-2">
         <div class="feature-icon">📊</div>
         <h3>数据看板</h3>
-        <p>学校数量、学生规模、经费来源</p>
+        <p>学校、学生、经费全览</p>
       </a>
     </div>
   </div>
 </section>
+
+<!-- CTA Section -->
+<section class="cta-section-v2">
+  <div class="container">
+    <div class="cta-content reveal">
+      <h2>深入了解这段历史</h2>
+      <p>从四个维度——学校、教材、政策、人物——全面呈现南洋华侨教育的历史图景。</p>
+      <a href="timeline.html" class="btn btn-primary-v2">进入完整平台 →</a>
+    </div>
+  </div>
+</section>
+
 
   </main>
 
@@ -368,6 +409,46 @@
     var btn=document.getElementById('backToTop');
     window.addEventListener('scroll',function(){
       btn.classList.toggle('visible',window.scrollY>400);
+    });
+  })();
+
+  // Sticky navbar scroll effect
+  (function(){
+    var nav=document.querySelector('.navbar');
+    if(!nav)return;
+    window.addEventListener('scroll',function(){
+      nav.classList.toggle('scrolled',window.scrollY>30);
+    });
+  })();
+
+  // Scroll reveal animation
+  (function(){
+    var reveals=document.querySelectorAll('.reveal');
+    if(!reveals.length)return;
+    var observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+    reveals.forEach(function(el){observer.observe(el)});
+  })();
+
+  // Smooth page transitions for internal links
+  (function(){
+    document.querySelectorAll('a[href^="/"]').forEach(function(link){
+      if(link.getAttribute('href').startsWith('#'))return;
+      if(link.target==='_blank')return;
+      link.addEventListener('click',function(e){
+        e.preventDefault();
+        document.body.style.opacity='0';
+        document.body.style.transition='opacity 0.3s ease';
+        setTimeout(function(){
+          window.location.href=link.getAttribute('href');
+        },300);
+      });
     });
   })();
 
