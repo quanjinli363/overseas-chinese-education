@@ -291,22 +291,48 @@
 .period-p3 tbody tr { background: rgba(162,174,179,0.06); }
 .period-p4 tbody tr { background: rgba(111,140,164,0.06); }
 
-/* Type label with left color bar */
+/* Type label - circular/pill badge */
 .type-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.82rem;
-  font-weight: 500;
-  background: var(--bg-alt);
-  border-left: 3px solid;
+  justify-content: center;
+  padding: 0.35rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: 2rem;
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.type-label.type-shuyuan { border-left-color: #75564d; color: #75564d; }
-.type-label.type-xinshi { border-left-color: #dbaf8a; color: #8a6e4a; }
-.type-label.type-zhongxiaoxue { border-left-color: #a2aeb3; color: #6a7a80; }
-.type-label.type-nvzi { border-left-color: #6f8ca4; color: #4a6070; }
+.type-label:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 书院 - dark brown bg, light text */
+.type-label.type-shuyuan {
+  background: #75564d;
+  color: #f5f0ec;
+}
+
+/* 新式学堂 - light tan bg, dark text */
+.type-label.type-xinshi {
+  background: #dbaf8a;
+  color: #4a3a2a;
+}
+
+/* 小学/中学 - light blue-gray bg, dark text */
+.type-label.type-zhongxiaoxue {
+  background: #a2aeb3;
+  color: #ffffff;
+}
+
+/* 女子学校 - medium blue bg, light text */
+.type-label.type-nvzi {
+  background: #6f8ca4;
+  color: #ffffff;
+}
 
 .data-table-v2 a {
   color: var(--black);
