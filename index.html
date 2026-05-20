@@ -35,6 +35,61 @@ body {
   overflow-x: hidden;
 }
 
+/* ==================== Navbar ==================== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(250,248,245,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(117,86,77,0.06);
+  z-index: 1000;
+  transition: all 0.4s var(--transition-smooth);
+}
+
+.navbar-brand {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-coffee);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+.navbar-brand:hover { opacity: 0.7; }
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-links a {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--color-coffee);
+  transition: width 0.35s var(--transition-smooth);
+}
+
+.navbar-links a:hover { color: var(--color-coffee); }
+.navbar-links a:hover::after { width: 100%; }
+
 /* Page load transition */
 body {
   opacity: 0;
@@ -58,7 +113,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 5rem 4rem;
+  padding: 6.5rem 4rem 5rem;
   position: relative;
   z-index: 2;
   background: linear-gradient(90deg, var(--bg) 80%, transparent 100%);
@@ -242,6 +297,15 @@ body {
 </style>
 </head>
 <body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="index.html" class="navbar-brand">被遗忘的救国火种</a>
+  <div class="navbar-links">
+    <a href="history.html">革命回顾</a>
+    <a href="anti_japanese.html">抗日记忆</a>
+  </div>
+</nav>
 
 <section class="hero">
   <div class="hero-content">

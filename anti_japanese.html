@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南洋华侨抗日记忆 · 被遗忘的救国火种</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f5;
+  --bg-warm: #f5f0ec;
+  --text: #2d2a26;
+  --text-secondary: #5c5753;
+  --text-light: #8a8580;
+  --color-cello: #203a58;
+  --color-coffee: #75564d;
+  --color-tan: #dbaf8a;
+  --card-dark: #5f271d;
+  --card-mid: #955141;
+  --card-deep: #410d18;
+  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ==================== Navbar ==================== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: rgba(250,248,245,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(95,39,29,0.06);
+  z-index: 1000;
+  transition: all 0.4s var(--ease);
+}
+
+.navbar-brand {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--card-dark);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+.navbar-brand:hover { opacity: 0.7; }
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-links a {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--card-dark);
+  transition: width 0.35s var(--ease);
+}
+
+.navbar-links a:hover { color: var(--card-dark); }
+.navbar-links a:hover::after { width: 100%; }
+.navbar-links a.active { color: var(--card-dark); }
+
+/* ==================== Hero ==================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+  background: linear-gradient(180deg, var(--bg) 0%, #f0ece6 100%);
+}
+
+.hero-deco {
+  width: 40px; height: 2px;
+  background: var(--color-tan);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease) 0.3s forwards;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  color: var(--card-dark);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--ease) 0.5s forwards;
+}
+
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--card-mid);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--ease) 0.7s forwards;
+}
+
+.hero-intro {
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, 1.3vw, 0.95rem);
+  line-height: 2.4;
+  color: var(--text-secondary);
+  max-width: 640px;
+  text-align: justify;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--ease) 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: var(--card-mid);
+  letter-spacing: 0.15em;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease) 1.5s forwards;
+}
+
+/* ==================== Section (Zigzag) ==================== */
+.section {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  position: relative;
+}
+
+.section-dark {
+  background: linear-gradient(135deg, var(--card-deep) 0%, var(--card-dark) 100%);
+  color: #fff;
+}
+
+.section-light { background: var(--bg); }
+.section-alt { background: linear-gradient(180deg, #f0ece6 0%, var(--bg) 100%); }
+
+/* Z型排列 */
+.section-left .section-media { order: 1; }
+.section-left .section-text { order: 2; }
+.section-right .section-media { order: 2; }
+.section-right .section-text { order: 1; }
+
+.section-media {
+  height: 100%; min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-media img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  transition: transform 0.6s var(--ease);
+}
+.section-media img:hover { transform: scale(1.02); }
+
+.media-placeholder {
+  width: 100%; height: 60%; min-height: 300px;
+  background: #ebe5dc;
+  border: 2px dashed var(--color-tan);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--card-mid);
+  font-size: 0.9rem;
+  gap: 0.6rem;
+}
+
+.media-placeholder-icon { font-size: 2.5rem; opacity: 0.25; }
+
+/* ==================== Image Carousel ==================== */
+.img-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.img-carousel img {
+  max-width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  transition: opacity 0.4s var(--ease);
+}
+
+.carousel-counter {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(95,39,29,0.75);
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  z-index: 10;
+}
+
+.carousel-hint {
+  font-size: 0.7rem;
+  color: var(--card-mid);
+  opacity: 0.6;
+  letter-spacing: 0.08em;
+  margin-top: 0.5rem;
+}
+
+.section-dark .carousel-hint {
+  color: var(--color-tan);
+  opacity: 0.5;
+}
+
+.media-caption {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  color: var(--card-mid);
+  margin-top: 1rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  opacity: 0.85;
+}
+.section-dark .media-caption { color: var(--color-tan); }
+
+.section-text {
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--card-mid);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.section-dark .section-label { color: var(--color-tan); opacity: 0.8; }
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+  color: var(--card-dark);
+}
+.section-dark .section-title { color: #fff; }
+
+.section-body {
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  line-height: 2.4;
+  color: var(--text-secondary);
+  text-align: justify;
+}
+.section-dark .section-body { color: rgba(255,255,255,0.85); }
+
+.section-body p { margin-bottom: 1.2rem; text-indent: 2em; }
+
+.quote-box {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 3px solid var(--color-tan);
+  background: rgba(219,175,138,0.08);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--card-dark);
+  font-style: italic;
+}
+.section-dark .quote-box {
+  background: rgba(255,255,255,0.06);
+  color: var(--color-tan);
+  border-left-color: var(--color-tan);
+}
+
+/* ==================== Tail CTA ==================== */
+.tail {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, var(--card-deep) 0%, var(--card-dark) 100%);
+  color: var(--color-tan);
+}
+
+.tail-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.tail-text {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  line-height: 2.2;
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  opacity: 0.85;
+}
+
+.tail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2.2rem;
+  background: transparent;
+  color: var(--color-tan);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  border: 1.5px solid var(--color-tan);
+  transition: all 0.4s var(--ease);
+}
+.tail-btn:hover { background: var(--color-tan); color: var(--card-dark); }
+
+/* ==================== Scroll Reveal ==================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ==================== Animations ==================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 900px) {
+  .section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .section-left .section-media,
+  .section-right .section-media {
+    order: 1;
+    min-height: 40vh;
+    padding: 2rem;
+  }
+  .section-left .section-text,
+  .section-right .section-text {
+    order: 2;
+    padding: 2.5rem 1.8rem;
+  }
+  .navbar { padding: 0 1.2rem; }
+  .navbar-links { gap: 1.2rem; }
+  .section-media img { max-height: 50vh; }
+}
+
+body {
+  opacity: 0;
+  animation: pageLoad 0.8s var(--ease) forwards;
+}
+@keyframes pageLoad { to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<!-- ==================== Navbar ==================== -->
+<nav class="navbar">
+  <a href="index.html" class="navbar-brand">被遗忘的救国火种</a>
+  <div class="navbar-links">
+    <a href="history.html">革命回顾</a>
+    <a href="anti_japanese.html" class="active">抗日记忆</a>
+  </div>
+</nav>
+
+<!-- ==================== Hero ==================== -->
+<section class="hero">
+  <div class="hero-deco"></div>
+  <h1 class="hero-title">南洋华侨抗日记忆</h1>
+  <p class="hero-subtitle">筹赈报国 · 全民救亡</p>
+  <p class="hero-intro">
+    "国破山河在，恨别鸟惊心。"1937年卢沟桥事变爆发，全民族抗战开始。远在千里之外的南洋华侨，虽未直面战火，却以"如果祖国倒下，那根和祖国相连的线就断了"的信念，掀起了一场前所未有的全民救亡运动。从卖花筹赈到回国参战，从舞女义演到机工北上，他们用行动证明了：救国之责，不分贵贱；报国之志，无问西东。
+  </p>
+  <span class="scroll-hint">向下滚动探索 ↓</span>
+</section>
+
+<!-- ==================== Section 1: 南侨总会 ==================== -->
+<section class="section section-light section-left">
+  <div class="section-media reveal">
+    <div class="img-carousel" id="carousel-nanqiao" onclick="nextCarousel('carousel-nanqiao')">
+      <span class="carousel-counter">1 / 3</span>
+      <img src="static/img/南侨总会-1.jpg" alt="南洋华侨总会" data-index="0">
+      <img src="static/img/南侨总会-2.jpg" alt="南洋华侨总会合影" data-index="1" style="display:none;">
+      <img src="static/img/南侨总会-成立.webp" alt="南洋华侨总会成立" data-index="2" style="display:none;">
+      <div class="media-caption">南洋华侨总会历史照片</div>
+      <div class="carousel-hint">点击图片切换</div>
+    </div>
+  </div>
+  <div class="section-text reveal">
+    <div class="section-label">Chapter 01</div>
+    <h2 class="section-title">南侨总会：全民筹赈</h2>
+    <div class="section-body">
+      <p>1937年8月15日，在新加坡侨民大会上，著名爱国侨领陈嘉庚发表演讲："寻常对外战争，战败亡国，今日若战败，则非只亡国，实将亡族！"随后，"马来亚新加坡华侨筹赈祖国伤兵难民大会委员会"（星华筹赈会）成立，成为后来赫赫有名的"南侨总会"前身。</p>
+      <p>1938年10月，在陈嘉庚领导下，"南洋华侨筹赈祖国难民总会"正式成立，80余所筹赈会、千百所分会支会加入。按总会条例，筹赈办法分为12类：特别捐、常月捐、货物助赈捐、纪念日劝捐、卖花卖物捐、游艺演剧球赛捐、舟车小贩助赈捐等。"总之，筹赈的最终目标，是无复见不出钱的人。"</p>
+      <div class="quote-box">
+        "我忠勇之将士，为争取四万万五千万民族之自由，浴血抗战，后方民众，自当努力输将。"
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Section 2: 卖花救国 ==================== -->
+<section class="section section-alt section-right">
+  <div class="section-text reveal">
+    <div class="section-label">Chapter 02</div>
+    <h2 class="section-title">卖花救国：女性的力量</h2>
+    <div class="section-body">
+      <p>1939年11月7日，"舞女协会"在新加坡成立——这在当时中国和南洋地区均属首例。舞女陈玉叶捐出一月伴舞工资，林金玉捐叻币110元，曾说"我亦应尽我国民之责"。舞女陆妙容捐款500余元，被誉为"从高跟鞋里踢出巨款以救济伤难"。</p>
+      <p>卖花是南洋义卖筹款的主要方式之一。1938年9月至10月间，新加坡各社团、个人及学校报销的花朵共达62万1100朵。"除小孩子之外，人人买花，抗日救国。"一名七十老妪，生活贫困，但一闻国难，便从山巴跑到筹赈会，将身上所有积蓄捐出。有小学生兜售"抗日饼""射日糕"，收入全数捐献。</p>
+      <div class="quote-box">
+        "多募一元钱，便可多除一个世界的公敌，多救一个遭难同胞的性命！"——陈湄湄
+      </div>
+    </div>
+  </div>
+  <div class="section-media reveal">
+    <div class="img-carousel" id="carousel-maihua" onclick="nextCarousel('carousel-maihua')">
+      <span class="carousel-counter">1 / 2</span>
+      <img src="static/img/舞女协会.jpg" alt="舞女协会成立" data-index="0" data-caption="舞女协会正司理陈湄湄还发表文章《我对于舞女协会的希望》">
+      <img src="static/img/卖花救国.jpg" alt="卖花救国" data-index="1" style="display:none;" data-caption="卖花救国女子照片">
+      <div class="media-caption">舞女协会正司理陈湄湄还发表文章《我对于舞女协会的希望》</div>
+      <div class="carousel-hint">点击图片切换</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Section 3: 歌声与舞台 ==================== -->
+<section class="section section-dark section-left">
+  <div class="section-media reveal">
+    <div class="img-carousel" id="carousel-wuhan" onclick="nextCarousel('carousel-wuhan')">
+      <span class="carousel-counter">1 / 6</span>
+      <img src="static/img/粤剧义演.jpg" alt="粤剧义演" data-index="0" data-caption="梅启康参加粤剧《吕布与貂蝉》义演">
+      <img src="static/img/武汉合唱团1.png" alt="武汉合唱团前往南洋巡演募款" data-index="1" style="display:none;" data-caption="武汉合唱团前往南洋巡演募款">
+      <img src="static/img/武汉合唱团2.png" alt="武汉合唱团抵达新加坡" data-index="2" style="display:none;" data-caption="武汉合唱团抵达新加坡（1938年12月17日）">
+      <img src="static/img/廖冰.jpg" alt="廖冰" data-index="3" style="display:none;" data-caption="广东大埔籍华侨廖冰">
+      <img src="static/img/武汉合唱团-巴生港.png" alt="武汉合唱团在巴生港举行歌咏会为南侨机工送行" data-index="4" style="display:none;" data-caption="1939年8月12日，武汉合唱团在巴生港举行歌咏会为南侨机工送行">
+      <img src="static/img/武汉合唱团-星华筹赈.png" alt="武汉合唱团参与星华筹赈会春节海上游艺筹赈" data-index="5" style="display:none;" data-caption="1939年2月，星华筹赈会举办春节海上游艺筹赈，武汉合唱团参与表演，陈嘉庚发表致辞，呼吁侨胞多出钱出力">
+      <div class="media-caption">梅启康参加粤剧《吕布与貂蝉》义演</div>
+      <div class="carousel-hint">点击图片切换</div>
+    </div>
+  </div>
+  <div class="section-text reveal">
+    <div class="section-label">Chapter 03</div>
+    <h2 class="section-title">歌声与舞台：文艺抗战</h2>
+    <div class="section-body">
+      <p>"你一角，我一毫，涓涓滴滴积成江河变做怒涛，只要你有多少捐多少。四万万同胞心一条，誓把祖国保……"这是1937年后在南洋颇为流行的"募捐歌"，唱出了当年新加坡和马来亚华侨的爱国心。广东台山籍的梅启康曾参加粤剧《吕布与貂蝉》义演，饰演董卓一角，还劝说粤曲名伶新卿卿领导舞女"菊芳姐妹"参与卖花捐赠。</p>
+      <p>1937年冬，武汉合唱团在江城成立，由江定仙、刘雪庵、黄椒衍等发起，汇聚夏之秋、周小燕等歌咏队共70余人。合唱团致力于传唱抗战歌曲，数月间使《义勇军进行曲》在民众中广为传唱。1938年底，28名团员赴南洋巡演筹赈，在新山、芙蓉、巴生等地演出话剧与合唱，"使观众闻之流泪""博得掌声不绝"。他们以歌声团结南洋800万华侨，共募得赈款1150万元，为抗战输送了宝贵资金。</p>
+      <p>广东大埔籍华侨廖冰同样是文艺抗战的先锋。年少时因战乱逃难至新加坡，1931年九一八事变后参与学生示威游行被捕，面对英国殖民者审问时，她与同学理直气壮地回答："我们热爱自己的祖国，不许日寇践踏我们的大好河山，是自发的，爱国无罪。"1936年她到马来亚怡保任教，响应陈嘉庚号召，将《义勇军进行曲》《大路歌》等进步歌曲教给学生，"不仅在学校唱，还组织歌咏队到农村、工厂去演唱。"</p>
+      <div class="quote-box">
+        "当然唱一百首歌也吓不走一个日本鬼，但相信歌声是能激发人类感情的。我们希望能将大家隐潜的热血，用我们的工具，将它诱发出来，使每个人能奔上救亡的大道。"——黄椒衍
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Section 4: 万里归国 ==================== -->
+<section class="section section-light section-right">
+  <div class="section-text reveal">
+    <div class="section-label">Chapter 04</div>
+    <h2 class="section-title">万里归国：血洒疆场</h2>
+    <div class="section-body">
+      <p>1938年10月，中国东南部的海陆交通均被日军切断，滇缅公路成为运输国际援华物资的唯一生命线，急需大量汽车司机和修理工。1939年2月7日，陈嘉庚以南侨总会名义发布《征募汽车修机驶机人员回国服务》通告，短短数月间，3200多名华侨青年放弃海外安稳生活，组成"南洋华侨机工回国服务团"分批回国。报名者络绎不绝，甚至还有人女扮男装，只为回国参与抗战。</p>
+      <p>滇缅公路上处处是生死考验。山道在崇山峻岭间盘桓，驾车稍有不慎便会坠入万丈深渊；泥泞狭窄、临近悬崖的路段，副驾驶员甚至需要"悬挂"在车外充当"人肉导航"。蚊虫肆虐、疟疾流行，上千名机工倒在运输途中；敌机轰炸更是家常便饭，车辆一旦中弹，几无生还希望。1939年至1942年，经滇缅公路运送的军需物资达50多万吨。1942年公路被切断后，部分机工投身驼峰航线继续转运物资，部分留在昆明在盟军中担任翻译、文员，以各种方式坚守报国初心。</p>
+      <div class="quote-box">
+        "人类能忍受一切艰苦，环境愈困难，愈见精神。"——陈嘉庚
+      </div>
+    </div>
+  </div>
+  <div class="section-media reveal">
+    <div class="img-carousel" id="carousel-jigong" onclick="nextCarousel('carousel-jigong')">
+      <span class="carousel-counter">1 / 8</span>
+      <img src="static/img/南洋机工在滇缅公路1.jpg" alt="南洋机工在滇缅公路" data-index="0" data-caption="南洋机工在滇缅公路">
+      <img src="static/img/南洋机工在滇缅公路2.jpg" alt="南洋机工在滇缅公路" data-index="1" style="display:none;" data-caption="南洋机工在滇缅公路">
+      <img src="static/img/南洋机工在滇缅公路.jpg" alt="南洋机工在滇缅公路" data-index="2" style="display:none;" data-caption="南洋机工在滇缅公路">
+      <img src="static/img/南洋华侨机工.jpg" alt="南洋华侨机工" data-index="3" style="display:none;" data-caption="南洋华侨机工">
+      <img src="static/img/滇缅公路.jpg" alt="滇缅公路" data-index="4" style="display:none;" data-caption="滇缅公路">
+      <img src="static/img/白雪娇家书报道.jpg" alt="白雪娇家书报道" data-index="5" style="display:none;" data-caption="白雪娇家书报道">
+      <img src="static/img/关于南洋机工的新闻报道.jpg" alt="关于南洋机工的新闻报道" data-index="6" style="display:none;" data-caption="关于南洋机工的新闻报道">
+      <img src="static/img/南洋华侨机工照片_首页封面.jpg" alt="南洋华侨机工照片" data-index="7" style="display:none;" data-caption="南洋华侨机工照片">
+      <div class="media-caption">南洋机工在滇缅公路</div>
+      <div class="carousel-hint">点击图片切换</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Section 5+6: 数字与记忆 + 教育传承 ==================== -->
+<section class="section section-alt section-left">
+  <div class="section-media reveal">
+    <div class="page-photo" style="background:transparent;padding:0;">
+      <img src="static/img/抗战捐款.jpg" alt="抗战捐款" style="max-height:65vh;box-shadow:0 8px 30px rgba(0,0,0,0.12);">
+    </div>
+    <div class="media-caption">抗战捐款历史照片</div>
+  </div>
+  <div class="section-text reveal">
+    <div class="section-label">Chapter 05</div>
+    <h2 class="section-title">数字与记忆：重若千钧</h2>
+    <div class="section-body">
+      <p>根据1938年《南洋商报》统计，从星华筹赈会创会初始至第二年10月，广帮、潮帮、客帮分别捐款"49万4千847元4角7占、21万5千934元8角6占、7万4千894元6角3占"。新加坡华侨在短短四个月内便捐出国币三百万元，其中六成来自"中产阶级以下的华侨"。这些数字背后，是一个个具体的人：有从山巴跑来的七十老妪，有卖花的小学生，有捐出伴舞工资的舞女，有教唱《大路歌》的女教师，有驾驶卡车奔驰在滇缅公路上的机工，还有许多默默无闻的华侨群体。他们或许不曾被史书大书特书，但正是这些"无名"之人，构成了南洋华侨抗日救亡最深沉的底色。</p>
+      <p>"这是一场前所未有的全民运动。筹赈会打破华侨之间的方言藩篱，共同支持抗日，不论是有名者，还是无名者，都团结在一起。"新加坡二战历史研究会副会长李叶明如此评价。80多年后，中国华侨历史博物馆展厅内，动人的旋律再次响起，不少观众驻足、沉思，仿佛回到那时前所未有的全民救亡历史现场。</p>
+      <p>值得注意的是，南洋华侨如此高涨的爱国热情与当时蓬勃发展的华侨教育有着密不可分的关系。侨校不仅是传授知识的场所，更是培育民族认同、传承文化根脉的摇篮。从明诚书院到新式学堂，从侨办学校到女子学堂，一代代华侨子弟在华文教育中汲取养分，将"天下兴亡，匹夫有责"的信念深植于心，才能在祖国危难之际挺身而出。</p>
+      <div class="link-placeholder" style="margin-top:2rem;">
+        <a href="explore.html" style="color:var(--card-mid);text-decoration:none;font-family:var(--font-serif);font-size:0.9rem;letter-spacing:0.08em;border-bottom:1.5px solid rgba(149,81,65,0.25);padding-bottom:0.3rem;transition:all 0.35s var(--ease);">→ 查看南洋华侨教育的具体内容</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Tail ==================== -->
+<section class="tail">
+  <div class="reveal">
+    <h2 class="tail-title">铭记历史，继往开来</h2>
+    <p class="tail-text">
+      南洋华侨的抗日记忆，不仅是捐款数字的堆砌，更是无数个具体生命在民族危亡时刻的抉择与担当。他们证明了：爱国之心，无问西东；救国之责，不分贵贱。
+    </p>
+    <a href="explore.html" class="tail-btn">前往研究平台 →</a>
+  </div>
+</section>
+
+<script>
+// Carousel switcher
+function nextCarousel(id) {
+  const carousel = document.getElementById(id);
+  if (!carousel) return;
+  const imgs = carousel.querySelectorAll('img[data-index]');
+  const counter = carousel.querySelector('.carousel-counter');
+  if (!imgs.length) return;
+
+  // find current visible
+  let current = 0;
+  imgs.forEach((img, i) => {
+    if (img.style.display !== 'none') current = i;
+  });
+
+  const next = (current + 1) % imgs.length;
+
+  imgs[current].style.display = 'none';
+  imgs[next].style.display = 'block';
+
+  if (counter) counter.textContent = (next + 1) + ' / ' + imgs.length;
+
+  // update caption if data-caption exists
+  const captionEl = carousel.querySelector('.media-caption');
+  if (captionEl && imgs[next].dataset.caption) {
+    captionEl.textContent = imgs[next].dataset.caption;
+  }
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Navbar background on scroll
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 50) {
+    navbar.style.background = 'rgba(250,248,245,0.95)';
+    navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.06)';
+  } else {
+    navbar.style.background = 'rgba(250,248,245,0.85)';
+    navbar.style.boxShadow = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
