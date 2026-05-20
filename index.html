@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>南洋华侨教育记忆</title>
+<title>被遗忘的救国火种 · 南洋华侨抗日记忆</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black: #1a1a1a;
-  --dark: #333333;
-  --gray: #666666;
-  --light-gray: #999999;
-  --border: #e5e5e5;
-  --bg: #ffffff;
-  --bg-alt: #f8f8f8;
+  --black: #0a0a0a;
+  --dark: #141414;
+  --gray: #8a8a8a;
+  --light-gray: #b0b0b0;
+  --border: #2a2a2a;
+  --bg: #0a0a0a;
+  --bg-overlay: rgba(10,10,10,0.88);
   --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --font-serif: 'Noto Serif SC', 'Songti SC', serif;
   --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -21,119 +21,42 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-sans);
   background: var(--bg);
-  color: var(--black);
+  color: #fff;
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 /* Page load transition */
 body {
   opacity: 0;
-  animation: pageLoad 0.8s var(--transition-smooth) forwards;
+  animation: pageLoad 1s var(--transition-smooth) forwards;
 }
 
 @keyframes pageLoad {
   to { opacity: 1; }
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 3rem;
-}
-
-/* ==================== Navbar ==================== */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 3rem;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid transparent;
-  z-index: 1000;
-  transition: all 0.4s var(--transition-smooth);
-}
-
-.navbar.scrolled {
-  border-bottom-color: var(--border);
-  padding: 1rem 3rem;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  color: var(--black);
-}
-
-.nav-brand-text {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-  align-items: center;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: var(--gray);
-  font-size: 0.85rem;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  position: relative;
-  padding: 0.25rem 0;
-  transition: color 0.3s var(--transition-smooth);
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--black);
-  transition: width 0.4s var(--transition-smooth);
-}
-
-.nav-link:hover {
-  color: var(--black);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* ==================== Hero ==================== */
+/* ==================== Full-screen Hero ==================== */
 .hero {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: relative;
-  padding: 8rem 0 6rem;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 2rem;
   overflow: hidden;
 }
 
+/* Background map image */
 .hero-bg {
   position: absolute;
   top: 0;
@@ -143,65 +66,130 @@ body {
   background-image: url('static/img/南洋地图.jpg');
   background-size: cover;
   background-position: center 40%;
-  opacity: 0.08;
+  opacity: 0.18;
   z-index: 0;
+  filter: grayscale(30%) sepia(10%);
 }
 
+/* Dark overlay for better text readability */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(10,10,10,0.85) 0%,
+    rgba(10,10,10,0.7) 40%,
+    rgba(10,10,10,0.75) 70%,
+    rgba(10,10,10,0.9) 100%
+  );
+  z-index: 1;
+}
+
+/* Content */
 .hero-content {
   position: relative;
-  z-index: 1;
-  max-width: 800px;
+  z-index: 2;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.hero-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: var(--light-gray);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  display: inline-block;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 0.5rem;
-}
-
-.hero h1 {
-  font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
+/* Decorative line above title */
+.hero-deco-line {
+  width: 60px;
+  height: 1px;
+  background: var(--gray);
   margin-bottom: 2.5rem;
-  color: var(--black);
+  opacity: 0;
+  animation: fadeInUp 1s var(--transition-smooth) 0.3s forwards;
 }
 
-.hero-desc {
-  font-size: 1.15rem;
-  line-height: 2;
-  color: var(--gray);
-  max-width: 580px;
+/* Main title */
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  color: #fff;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--transition-smooth) 0.5s forwards;
+}
+
+/* Subtitle */
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--light-gray);
   margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--transition-smooth) 0.7s forwards;
 }
 
+/* Divider */
+.hero-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gray);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeInUp 1s var(--transition-smooth) 0.9s forwards;
+}
+
+/* Intro text */
+.hero-intro {
+  font-family: var(--font-serif);
+  font-size: clamp(0.88rem, 1.5vw, 1rem);
+  line-height: 2.2;
+  color: var(--light-gray);
+  max-width: 640px;
+  text-align: justify;
+  text-align-last: center;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--transition-smooth) 1.1s forwards;
+}
+
+.hero-intro .quote {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* CTA Button */
 .hero-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 2.5rem;
-  background: var(--black);
+  padding: 1.1rem 3rem;
+  border: 1px solid rgba(255,255,255,0.3);
   color: #fff;
   text-decoration: none;
   font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  transition: all 0.4s var(--transition-smooth);
-  border: 1px solid var(--black);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  transition: all 0.5s var(--transition-smooth);
+  background: transparent;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--transition-smooth) 1.4s forwards;
+  cursor: pointer;
 }
 
 .hero-cta:hover {
-  background: transparent;
-  color: var(--black);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.6);
+  letter-spacing: 0.2em;
 }
 
 .hero-cta span {
@@ -209,663 +197,116 @@ body {
 }
 
 .hero-cta:hover span {
-  transform: translateX(4px);
+  transform: translateX(6px);
 }
 
-/* ==================== Scroll Reveal ==================== */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s var(--transition-smooth);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-
-/* ==================== Section Styles ==================== */
-.section {
-  padding: 10rem 0;
-  position: relative;
-}
-
-.section-header {
-  margin-bottom: 5rem;
-}
-
-.section-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: var(--light-gray);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.section-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1.3;
-  color: var(--black);
-  margin-bottom: 1.5rem;
-}
-
-.section-desc {
-  font-size: 1.05rem;
-  color: var(--gray);
-  line-height: 1.9;
-  max-width: 560px;
-}
-
-/* ==================== Key Events (Magazine Layout) ==================== */
-.events-section {
-  background: var(--bg);
-}
-
-.event-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: center;
-  margin-bottom: 8rem;
-}
-
-.event-item:last-child {
-  margin-bottom: 0;
-}
-
-.event-item.reverse {
-  direction: rtl;
-}
-
-.event-item.reverse > * {
-  direction: ltr;
-}
-
-.event-visual {
-  position: relative;
-  overflow: hidden;
-  background: var(--bg-alt);
-  aspect-ratio: 4/3;
-}
-
-.event-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s var(--transition-smooth), filter 0.8s var(--transition-smooth);
-  filter: grayscale(30%);
-}
-
-.event-visual:hover img {
-  transform: scale(1.05);
-  filter: grayscale(0%);
-}
-
-.event-year {
+/* Scroll indicator */
+.scroll-indicator {
   position: absolute;
-  top: 2rem;
-  left: 2rem;
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  font-weight: 700;
-  color: #fff;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
-}
-
-.event-content {
-  padding: 1rem 0;
-}
-
-.event-tag {
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  color: var(--light-gray);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.event-title {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
-  color: var(--black);
-}
-
-.event-text {
-  font-size: 0.95rem;
-  color: var(--gray);
-  line-height: 2;
-  margin-bottom: 2rem;
-}
-
-.event-link {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: var(--black);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s var(--transition-smooth);
+  opacity: 0;
+  animation: fadeIn 1.5s var(--transition-smooth) 2s forwards;
 }
 
-.event-link:hover {
-  border-bottom-color: var(--black);
-  gap: 0.75rem;
-}
-
-/* ==================== Stages Section ==================== */
-.stages-section {
-  background: var(--bg-alt);
-  padding: 10rem 0;
-}
-
-.stages-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3rem;
-}
-
-.stage-card {
-  background: var(--bg);
-  padding: 3rem 2rem;
-  border: 1px solid var(--border);
-  transition: all 0.5s var(--transition-smooth);
-  position: relative;
-  overflow: hidden;
-}
-
-.stage-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--black);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--transition-smooth);
-}
-
-.stage-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-  border-color: transparent;
-}
-
-.stage-card:hover::before {
-  transform: scaleX(1);
-}
-
-.stage-period {
+.scroll-indicator span {
   font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  color: var(--light-gray);
+  letter-spacing: 0.2em;
+  color: var(--gray);
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
 }
 
-.stage-title {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: var(--black);
+.scroll-indicator .scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gray), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
 }
 
-.stage-desc {
-  font-size: 0.9rem;
-  color: var(--gray);
-  line-height: 1.9;
-}
-
-/* ==================== Figures Section ==================== */
-.figures-section {
-  background: var(--bg);
-  padding: 10rem 0;
-}
-
-.figures-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-}
-
-.figure-card {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  transition: all 0.5s var(--transition-smooth);
-}
-
-.figure-image {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--bg-alt);
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.figure-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s var(--transition-smooth), filter 0.8s var(--transition-smooth);
-  filter: grayscale(40%);
-}
-
-.figure-card:hover .figure-image img {
-  transform: scale(1.05);
-  filter: grayscale(0%);
-}
-
-.figure-name {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--black);
-  transition: color 0.3s var(--transition-smooth);
-}
-
-.figure-role {
-  font-size: 0.85rem;
-  color: var(--gray);
-  margin-bottom: 1rem;
-}
-
-.figure-desc {
-  font-size: 0.88rem;
-  color: var(--light-gray);
-  line-height: 1.8;
-}
-
-/* ==================== CTA Section ==================== */
-.cta-section {
-  background: var(--black);
-  color: #fff;
-  padding: 8rem 0;
-  text-align: center;
-}
-
-.cta-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  letter-spacing: 0.04em;
-}
-
-.cta-desc {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.9;
-  max-width: 500px;
-  margin: 0 auto 3rem;
-}
-
-.cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.1rem 3rem;
-  background: #fff;
-  color: var(--black);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  transition: all 0.4s var(--transition-smooth);
-}
-
-.cta-btn:hover {
-  background: transparent;
-  color: #fff;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
-  transform: translateY(-2px);
-}
-
-/* ==================== Footer ==================== */
-.footer {
-  padding: 4rem 0;
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-
-.footer-text {
-  font-size: 0.8rem;
-  color: var(--light-gray);
-  letter-spacing: 0.05em;
-}
-
-/* ==================== Responsive ==================== */
-@media (max-width: 1024px) {
-  .stages-grid { grid-template-columns: repeat(2, 1fr); }
-  .figures-grid { grid-template-columns: repeat(2, 1fr); }
-  .event-item { gap: 3rem; }
-}
-
-@media (max-width: 768px) {
-  .container { padding: 0 1.5rem; }
-  .navbar { padding: 1rem 1.5rem; }
-  .nav-links { gap: 1.2rem; }
-  .nav-link { font-size: 0.78rem; }
-  .section { padding: 6rem 0; }
-  .event-item {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-bottom: 5rem;
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  .event-item.reverse { direction: ltr; }
-  .stages-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-  .figures-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .hero { min-height: auto; padding: 7rem 0 4rem; }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Smooth scroll behavior for anchor links */
-html {
-  scroll-behavior: smooth;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 5rem 1.5rem;
+    min-height: 100svh;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+    letter-spacing: 0.06em;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+  .hero-intro {
+    font-size: 0.85rem;
+    line-height: 2;
+    text-align: left;
+    text-align-last: left;
+  }
+  .hero-cta {
+    padding: 1rem 2rem;
+    font-size: 0.85rem;
+  }
 }
 </style>
 </head>
 <body>
 
-<nav class="navbar" id="navbar">
-  <a href="index.html" class="nav-brand">
-    <span class="nav-brand-text">南洋华侨教育记忆</span>
-  </a>
-  <div class="nav-links">
-    <a href="#events" class="nav-link">重点事件</a>
-    <a href="#stages" class="nav-link">发展阶段</a>
-    <a href="#figures" class="nav-link">代表人物</a>
-    <a href="explore.html" class="nav-link">深入探索</a>
-  </div>
-</nav>
-
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="container">
-    <div class="hero-content">
-      <span class="hero-label reveal">1690 — 1945</span>
-      <h1 class="reveal reveal-delay-1">南洋华侨<br>教育记忆</h1>
-      <p class="hero-desc reveal reveal-delay-2">
-        两百五十年间，海外华侨在东南亚创办了数百所中文学校，从教授四书五经到引入科学技术。从私塾到新式学堂，从自发办学到统一管理，从文化传承到救亡图存。
-      </p>
-      <a href="#events" class="hero-cta reveal reveal-delay-3">
-        开始阅读 <span>→</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section events-section" id="events">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Chapter 01</span>
-      <h2 class="section-title">几个重点事件</h2>
-      <p class="section-desc">
-        从第一所海外中文学校的创办，到抗战时期教育成为救亡武器，这些关键节点塑造了南洋华侨教育的面貌。
-      </p>
-    </div>
-
-    <div class="event-item reveal">
-      <div class="event-visual">
-        <img src="static/img/southeast-asia-map.jpg" alt="南洋地图">
-        <span class="event-year">1690</span>
-      </div>
-      <div class="event-content">
-        <span class="event-tag">地理分布</span>
-        <h3 class="event-title">海外第一所中文学校</h3>
-        <p class="event-text">
-          印尼巴达维亚的华侨创办明诚书院，教四书五经。他们不是在"传播文化"，而是在异国他乡维系身份认同——中国人，就要读中国书。这是南洋华侨自发办学的起点，此后两百余年，私塾如雨后春笋般遍布东南亚各大商埠。
-        </p>
-        <a href="school/mingcheng-1690.html" class="event-link">查看学校档案 →</a>
-      </div>
-    </div>
-
-    <div class="event-item reverse reveal">
-      <div class="event-visual">
-        <img src="static/img/textbook-reform.jpg" alt="教育改革" onerror="this.src='/static/img/southeast-asia-map.jpg'">
-        <span class="event-year">1905</span>
-      </div>
-      <div class="event-content">
-        <span class="event-tag">时间轴 · 制度转型</span>
-        <h3 class="event-title">废科举，兴学堂</h3>
-        <p class="event-text">
-          清廷废除科举制度，南洋华侨紧跟改革。短短二十年间，仅新加坡就从几所私塾激增到260多所新式学堂，教的是国语、算术和体育。传统书院换上"学校"招牌，四书五经让位于国文算术，华侨教育从传统走向现代。
-        </p>
-        <a href="timeline.html" class="event-link">查看完整时间轴 →</a>
-      </div>
-    </div>
-
-    <div class="event-item reveal">
-      <div class="event-visual">
-        <img src="static/img/textbook-reform.jpg" alt="教材变化" onerror="this.src='/static/img/southeast-asia-map.jpg'">
-        <span class="event-year">1931</span>
-      </div>
-      <div class="event-content">
-        <span class="event-tag">教材内容</span>
-        <h3 class="event-title">课本变成战场</h3>
-        <p class="event-text">
-          九一八事变后，岳飞、戚继光大量出现在课本里。国文课多了"义勇军"，地理课多了"东北失地"，体育课多了军事训练——教育成了救亡的武器。课本内容的剧变，让远在南洋的华侨学子与祖国命运紧紧相连。
-        </p>
-        <a href="textbooks.html" class="event-link">浏览教材对比 →</a>
-      </div>
-    </div>
-
-    <div class="event-item reverse reveal">
-      <div class="event-visual">
-        <img src="static/img/southeast-asia-map.jpg" alt="抗战教育">
-        <span class="event-year">1937</span>
-      </div>
-      <div class="event-content">
-        <span class="event-tag">政策制度</span>
-        <h3 class="event-title">抗战教育总动员</h3>
-        <p class="event-text">
-          全面抗战爆发后，国民政府颁布一系列华侨教育政策，从课程设置到师资培训，从经费补助到教材统编，将南洋侨校纳入国家救亡体系。华侨教育从文化传承转变为民族救亡的重要阵地。
-        </p>
-        <a href="policies.html" class="event-link">查看政策文件 →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="stages-section" id="stages">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Chapter 02</span>
-      <h2 class="section-title">四个发展阶段</h2>
-      <p class="section-desc">
-        二百五十年的华侨教育史，可以划分为四个特征鲜明的阶段，每个阶段都折射出华侨社会的变迁与时代的需求。
-      </p>
-    </div>
-
-    <div class="stages-grid">
-      <div class="stage-card reveal reveal-delay-1">
-        <span class="stage-period">1690 — 1903</span>
-        <h3 class="stage-title">萌芽期</h3>
-        <p class="stage-desc">
-          以私塾和书院为主，教授四书五经，目的是维系中华文化和身份认同。办学完全依靠华侨社群自发组织和捐资，没有统一的制度规范。
-        </p>
-      </div>
-      <div class="stage-card reveal reveal-delay-2">
-        <span class="stage-period">1904 — 1910</span>
-        <h3 class="stage-title">转型期</h3>
-        <p class="stage-desc">
-          废科举、兴学堂的浪潮席卷南洋。私塾纷纷改为新式学堂，引入算术、地理、体育等现代课程。教育目标从"保存文化"拓展到"培养现代公民"。
-        </p>
-      </div>
-      <div class="stage-card reveal reveal-delay-3">
-        <span class="stage-period">1911 — 1930</span>
-        <h3 class="stage-title">发展期</h3>
-        <p class="stage-desc">
-          民国政府开始系统介入华侨教育，颁布侨民教育政策，编审统一教材，建立师范学校培养师资。侨校数量激增，形成覆盖东南亚的教育网络。
-        </p>
-      </div>
-      <div class="stage-card reveal reveal-delay-4">
-        <span class="stage-period">1931 — 1945</span>
-        <h3 class="stage-title">救亡期</h3>
-        <p class="stage-desc">
-          九一八事变后，华侨教育全面转向救亡图存。课本充斥抗日内容，学校成为募捐和宣传的阵地。教育与国家命运前所未有地紧密捆绑。
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="figures-section" id="figures">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Chapter 03</span>
-      <h2 class="section-title">代表人物</h2>
-      <p class="section-desc">
-        这些人物或捐资办学，或编纂教材，或推动政策，在南洋华侨教育史上留下了不可磨灭的印记。
-      </p>
-    </div>
-
-    <div class="figures-grid">
-      <a href="figure/figure-chenjiageng.html" class="figure-card reveal reveal-delay-1">
-        <div class="figure-image">
-          <img src="static/img/figures/chenjiageng.jpg" alt="陈嘉庚" onerror="this.parentElement.style.background='linear-gradient(135deg, #e8e8e8, #d0d0d0)'">
-        </div>
-        <h3 class="figure-name">陈嘉庚</h3>
-        <p class="figure-role">华侨旗帜 · 教育家</p>
-        <p class="figure-desc">创办厦门大学及新加坡南洋华侨中学，提出"教育为立国之本"，被誉为"华侨旗帜，民族光辉"。</p>
-      </a>
-
-      <a href="figure/figure-sunzhongshan.html" class="figure-card reveal reveal-delay-2">
-        <div class="figure-image">
-          <img src="static/img/figures/sunzhongshan.jpg" alt="孙中山" onerror="this.parentElement.style.background='linear-gradient(135deg, #e0e0e0, #c8c8c8)'">
-        </div>
-        <h3 class="figure-name">孙中山</h3>
-        <p class="figure-role">革命先驱 · 思想传播者</p>
-        <p class="figure-desc">革命思想通过华侨学校广泛传播，推动华侨教育从传统私塾向现代国民教育转型。</p>
-      </a>
-
-      <a href="figure/figure-huangyanpei.html" class="figure-card reveal reveal-delay-3">
-        <div class="figure-image">
-          <img src="static/img/figures/huangyanpei.jpg" alt="黄炎培" onerror="this.parentElement.style.background='linear-gradient(135deg, #d8d8d8, #c0c0c0)'">
-        </div>
-        <h3 class="figure-name">黄炎培</h3>
-        <p class="figure-role">职业教育倡导者</p>
-        <p class="figure-desc">倡导职业教育与实用教育，主张教育应服务于社会经济发展，影响深远。</p>
-      </a>
-
-      <a href="figure/figure-chenqingshan.html" class="figure-card reveal reveal-delay-1">
-        <div class="figure-image">
-          <img src="static/img/figures/chenqingshan.jpg" alt="陈庆山" onerror="this.parentElement.style.background='linear-gradient(135deg, #e5e5e5, #cdcdcd)'">
-        </div>
-        <h3 class="figure-name">陈庆山</h3>
-        <p class="figure-role">华侨教育实践家</p>
-        <p class="figure-desc">长期投身南洋华侨教育事业，创办多所学校，是华侨教育从理论到实践的关键推动者。</p>
-      </a>
-
-      <a href="figure/figure-linpusheng.html" class="figure-card reveal reveal-delay-2">
-        <div class="figure-image">
-          <img src="static/img/figures/linpusheng.jpg" alt="林文庆" onerror="this.parentElement.style.background='linear-gradient(135deg, #dedede, #c6c6c6)'">
-        </div>
-        <h3 class="figure-name">林文庆</h3>
-        <p class="figure-role">教育家 · 厦大校长</p>
-        <p class="figure-desc">曾任厦门大学校长，致力于华侨高等教育发展，将西方教育模式引入华侨学校。</p>
-      </a>
-
-      <a href="figure/figure-zuobinglong.html" class="figure-card reveal reveal-delay-3">
-        <div class="figure-image">
-          <img src="static/img/figures/zuobinglong.jpg" alt="左秉隆" onerror="this.parentElement.style.background='linear-gradient(135deg, #d5d5d5, #bdbdbd)'">
-        </div>
-        <h3 class="figure-name">左秉隆</h3>
-        <p class="figure-role">领事 · 教育推动者</p>
-        <p class="figure-desc">中国驻新加坡领事，积极推动当地华侨教育发展，促成多所学校创立。</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="cta-section">
-  <div class="container">
-    <h2 class="cta-title reveal">深入探索完整档案</h2>
-    <p class="cta-desc reveal reveal-delay-1">
-      查看72所侨校的详细档案、71条政策文件的完整内容、37位关键人物的生平事迹，以及教材内容的深度对比分析。
+  <div class="hero-overlay"></div>
+  
+  <div class="hero-content">
+    <div class="hero-deco-line"></div>
+    
+    <h1 class="hero-title">被遗忘的救国火种</h1>
+    <p class="hero-subtitle">南洋华侨抗日记忆</p>
+    
+    <div class="hero-divider"></div>
+    
+    <p class="hero-intro">
+      <span class="quote">国破山河在，恨别鸟惊心。</span>
+      回望长达7年的抗日战争经历，有一群人的身影会被历史忽略，但他们的故事却令人动容。他们或许早早离开中国国土；或许始终没有机会返回故乡；他们或许为生计所迫做着最辛苦的工作；或许在异国他乡靠着自己的毅力搏得立身之所。这群人便是南洋华侨，占据当时华侨总人口的95%。抗日战争爆发后，即使远在千里之外，他们依然倾尽自己的力量支持抗战，他们认为："如果祖国倒下，那根和祖国相连的线就断了。"秉承着这样的观念，南洋华侨在近代史进程中做了许多救国于水火的义举，被孙中山先生誉为"革命之母"。
     </p>
-    <a href="explore.html" class="cta-btn reveal reveal-delay-2">
-      进入完整平台 <span>→</span>
+    
+    <a href="#" class="hero-cta" onclick="return false;">
+      回望南洋华侨革命史 <span>→</span>
     </a>
   </div>
-</section>
-
-<footer class="footer">
-  <div class="container">
-    <p class="footer-text">南洋华侨教育记忆 · 数字人文研究平台</p>
+  
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
   </div>
-</footer>
-
-<script>
-// ==================== Sticky Navbar ====================
-const navbar = document.getElementById('navbar');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-  const currentScroll = window.pageYOffset;
-  if (currentScroll > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-  lastScroll = currentScroll;
-});
-
-// ==================== Scroll Reveal ====================
-const revealElements = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-});
-
-revealElements.forEach(el => revealObserver.observe(el));
-
-// ==================== Smooth Page Transitions ====================
-document.querySelectorAll('a[href^="/"], a[href^="."]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const href = link.getAttribute('href');
-    if (href.startsWith('#')) return;
-    if (link.target === '_blank') return;
-    
-    e.preventDefault();
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.4s ease';
-    
-    setTimeout(() => {
-      window.location.href = href;
-    }, 400);
-  });
-});
-</script>
+</section>
 
 </body>
 </html>
