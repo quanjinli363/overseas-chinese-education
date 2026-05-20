@@ -63,7 +63,7 @@
   font-family: 'Noto Serif SC', serif;
   font-size: 0.8rem;
   letter-spacing: 0.2em;
-  color: var(--card-mid, #955141);
+  color: #955141;
   margin-bottom: 1.5rem;
   opacity: 0;
   animation: fadeInUp 1s ease 0.3s forwards;
@@ -75,7 +75,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.15;
-  color: var(--card-dark, #5f271d);
+  color: #5f271d;
   margin-bottom: 0.8rem;
   opacity: 0;
   animation: fadeInUp 1.2s ease 0.5s forwards;
@@ -85,7 +85,7 @@
   font-family: 'Noto Sans SC', sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 1rem);
   letter-spacing: 0.15em;
-  color: var(--card-mid, #955141);
+  color: #955141;
   margin-bottom: 2rem;
   opacity: 0;
   animation: fadeInUp 1.2s ease 0.7s forwards;
@@ -95,7 +95,7 @@
   font-family: 'Noto Serif SC', serif;
   font-size: clamp(0.85rem, 1.2vw, 0.95rem);
   line-height: 2.2;
-  color: var(--text-secondary, #5c5753);
+  color: #5c5753;
   max-width: 480px;
   text-align: justify;
   opacity: 0;
@@ -125,22 +125,22 @@
 }
 
 .btn-primary-v2 {
-  background: var(--card-dark, #5f271d);
+  background: #5f271d;
   color: #fff;
 }
 .btn-primary-v2:hover {
-  background: #7a3a2a;
+  background: #410d18;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(95,39,29,0.25);
 }
 
 .btn-secondary-v2 {
   background: transparent;
-  color: var(--card-dark, #5f271d);
-  border: 1.5px solid var(--card-dark, #5f271d);
+  color: #5f271d;
+  border: 1.5px solid #5f271d;
 }
 .btn-secondary-v2:hover {
-  background: var(--card-dark, #5f271d);
+  background: #5f271d;
   color: #fff;
 }
 
@@ -149,7 +149,7 @@
   font-family: 'Noto Serif SC', serif;
   font-size: clamp(0.82rem, 1.15vw, 0.92rem);
   line-height: 2.4;
-  color: var(--text-secondary, #5c5753);
+  color: #5c5753;
   text-align: justify;
   max-width: 520px;
   opacity: 0;
@@ -159,11 +159,11 @@
 .hero-intro-v2 h3 {
   font-family: 'Noto Serif SC', serif;
   font-size: 1.1rem;
-  color: var(--card-dark, #5f271d);
+  color: #5f271d;
   margin-bottom: 1rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  border-left: 3px solid var(--color-tan, #dbaf8a);
+  border-left: 3px solid #dbaf8a;
   padding-left: 1rem;
 }
 
@@ -196,109 +196,6 @@
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(25px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== Keep existing sections (Stories, Numbers, Features) ===== */
-.story-section,
-.numbers-section,
-.features-section {
-  padding: 5rem 0;
-}
-
-.story-section {
-  background: var(--bg, #faf8f5);
-}
-
-.numbers-section {
-  background: linear-gradient(180deg, #f5f0ec 0%, var(--bg, #faf8f5) 100%);
-}
-
-.features-section {
-  background: var(--bg, #faf8f5);
-}
-
-/* Update section header colors */
-.section-header .section-label {
-  color: var(--card-mid, #955141);
-  font-family: 'Noto Serif SC', serif;
-}
-
-.section-header .section-title-v2 {
-  color: var(--card-dark, #5f271d);
-  font-family: 'Noto Serif SC', serif;
-}
-
-/* Story cards */
-.story-card {
-  background: #fff;
-  border: 1px solid rgba(95,39,29,0.08);
-  transition: all 0.4s ease;
-}
-.story-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(95,39,29,0.1);
-}
-.story-card h3 {
-  color: var(--card-dark, #5f271d);
-  font-family: 'Noto Serif SC', serif;
-}
-.story-card p {
-  color: var(--text-secondary, #5c5753);
-}
-.story-link {
-  color: var(--card-mid, #955141);
-}
-.story-tag {
-  background: rgba(219,175,138,0.15);
-  color: var(--card-dark, #5f271d);
-}
-
-/* Number cards */
-.number-card {
-  background: #fff;
-  border: 1px solid rgba(95,39,29,0.08);
-}
-.number-value {
-  color: var(--card-dark, #5f271d);
-  font-family: 'Noto Serif SC', serif;
-}
-.number-label {
-  color: var(--card-mid, #955141);
-}
-.number-desc {
-  color: var(--text-secondary, #5c5753);
-}
-
-/* Feature cards */
-.feature-card {
-  background: #fff;
-  border: 1px solid rgba(95,39,29,0.08);
-  transition: all 0.4s ease;
-}
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(95,39,29,0.1);
-}
-.feature-card h3 {
-  color: var(--card-dark, #5f271d);
-  font-family: 'Noto Serif SC', serif;
-}
-.feature-card p {
-  color: var(--text-secondary, #5c5753);
-}
-
-/* Footer colors */
-.footer {
-  background: linear-gradient(135deg, #5f271d 0%, #410d18 100%);
-  color: rgba(255,255,255,0.7);
-}
-.footer h4 {
-  color: #dbaf8a;
-  font-family: 'Noto Serif SC', serif;
-}
-.footer-bottom {
-  border-top: 1px solid rgba(219,175,138,0.2);
-  color: rgba(255,255,255,0.5);
 }
 </style>
 
@@ -363,118 +260,8 @@
   <div class="hero-right-v2">
     <div class="hero-intro-v2">
       <h3>历史背景</h3>
-      <p>在近代以前，那些离开故土前往南洋的华人往往被视为"化外之民"，不受政府重视。然而，随着近代中国政治格局的剧烈变动，执政者逐渐意识到南洋华侨的经济实力与战略价值，转而通过华文教育加以拉拢与凝聚。</p>
-      <p>进入民国后，国民政府更加重视以教育手段培育海外华侨的文化认同：派遣专业团队赴南洋考察侨教实况，在国内开办侨校，推行华侨学生归国优待政策。可以说，华侨教育的发展与近代中国民族救亡运动紧密相连——培养南洋侨生，不仅是文化传承，更是寄望于侨民在未来能为民族复兴贡献力量。</p>
-      <p>清朝以降，沿海百姓或因封建剥削压迫，或被外国洋行拐骗，纷纷出洋谋生。鸦片战争后，厦门成为通商口岸，大量劳工被运往南洋、美洲。那些幸存下来的先驱，又牵引着同乡同族陆续南下，逐渐在南洋各地扎根繁衍。</p>
-    </div>
-  </div>
-</section>
-
-<!-- Key Stories Grid -->
-<section class="story-section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Stories</span>
-      <h2 class="section-title-v2">三个关键视角</h2>
-    </div>
-    <div class="story-grid">
-      <div class="story-card reveal reveal-delay-1">
-        <div class="story-tag">地理分布</div>
-        <h3>72所侨校散布何处？</h3>
-        <p>从印尼到马来亚，从暹罗到菲律宾，华侨学校在东南亚各大商埠生根发芽。地图上一目了然——哪里华人多，哪里就有中文学校。</p>
-        <a href="map.html" class="story-link">查看地图 →</a>
-      </div>
-      <div class="story-card reveal reveal-delay-2">
-        <div class="story-tag">时间轴</div>
-        <h3>250年如何走过？</h3>
-        <p>从1690年明诚书院到1943年抗战教育总动员，四个阶段的华侨教育折射出中国近现代史的缩影——从文化保存到民族救亡。</p>
-        <a href="timeline.html" class="story-link">查看时间轴 →</a>
-      </div>
-      <div class="story-card reveal reveal-delay-3">
-        <div class="story-tag">人物图谱</div>
-        <h3>谁在推动这一切？</h3>
-        <p>陈嘉庚捐资办学、孙中山思想传播、黄炎培倡导职业教育——37位关键人物，或捐资、或编纂、或推动政策，改变了华侨教育的面貌。</p>
-        <a href="figures.html" class="story-link">查看人物 →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Key Numbers -->
-<section class="numbers-section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Data</span>
-      <h2 class="section-title-v2">关键数据</h2>
-    </div>
-    <div class="numbers-grid">
-      <div class="number-card reveal reveal-delay-1">
-        <div class="number-value">1690</div>
-        <div class="number-label">第一所侨校创立</div>
-        <div class="number-desc">巴达维亚明诚书院</div>
-      </div>
-      <div class="number-card reveal reveal-delay-2">
-        <div class="number-value">269→1300+</div>
-        <div class="number-label">新加坡侨校增长</div>
-        <div class="number-desc">1934到1941年增长近5倍</div>
-      </div>
-      <div class="number-card reveal reveal-delay-3">
-        <div class="number-value">71</div>
-        <div class="number-label">政策文件</div>
-        <div class="number-desc">中西方政府共同塑造</div>
-      </div>
-      <div class="number-card reveal reveal-delay-4">
-        <div class="number-value">113</div>
-        <div class="number-label">歧视性苛例</div>
-        <div class="number-desc">各国限制华侨教育法规</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Feature Cards -->
-<section class="features-section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Explore</span>
-      <h2 class="section-title-v2">探索更多</h2>
-    </div>
-    <div class="features-grid">
-      <a href="timeline.html" class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon">📅</div>
-        <h3>时空叙事</h3>
-        <p>按时间梳理250年华侨教育史</p>
-      </a>
-      <a href="map.html" class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon">🗺️</div>
-        <h3>地理分布</h3>
-        <p>72所侨校在地图上一目了然</p>
-      </a>
-      <a href="textbooks.html" class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon">📚</div>
-        <h3>教材典藏</h3>
-        <p>九一八前后课本深度对比</p>
-      </a>
-      <a href="policies.html" class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon">📜</div>
-        <h3>制度政策</h3>
-        <p>中西方政策如何夹击侨校</p>
-      </a>
-      <a href="schools.html" class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon">🏫</div>
-        <h3>侨校档案</h3>
-        <p>每所学校的前世今生</p>
-      </a>
-      <a href="figures.html" class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon">👥</div>
-        <h3>人物图谱</h3>
-        <p>谁在办学、管学、教书</p>
-      </a>
-      <a href="dashboard.html" class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon">📊</div>
-        <h3>数据看板</h3>
-        <p>学校、学生、经费全览</p>
-      </a>
+      <p>在近代以前，那些离开故土前往南洋的华人往往被视为"化外之民"，不受政府重视。清政府时期，沿海百姓或因封建剥削压迫，或被外国洋行拐骗，纷纷出洋谋生。鸦片战争后，厦门成为通商口岸，大量劳工被运往南洋、美洲。那些幸存下来的先驱，又牵引着同乡同族陆续南下，逐渐在南洋各地扎根繁衍。而后，随着近代中国政治格局的剧烈变动，清政府逐渐意识到南洋华侨的经济实力与战略价值，转而通过华文教育加以拉拢与凝聚，但并未建立统一的管理机制。</p>
+      <p>进入民国后，由于华侨群体在革命进程中发挥了巨大作用，被誉为"革命之母"，国民政府十分重视以教育手段培育海外华侨的文化认同，例如派遣专业团队赴南洋考察侨教实况，在国内开办侨校，推行华侨学生归国优待政策。可以说，华侨教育的发展与近代中国民族救亡运动紧密相连——培养南洋侨生，不仅是文化传承，更是寄望于侨民在未来能为民族复兴贡献力量。</p>
     </div>
   </div>
 </section>
