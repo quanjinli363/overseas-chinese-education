@@ -26,20 +26,6 @@
   overflow: hidden;
 }
 
-.timeline-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('static/img/南洋地图.jpg');
-  background-size: cover;
-  background-position: center 30%;
-  opacity: 0.35;
-  z-index: 0;
-}
-
 .timeline-hero .container {
   position: relative;
   z-index: 1;
@@ -136,51 +122,13 @@
 
 /* Period Magazine Intro */
 .period-magazine {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: center;
-  margin-bottom: 5rem;
+  max-width: 800px;
+  margin: 0 auto 5rem;
+  text-align: left;
 }
 
 .period-magazine.reverse {
-  direction: rtl;
-}
-
-.period-magazine.reverse > * {
-  direction: ltr;
-}
-
-.period-visual {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4/3;
-  background: #eef2f7;
-}
-
-.period-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s ease;
-  filter: grayscale(20%);
-}
-
-.period-visual:hover img {
-  transform: scale(1.05);
-  filter: grayscale(0%);
-}
-
-.period-visual-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem 1.5rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-  color: #fff;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
+  text-align: left;
 }
 
 .period-content {
@@ -655,10 +603,6 @@
   <div class="container">
     <!-- Magazine Intro -->
     <div class="period-magazine reveal">
-      <div class="period-visual">
-        <img src="static/img/southeast-asia-map.jpg" alt="南洋地图" loading="lazy">
-        <span class="period-visual-caption">1690年 · 巴达维亚明诚书院</span>
-      </div>
       <div class="period-content">
         <span class="period-number">Period 01</span>
         <h2 class="period-title">私塾肇始期</h2>
@@ -943,11 +887,7 @@
           1904年，清政府开始废科举、兴学堂，东南亚华侨开始主动参照国内改革自行办学。课程逐渐从四书五经转向国语、算术、地理、外语等新学科。出现了<a href="school/yangzheng-1905.html">养正学堂</a>、<a href="school/juanang-1908.html">巨港中华学校</a>等新式学堂，也出现了向女童开放的女子学堂——1908年<a href="school/kuncheng-1908.html">坤成女子中学</a>在吉隆坡创办。课余活动也逐渐丰富，例如<a href="figure/figure-zuobinglong.html">左秉隆</a>在新加坡领事任内创办英语辩论会，让华侨子弟用英语讨论时政。
         </p>
       </div>
-      <div class="period-visual">
-        <img src="static/img/textbook-reform.jpg" alt="新式学堂" loading="lazy" onerror="this.src='/static/img/southeast-asia-map.jpg'">
-        <span class="period-visual-caption">1905年 · 新加坡养正学堂</span>
       </div>
-    </div>
 
     <div class="period-events-section reveal">
       <div class="period-events-header">
@@ -1217,10 +1157,6 @@
 <section class="period-section timeline-p3" id="period-3">
   <div class="container">
     <div class="period-magazine reveal">
-      <div class="period-visual">
-        <img src="static/img/southeast-asia-map.jpg" alt="制度建构" loading="lazy">
-        <span class="period-visual-caption">1929年 · 第一次南洋华侨教育会议</span>
-      </div>
       <div class="period-content">
         <span class="period-number">Period 03</span>
         <h2 class="period-title">制度建构期</h2>
@@ -1684,11 +1620,7 @@
           九一八事变后，南洋华侨对祖国的局势尤为关心。这一时期的变化主要体现在课程内容、教材内容与课程设置上。增加了更多重视提升学生的民族主义和爱国主义情怀的内容。华侨学校大量选用<a href="textbooks.html">岳飞、宗泽、戚继光等民族英雄事迹</a>，以及苏武牧羊等持节不屈的故事。除此以外，华侨学子也自发组织了许多活动来支持抗日——<a href="figure/figure-chenqingshan.html">陈青山</a>在<a href="school/zhongling-1917.html">钟灵中学</a>入党后成为抗日将领，<a href="figure/figure-chenjiageng.html">陈嘉庚</a>倾家荡产办学、组织筹赈运动。教育体系也变得更加完善，不仅注重文化素养，还更加重视身体素质的提升——增设了童子军训练和防空军演。
         </p>
       </div>
-      <div class="period-visual">
-        <img src="static/img/textbook-reform.jpg" alt="民族觉醒" loading="lazy" onerror="this.src='/static/img/southeast-asia-map.jpg'">
-        <span class="period-visual-caption">1931年 · 九一八事变后的侨校课堂</span>
       </div>
-    </div>
 
     <div class="period-events-section reveal">
       <div class="period-events-header">
