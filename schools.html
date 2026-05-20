@@ -2042,16 +2042,75 @@
   </script>
   
 <script>
-function applyFilters() {
-  var region = document.querySelector('select[onchange]').value || '';
-  var type = document.getElementById('typeFilter').value || '';
-  var period = document.getElementById('periodFilter').value || '';
-  var params = [];
-  if (region) params.push('region=' + encodeURIComponent(region));
-  if (type) params.push('type=' + encodeURIComponent(type));
-  if (period) params.push('period=' + encodeURIComponent(period));
-  location.href = 'schools.html' + (params.length ? '?' + params.join('&') : '');
-}
+(function() {
+  // Collect all school data from the rendered tables
+  function collectSchools() {
+    var rows = document.querySelectorAll('.data-table-v2 tbody tr');
+    var schools = [];
+    rows.forEach(function(row) {
+      var tds = row.querySelectorAll('td');
+      if (tds.length >= 4) {
+        var name = tds[0].textContent.trim();
+        var yearText = tds[1].textContent.trim();
+        var year = parseInt(yearText);
+        var location = tds[2].textContent.trim();
+        var type = tds[3].textContent.trim();
+        // Determine period from year
+        var period = '';
+        if (year >= 1690 && year < 1904) period = '私塾肇始期';
+        else if (year >= 1904 && year <= 1910) period = '新式转型期';
+        else if (year >= 1911 && year <= 1930) period = '制度建构期';
+        else if (year >= 1931) period = '民族觉醒期';
+        
+        schools.push({
+          row: row,
+          name: name,
+          year: year,
+          location: location,
+          type: type,
+          period: period
+        });
+      }
+    });
+    return schools;
+  }
+
+  var allSchools = collectSchools();
+
+  function applyFilters() {
+    var regionSel = document.querySelector('select[onchange]');
+    var typeSel = document.getElementById('typeFilter');
+    var periodSel = document.getElementById('periodFilter');
+    
+    var region = regionSel ? regionSel.value : '';
+    var type = typeSel ? typeSel.value : '';
+    var period = periodSel ? periodSel.value : '';
+
+    allSchools.forEach(function(s) {
+      var show = true;
+      if (region && !s.location.includes(region)) show = false;
+      if (type && !s.type.includes(type)) show = false;
+      if (period && s.period !== period) show = false;
+      
+      s.row.style.display = show ? '' : 'none';
+    });
+
+    // Also hide/show entire period blocks if all rows hidden
+    document.querySelectorAll('.period-table-block').forEach(function(block) {
+      var visibleRows = block.querySelectorAll('tbody tr[style=""], tbody tr:not([style*="none"])');
+      block.style.display = visibleRows.length > 0 ? '' : 'none';
+    });
+  }
+
+  // Attach event listeners
+  var regionSel = document.querySelector('select[onchange]');
+  var typeSel = document.getElementById('typeFilter');
+  var periodSel = document.getElementById('periodFilter');
+  
+  if (regionSel) regionSel.addEventListener('change', applyFilters);
+  if (typeSel) typeSel.addEventListener('change', applyFilters);
+  if (periodSel) periodSel.addEventListener('change', applyFilters);
+})();
 </script>
 
 </body>
