@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>回望华侨革命史 · 南洋华侨革命之路与抗日记忆</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f5;
+  --text: #2d2a26;
+  --text-secondary: #5c5753;
+  --color-cello: #203a58;
+  --color-coffee: #75564d;
+  --color-tan: #dbaf8a;
+  --card-dark: #5f271d;
+  --card-mid: #955141;
+  --card-deep: #410d18;
+  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.home-link {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  color: var(--card-mid);
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.3s;
+  z-index: 200;
+}
+.home-link:hover { color: var(--card-dark); }
+
+.book-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 3rem 1rem 2rem;
+}
+
+.book-wrapper {
+  position: relative;
+  width: min(92vw, 880px);
+  height: min(72vh, 560px);
+  perspective: 2200px;
+}
+
+.spine {
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 2%;
+  bottom: 2%;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(95,39,29,0.12) 15%, rgba(95,39,29,0.12) 85%, transparent);
+  z-index: 99;
+  pointer-events: none;
+}
+
+.back-cover-bg {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--card-deep) 0%, var(--card-dark) 100%);
+  border-radius: 3px 12px 12px 3px;
+  z-index: 1;
+}
+
+.sheet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1s var(--ease);
+  will-change: transform;
+}
+
+.sheet-front,
+.sheet-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 2px 10px 10px 2px;
+  overflow: hidden;
+}
+
+.sheet-front { background: #f7f3ee; }
+.sheet-back  { transform: rotateY(180deg); background: #eee8e0; }
+
+.cover-sheet .sheet-front {
+  background: #5f271d;
+  cursor: pointer;
+  box-shadow: inset 4px 0 10px rgba(0,0,0,0.12);
+}
+.cover-sheet .sheet-back {
+  background: #410d18;
+}
+
+.tail-sheet .sheet-back {
+  background: #5f271d;
+}
+
+.sheet-front::after,
+.sheet-back::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  pointer-events: none;
+}
+.sheet-front::after { left: 0; background: linear-gradient(90deg, rgba(0,0,0,0.03), transparent); }
+.sheet-back::after  { right: 0; background: linear-gradient(-90deg, rgba(0,0,0,0.03), transparent); }
+
+.flipped { transform: rotateY(-180deg); }
+
+.page-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 1.8rem;
+  position: relative;
+}
+
+.cover-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-tan);
+  text-align: center;
+  padding: 2rem;
+}
+.cover-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.45;
+  margin-bottom: 1.2rem;
+  color: #fff;
+}
+.cover-divider {
+  width: 34px;
+  height: 2px;
+  background: var(--color-tan);
+  opacity: 0.45;
+  margin-bottom: 0.9rem;
+}
+.cover-sub {
+  font-size: 0.78rem;
+  opacity: 0.6;
+  letter-spacing: 0.14em;
+}
+.cover-hint {
+  font-size: 0.72rem;
+  opacity: 0.35;
+  letter-spacing: 0.18em;
+  margin-top: 2.2rem;
+  animation: pulseHint 2.2s ease-in-out infinite;
+}
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.55; }
+}
+
+.page-blank {
+  background: #410d18;
+  height: 100%;
+}
+
+.page-text {
+  font-family: var(--font-serif);
+  font-size: clamp(0.8rem, 1.15vw, 0.9rem);
+  line-height: 2.2;
+  color: var(--text-secondary);
+  text-align: justify;
+  overflow-y: auto;
+}
+.page-text h3 {
+  font-family: var(--font-serif);
+  color: var(--color-cello);
+  font-size: 1.1rem;
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(149,81,65,0.12);
+  padding-bottom: 0.45rem;
+}
+.page-text p { margin-bottom: 0.9rem; text-indent: 2em; }
+
+.page-image {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ebe5dc;
+  border: 2px dashed var(--color-tan);
+  color: var(--card-mid);
+  font-size: 0.82rem;
+  gap: 0.5rem;
+}
+.page-image-placeholder { font-size: 2rem; opacity: 0.22; }
+
+.page-photo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f5f0ec;
+  padding: 1.2rem;
+  gap: 0.8rem;
+}
+.page-photo img {
+  max-width: 100%;
+  max-height: calc(100% - 2.5rem);
+  object-fit: contain;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.photo-caption {
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  color: var(--card-mid);
+  letter-spacing: 0.06em;
+  text-align: center;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* 多图页面 */
+.page-photos {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f5f0ec;
+  padding: 0.8rem;
+  gap: 0.6rem;
+  overflow-y: auto;
+}
+.photo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+}
+.photo-item img {
+  max-width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.photo-item .photo-caption {
+  font-size: 0.7rem;
+}
+
+.page-link {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+.page-link-label {
+  font-size: 0.72rem;
+  color: var(--color-tan);
+  opacity: 0.6;
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+}
+.page-link a {
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1.5px solid rgba(219,175,138,0.4);
+  padding-bottom: 0.3rem;
+  transition: all 0.35s var(--ease);
+}
+.page-link a:hover {
+  color: var(--color-tan);
+  border-bottom-color: var(--color-tan);
+}
+
+.book-nav {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.nav-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid var(--card-mid);
+  background: transparent;
+  color: var(--card-dark);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-btn:hover:not(:disabled) {
+  background: var(--card-dark);
+  color: var(--bg);
+  border-color: var(--card-dark);
+  transform: scale(1.05);
+}
+.nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+.page-indicator {
+  font-family: var(--font-serif);
+  color: var(--card-mid);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  min-width: 80px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .book-wrapper { width: 96vw; height: 54vh; }
+  .page-inner { padding: 1.4rem 1rem; }
+  .cover-title { font-size: 1.1rem; }
+  .page-text { font-size: 0.78rem; line-height: 2; }
+}
+
+.book-scene {
+  opacity: 0;
+  animation: sceneIn 0.6s var(--ease) forwards;
+}
+@keyframes sceneIn { to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-link">← 返回首页</a>
+
+<div class="book-scene">
+  <div class="book-wrapper">
+
+    <div class="spine"></div>
+    <div class="back-cover-bg"></div>
+
+    <!-- ====== Sheet 0: 封面 ====== -->
+    <div class="sheet cover-sheet" data-idx="0" style="z-index:60">
+      <div class="sheet-front">
+        <div class="cover-content">
+          <div class="cover-title">南洋华侨<br>革命史回顾</div>
+          <div class="cover-divider"></div>
+          <div class="cover-sub">回望华侨革命史</div>
+          <div class="cover-hint">点击打开 →</div>
+        </div>
+      </div>
+      <div class="sheet-back">
+        <div class="page-blank"></div>
+      </div>
+    </div>
+
+    <!-- ====== Sheet 1: 开头引入 / 孙中山与同盟会合影 ====== -->
+    <div class="sheet" data-idx="1" style="z-index:50">
+      <div class="sheet-front">
+        <div class="page-inner page-text">
+          <h3>回望南洋</h3>
+          <p>二十世纪初的中国，正处于内忧外患的至暗时刻。清廷腐朽，列强环伺，民族危亡之际，无数仁人志士前赴后继地投身革命洪流。而在远离故土的南洋，一群华侨却以血与火的方式，书写了属于他们的救国篇章。</p>
+          <p>从孙中山先生的革命之路，到黄花岗上二十七位南洋华侨的壮烈牺牲，这段被淡忘的历史值得被重新讲述。他们并非旁观者——他们是亲历者、组织者、资助者，更是以生命赴国的先驱。</p>
+        </div>
+      </div>
+      <div class="sheet-back">
+        <div class="page-photo">
+          <img src="static/img/孙中山与新加坡同盟会合影.jpg" alt="1906年 孙中山与新加坡同盟会成员合影">
+          <div class="photo-caption">1906年 孙中山与新加坡同盟会成员合影</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Sheet 2: 孙中山与同盟会 / 中兴日报截图 ====== -->
+    <div class="sheet" data-idx="2" style="z-index:40">
+      <div class="sheet-front">
+        <div class="page-inner page-text">
+          <h3>革命之母</h3>
+          <p>孙中山先生为中国的革命付出了极大的心血，虽历经多次挫折，但依旧以顽强的革命毅力进行革命。在孙中山先生的革命道路中，南洋华侨逐渐成为他在海外的重要活动地点，对革命之路起到了极大的推动作用。</p>
+          <p>早在1902年孙中山抵达越南后，就组织了南洋华侨中第一个革命团体——兴中会河内分会；1905年在越南建立了同盟会西贡堤岸分会；1906年先后在新加坡和马来西亚成立多个地区的同盟会分会。南洋华侨的革命历程深远。</p>
+        </div>
+      </div>
+      <div class="sheet-back">
+        <div class="page-photos">
+          <div class="photo-item">
+            <img src="static/img/中兴日报1.jpg" alt="《中兴日报》第一版">
+            <div class="photo-caption">《中兴日报》第一版</div>
+          </div>
+          <div class="photo-item">
+            <img src="static/img/中兴日报2.jpg" alt="《中兴日报》内页">
+            <div class="photo-caption">《中兴日报》内页</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Sheet 3: 中兴日报 / 黄花岗合影 ====== -->
+    <div class="sheet" data-idx="3" style="z-index:30">
+      <div class="sheet-front">
+        <div class="page-inner page-text">
+          <h3>笔与剑</h3>
+          <p>二十世纪初期，革命思潮通过报纸的形式传入南洋地区。以《中兴日报》为例，此刊由当时的新加坡同盟会成员陈楚楠创立，主要用来传播革命信息。可以看到，这一报刊中有很大一部分板块内容是介绍当时的国内情况。</p>
+          <p>通过报刊，南洋华侨对革命的热情日益高涨。报纸不仅是信息的载体，更是凝聚人心的纽带——它让远离故土的华侨看见了祖国挣脱苦难的希望，也让他们找到了参与革命的方式。</p>
+        </div>
+      </div>
+      <div class="sheet-back">
+        <div class="page-photos">
+          <div class="photo-item">
+            <img src="static/img/黄花岗起义合影.png" alt="黄花岗起义前部分成员合影">
+            <div class="photo-caption">黄花岗起义前部分成员合影</div>
+          </div>
+          <div class="photo-item">
+            <img src="static/img/二次革命合影.jpg" alt="二次革命前部分成员合影">
+            <div class="photo-caption">二次革命前部分成员合影</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Sheet 4: 黄花岗与二次革命 / 尾页链接 ====== -->
+    <div class="sheet tail-sheet" data-idx="4" style="z-index:20">
+      <div class="sheet-front">
+        <div class="page-inner page-text">
+          <h3>万里救国</h3>
+          <p>1910年孙中山先生在面临之前革命失败的低落时来到了马来西亚槟城，开始策划广州起义。在此之前，南洋地区的华侨以先后参加了多次起义（例如1908年的钦州起义，主力成员为200余名越南华侨组成的中华国民军南军）并且为起义筹集经费、输送武器、接济粮草，起到了巨大的推动作用。</p>
+          <p>1910年11月，孙中山筹划广州起义之时，南洋华侨募捐革命经费10万元，选出了500名先锋。1911年的广州黄花岗中共牺牲革命党人86人，其中南洋华侨就占了27人。这些华侨群体带着决心万里救国，虽身隔重洋，却以血脉与信念将南洋与故土紧紧相连。</p>
+        </div>
+      </div>
+      <div class="sheet-back">
+        <div class="page-link">
+          <div class="page-link-label">继续探索</div>
+          <a href="#" onclick="return false;">前往南洋华侨抗日记忆</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-btn" id="prevBtn" disabled>←</button>
+    <span class="page-indicator" id="pageIndicator">封面</span>
+    <button class="nav-btn" id="nextBtn">→</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const sheets = Array.from(document.querySelectorAll('.sheet'));
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const indicator = document.getElementById('pageIndicator');
+
+  const labels = ['封面', '第 1 页', '第 2 页', '第 3 页', '第 4 页', '尾页'];
+  const zUnflipped = [60, 50, 40, 30, 20];
+  const zFlipped   = [0,  5,  15, 25, 35];
+
+  let current = -1; // -1=封面, 0=第1页, 1=第2页, 2=第3页, 3=第4页, 4=尾页
+
+  function setZ(sheet, z) { sheet.style.zIndex = String(z); }
+
+  function updateUI() {
+    prevBtn.disabled = current <= -1;
+    nextBtn.disabled = current >= 4;
+    indicator.textContent = labels[current + 1];
+  }
+
+  function goNext() {
+    if (current >= 4) return;
+    current++;
+    const sheet = sheets[current];
+    setZ(sheet, 100);
+    requestAnimationFrame(() => {
+      sheet.classList.add('flipped');
+    });
+    setTimeout(() => {
+      setZ(sheet, zFlipped[current]);
+    }, 1050);
+    updateUI();
+  }
+
+  function goPrev() {
+    if (current <= -1) return;
+    const sheet = sheets[current];
+    setZ(sheet, 100);
+    requestAnimationFrame(() => {
+      sheet.classList.remove('flipped');
+    });
+    setTimeout(() => {
+      setZ(sheet, zUnflipped[current]);
+    }, 1050);
+    current--;
+    updateUI();
+  }
+
+  sheets[0].querySelector('.sheet-front').addEventListener('click', function() {
+    if (current === -1) goNext();
+  });
+
+  nextBtn.addEventListener('click', goNext);
+  prevBtn.addEventListener('click', goPrev);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      goNext();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      goPrev();
+    }
+  });
+
+  updateUI();
+})();
+</script>
+
+</body>
+</html>
