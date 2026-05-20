@@ -3,12 +3,533 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>制度政策 - 九一八事变后南洋华侨教育数字人文平台</title>
+  <title>制度与政策 - 九一八事变后南洋华侨教育数字人文平台</title>
   <link rel="stylesheet" href="static/css/style_v2.css?v=30" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   
+<style>
+/* ==================== Color Variables for Periods ==================== */
+.timeline-p1 { --period-color: #75564d; --period-bg: rgba(117,86,77,0.06); --period-light: #8a6e5e; }
+.timeline-p2 { --period-color: #c4a57a; --period-bg: rgba(196,165,122,0.1); --period-light: #d4b88a; }
+.timeline-p3 { --period-color: #a2aeb3; --period-bg: rgba(162,174,179,0.1); --period-light: #b5c0c4; }
+.timeline-p4 { --period-color: #6f8ca4; --period-bg: rgba(111,140,164,0.1); --period-light: #85a0b5; }
+
+/* ==================== Hero ==================== */
+.policies-hero {
+  position: relative;
+  padding: 8rem 0 5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background-color: #f5f3ee;
+  overflow: hidden;
+}
+
+.policies-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('static/img/南洋地图.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+.policies-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.policies-hero-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: #955141;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.policies-hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+  color: #230a58;
+}
+
+.policies-hero-desc {
+  font-size: 1.1rem;
+  color: #5c5753;
+  line-height: 1.9;
+  max-width: 640px;
+  margin: 0 auto 1.5rem;
+}
+
+.policies-hero-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  color: #75564d;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* ==================== Sticky Nav ==================== */
+.periods-nav {
+  position: sticky;
+  top: 60px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  z-index: 50;
+  transition: all 0.3s ease;
+}
+
+.periods-nav-inner {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.period-nav-btn {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--gray);
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: none;
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+}
+
+.period-nav-btn:hover {
+  color: var(--black);
+  border-bottom-color: var(--black);
+}
+
+/* ==================== Category Filter Bar ==================== */
+.filter-bar-v2 {
+  padding: 2rem 0;
+  background: #faf8f5;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  color: #8a8580;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.filter-btn-v2 {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 20px;
+  background: #fff;
+  color: #5c5753;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.filter-btn-v2:hover {
+  background: #f5f0ec;
+  border-color: rgba(0,0,0,0.15);
+}
+
+.filter-btn-v2.active {
+  background: #230a58;
+  color: #fff;
+  border-color: #230a58;
+}
+
+/* ==================== Period Section ==================== */
+.period-section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.period-section:nth-child(even) {
+  background: var(--bg);
+}
+
+.period-section:nth-child(odd) {
+  background: var(--bg-alt);
+}
+
+/* Period Magazine Intro */
+.period-magazine {
+  max-width: 800px;
+  margin: 0 auto 5rem;
+  text-align: left;
+}
+
+.period-content {
+  padding: 1rem 0;
+}
+
+.period-number {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--light-gray);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.period-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--black);
+  line-height: 1.3;
+}
+
+.period-time {
+  font-size: 1.1rem;
+  color: var(--light-gray);
+  margin-bottom: 2rem;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.period-intro-text {
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--gray);
+  margin-bottom: 2rem;
+}
+
+.period-keywords {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.period-keyword {
+  font-size: 0.8rem;
+  color: var(--light-gray);
+  letter-spacing: 0.05em;
+}
+
+.period-keyword::before {
+  content: '#';
+  margin-right: 0.25rem;
+}
+
+/* ==================== Timeline Events ==================== */
+.period-events-section {
+  background: var(--period-bg);
+  border-radius: 0;
+  padding: 3rem;
+}
+
+.period-events-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.period-events-header h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--period-color);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Timeline container */
+.period-timeline {
+  position: relative;
+  padding-left: 3rem;
+}
+
+/* The vertical line */
+.period-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--period-color);
+  opacity: 0.4;
+}
+
+/* Single event item */
+.timeline-event-item {
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+
+.timeline-event-item:last-child {
+  padding-bottom: 0;
+}
+
+/* The dot on the timeline */
+.timeline-event-item::before {
+  content: '';
+  position: absolute;
+  left: -3rem;
+  top: 0.35rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--period-color);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--period-color);
+  transition: all 0.3s ease;
+}
+
+.timeline-event-item:hover::before {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px var(--period-color);
+}
+
+/* Event header: clickable area */
+.timeline-event-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-event-header:hover {
+  opacity: 0.7;
+}
+
+.timeline-event-year {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--period-color);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 4rem;
+}
+
+.timeline-event-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* Accordion arrow */
+.event-arrow {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-arrow svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--period-color);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.timeline-event-header.active .event-arrow {
+  transform: rotate(180deg);
+}
+
+/* Collapsible content */
+.timeline-event-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              padding 0.3s ease;
+  padding-left: 0;
+}
+
+.timeline-event-content.open {
+  opacity: 1;
+}
+
+/* Event type tag - unified light style */
+.timeline-event-type {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 4px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.7);
+  color: var(--period-color);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Event description */
+.timeline-event-desc {
+  font-size: 0.95rem;
+  color: var(--gray);
+  line-height: 1.85;
+  margin-bottom: 0.5rem;
+}
+
+/* Policy specific fields */
+.policy-field {
+  margin-bottom: 1rem;
+}
+
+.policy-field-label {
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.policy-field-text {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--gray);
+}
+
+.policy-field-quote {
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: var(--light-gray);
+  font-style: italic;
+  padding-left: 1rem;
+  border-left: 2px solid var(--period-color);
+  opacity: 0.6;
+}
+
+/* Event location / issuer */
+.timeline-event-location {
+  font-size: 0.85rem;
+  color: var(--light-gray);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Category tag inline */
+.policy-category-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.5);
+  color: var(--period-color);
+  border: 1px solid rgba(0,0,0,0.06);
+  margin-left: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* ==================== CTA Section ==================== */
+.policies-cta {
+  padding: 6rem 0;
+  text-align: center;
+  background: #75564d;
+  color: #fff;
+}
+
+.policies-cta h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.policies-cta p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  line-height: 1.8;
+}
+
+.policies-cta .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background: #fff;
+  color: #75564d;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.policies-cta .btn:hover {
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
+  transform: translateY(-2px);
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 768px) {
+  .period-magazine {
+    margin-bottom: 3rem;
+  }
+  .period-section {
+    padding: 4rem 0;
+  }
+  .period-events-section {
+    padding: 2rem 1.5rem;
+  }
+  .period-timeline {
+    padding-left: 2.5rem;
+  }
+  .timeline-event-item::before {
+    left: -2.5rem;
+    width: 10px;
+    height: 10px;
+  }
+  .timeline-event-header {
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: flex-start;
+  }
+  .timeline-event-year {
+    font-size: 1.3rem;
+  }
+}
+</style>
+
 </head>
 <body>
   <nav class="navbar">
@@ -52,1011 +573,3345 @@
 
   <main>
     
-<section class="page-header-v2">
+
+<!-- Hero -->
+<section class="policies-hero">
   <div class="container">
+    <span class="policies-hero-label">Policies &amp; Regulations</span>
     <h1>制度与政策</h1>
-    <p class="page-desc">清政府至国民政府时期华侨教育政策法规演变</p>
-    <p class="page-why">为什么南洋华侨要听中国政府的？因为这些政策决定了华侨学校教什么、怎么教、谁有资格当老师——从"鼓励办学"到"统一教材"，政策一步步改变了几十万华侨学生的课堂。</p>
-    <div class="filter-bar">
-      <span>分类筛选：</span>
-      <a href="policies.html" class="filter-btn active">全部</a>
+    <p class="policies-hero-desc">清政府至国民政府时期华侨教育政策法规演变。从"鼓励办学"到"统一教材"，政策一步步改变了几十万华侨学生的课堂。</p>
+    <p class="policies-hero-quote">"为什么南洋华侨要听中国政府的？因为这些政策决定了华侨学校教什么、怎么教、谁有资格当老师。"</p>
+  </div>
+</section>
+
+<!-- Category Filter -->
+<section class="filter-bar-v2">
+  <div class="container">
+    <div class="filter-bar-inner">
+      <span class="filter-label">分类筛选：</span>
+      <button class="filter-btn-v2 active" data-category="all">全部</button>
       
-      <a href="policies.html?category=侨教法规" class="filter-btn ">侨教法规</a>
+      <button class="filter-btn-v2" data-category="侨教法规">侨教法规</button>
       
-      <a href="policies.html?category=侨教管理" class="filter-btn ">侨教管理</a>
+      <button class="filter-btn-v2" data-category="侨教管理">侨教管理</button>
       
-      <a href="policies.html?category=回国升学" class="filter-btn ">回国升学</a>
+      <button class="filter-btn-v2" data-category="回国升学">回国升学</button>
       
-      <a href="policies.html?category=奖励政策" class="filter-btn ">奖励政策</a>
+      <button class="filter-btn-v2" data-category="奖励政策">奖励政策</button>
       
-      <a href="policies.html?category=女子教育" class="filter-btn ">女子教育</a>
+      <button class="filter-btn-v2" data-category="女子教育">女子教育</button>
       
-      <a href="policies.html?category=师资培养" class="filter-btn ">师资培养</a>
+      <button class="filter-btn-v2" data-category="师资培养">师资培养</button>
       
-      <a href="policies.html?category=师资培训" class="filter-btn ">师资培训</a>
+      <button class="filter-btn-v2" data-category="师资培训">师资培训</button>
       
-      <a href="policies.html?category=教学方法" class="filter-btn ">教学方法</a>
+      <button class="filter-btn-v2" data-category="教学方法">教学方法</button>
       
-      <a href="policies.html?category=教材政策" class="filter-btn ">教材政策</a>
+      <button class="filter-btn-v2" data-category="教材政策">教材政策</button>
       
-      <a href="policies.html?category=教育会议" class="filter-btn ">教育会议</a>
+      <button class="filter-btn-v2" data-category="教育会议">教育会议</button>
       
-      <a href="policies.html?category=教育基金" class="filter-btn ">教育基金</a>
+      <button class="filter-btn-v2" data-category="教育基金">教育基金</button>
       
-      <a href="policies.html?category=教育奖励" class="filter-btn ">教育奖励</a>
+      <button class="filter-btn-v2" data-category="教育奖励">教育奖励</button>
       
-      <a href="policies.html?category=教育改革" class="filter-btn ">教育改革</a>
+      <button class="filter-btn-v2" data-category="教育改革">教育改革</button>
       
-      <a href="policies.html?category=教育方案" class="filter-btn ">教育方案</a>
+      <button class="filter-btn-v2" data-category="教育方案">教育方案</button>
       
-      <a href="policies.html?category=教育方针" class="filter-btn ">教育方针</a>
+      <button class="filter-btn-v2" data-category="教育方针">教育方针</button>
       
-      <a href="policies.html?category=教育管理" class="filter-btn ">教育管理</a>
+      <button class="filter-btn-v2" data-category="教育管理">教育管理</button>
       
-      <a href="policies.html?category=教育组织" class="filter-btn ">教育组织</a>
+      <button class="filter-btn-v2" data-category="教育组织">教育组织</button>
       
-      <a href="policies.html?category=教育统计" class="filter-btn ">教育统计</a>
+      <button class="filter-btn-v2" data-category="教育统计">教育统计</button>
       
-      <a href="policies.html?category=教育规划" class="filter-btn ">教育规划</a>
+      <button class="filter-btn-v2" data-category="教育规划">教育规划</button>
       
-      <a href="policies.html?category=文化奖励" class="filter-btn ">文化奖励</a>
+      <button class="filter-btn-v2" data-category="文化奖励">文化奖励</button>
       
-      <a href="policies.html?category=殖民压迫" class="filter-btn ">殖民压迫</a>
+      <button class="filter-btn-v2" data-category="殖民压迫">殖民压迫</button>
       
-      <a href="policies.html?category=殖民地教育歧视" class="filter-btn ">殖民地教育歧视</a>
+      <button class="filter-btn-v2" data-category="殖民地教育歧视">殖民地教育歧视</button>
       
-      <a href="policies.html?category=民众教育" class="filter-btn ">民众教育</a>
+      <button class="filter-btn-v2" data-category="民众教育">民众教育</button>
       
-      <a href="policies.html?category=社会教育" class="filter-btn ">社会教育</a>
+      <button class="filter-btn-v2" data-category="社会教育">社会教育</button>
       
-      <a href="policies.html?category=管理机构" class="filter-btn ">管理机构</a>
+      <button class="filter-btn-v2" data-category="管理机构">管理机构</button>
       
-      <a href="policies.html?category=职业教育" class="filter-btn ">职业教育</a>
+      <button class="filter-btn-v2" data-category="职业教育">职业教育</button>
       
-      <a href="policies.html?category=视察制度" class="filter-btn ">视察制度</a>
+      <button class="filter-btn-v2" data-category="视察制度">视察制度</button>
       
-      <a href="policies.html?category=语言政策" class="filter-btn ">语言政策</a>
+      <button class="filter-btn-v2" data-category="语言政策">语言政策</button>
       
-      <a href="policies.html?category=语言教育" class="filter-btn ">语言教育</a>
+      <button class="filter-btn-v2" data-category="语言教育">语言教育</button>
       
-      <a href="policies.html?category=重要会议" class="filter-btn ">重要会议</a>
+      <button class="filter-btn-v2" data-category="重要会议">重要会议</button>
       
-      <a href="policies.html?category=鼓励办学" class="filter-btn ">鼓励办学</a>
+      <button class="filter-btn-v2" data-category="鼓励办学">鼓励办学</button>
       
     </div>
   </div>
 </section>
 
-<section class="policies-section">
+<!-- Period Navigation -->
+<nav class="periods-nav">
   <div class="container">
-    <div class="policies-timeline">
-      
-      <div class="policy-item">
-        <div class="policy-year">1903</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">章程</span>
-            <h3>《奏定初等小学堂章程》</h3>
-            
-            <div class="card-plain-summary">清政府出台了第一套新式小学章程，规定初等小学该教哪些课、怎么教</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1904</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">重大改革</span>
-            <h3>废科举、兴学堂</h3>
-            
-            <div class="card-plain-summary">延续一千三百多年的科举考试正式废除，从此读书人不再考八股，改上新式学堂</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1906</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">章程</span>
-            <h3>《华侨学堂章程》</h3>
-            
-            <div class="card-plain-summary">清政府专门给侨校定了规矩：远在海外的华侨学校也要归祖国管、按统一标准办学</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1907</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">章程</span>
-            <h3>《女子师范学堂章程》</h3>
-            
-            <div class="card-plain-summary">晚清头一回给女子师范学校立章程，让女孩子们也能接受正规师范教育</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1911</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">组织</span>
-            <h3>爪哇华侨学务总会</h3>
-            
-            <div class="card-plain-summary">爪哇的华侨自己组织起学务总会，不再单打独斗，抱团管理当地华侨教育</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1913</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>《领事管理华侨学务规程》</h3>
-            
-            <div class="card-plain-summary">这条规矩让中国领事馆直接管起了南洋侨校——谁能办学、谁当老师，领事说了算</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1915</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">视察</span>
-            <h3>派遣官员视察南洋侨校</h3>
-            
-            <div class="card-plain-summary">国民政府派人千里迢迢跑到南洋实地查看侨校办得怎么样，相当于第一次官方&#39;巡考&#39;</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1917</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">奖励</span>
-            <h3>颁发匾额奖励教育工作者</h3>
-            
-            <div class="card-plain-summary">给办学有功的人发匾额嘉奖，说明政府开始重视和鼓励侨教事业了</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1918</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>暹罗华校管理条例</h3>
-            
-            <div class="card-plain-summary">泰国政府出台华校管理条例，从教材到教师都要管，把华校自主权一步步收走</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1926</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">机构</span>
-            <h3>设立侨务委员会</h3>
-            
-            <div class="card-plain-summary">国民政府成立侨务委员会，终于有了专门管华侨事务的正式机构，侨教从此有&#39;娘家&#39;了</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1926</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>英属海峡殖民地学校注册条例</h3>
-            
-            <div class="card-plain-summary">英属海峡殖民地要求所有学校必须登记注册，不注册就不让办——实际是加强对华校的控制</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1926</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>英属海峡殖民地学校注册条例（详细版）</h3>
-            
-            <div class="card-plain-summary">英属海峡殖民地更详细的学校注册规定，对华校的控制进一步收紧</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1926</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">法规</span>
-            <h3>南非华侨教育歧视法规</h3>
-            
-            <div class="card-plain-summary">南非也出台了歧视华侨的教育规定，华侨子女在学校受不平等待遇</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1926</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">地方法规</span>
-            <h3>加利福尼亚学校种族隔离案</h3>
-            
-            <div class="card-plain-summary">美国加州搞学校种族隔离，华侨孩子被单独分出来，不让和白人一起上课</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1928</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>《侨务委员会组织条例》</h3>
-            
-            <div class="card-plain-summary">给侨务委员会定了组织条例，规定这个机构该怎么运转、管哪些事</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议</span>
-            <h3>第一次南洋华侨教育会议</h3>
-            
-            <div class="card-plain-summary">南洋华侨教育的代表们头一回聚在一起开大会，标志着华侨教育从各自为政走向协同合作</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>《捐资兴学褒奖办法》</h3>
-            
-            <div class="card-plain-summary">出台了捐钱办学的褒奖办法，谁出钱建学校就给谁嘉奖，用荣誉鼓励更多人支持侨教</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>南洋华侨教育会议决议</h3>
-            
-            <div class="card-plain-summary">南洋华侨教育会议上做的各项决议，涉及教学语言、教材、管理体制等多方面</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>南洋华侨学校应以国语教授原则案</h3>
-            
-            <div class="card-plain-summary">会议正式要求南洋侨校必须用国语教学，方言讲课的时代结束了</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>南洋华侨应实施三民主义教育案</h3>
-            
-            <div class="card-plain-summary">会议决定侨校也要教三民主义，让海外华侨从小了解祖国的主流政治思想</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>华侨学校应注意国事教材案</h3>
-            
-            <div class="card-plain-summary">要求侨校多教国内时事，让身在异国他乡的华侨学生也能关心祖国大事</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>使土生华侨受祖国文化发扬民族精神案</h3>
-            
-            <div class="card-plain-summary">专门针对土生华侨——让他们也学中华文化、不忘自己的根</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>确定添加及注重各教材案</h3>
-            
-            <div class="card-plain-summary">决定给侨校增加教材内容，要根据实际情况补充新知识</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">会议决议</span>
-            <h3>请制定华侨歌颁布海外华侨学校案</h3>
-            
-            <div class="card-plain-summary">想给华侨学校写专门的校歌，用唱歌增强海外华侨对祖国的认同感</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>领事经理侨民教育行政规程</h3>
-            
-            <div class="card-plain-summary">规定领事馆管理侨校教育的行政流程，明确了领事在侨教中该管什么、怎么管</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>侨民学校立案规程</h3>
-            
-            <div class="card-plain-summary">要求海外侨校向中国政府登记立案，不登记就不算正规侨校——这是加强管控的关键一步</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>捐资兴学褒奖条例</h3>
-            
-            <div class="card-plain-summary">奖励出钱办学的人，捐得多奖得多，用名誉鼓励富侨回馈教育</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>僑民職業補習班規程</h3>
-            
-            <div class="card-plain-summary">办华侨职业培训班，不光教文化课，还教手艺和技术，让侨生有一技之长</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1929</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>僑民民眾學校規程</h3>
-            
-            <div class="card-plain-summary">办华侨民众学校帮成年人扫盲——白天干活、晚上识字，让没上过学的华侨也能读书认字</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1930</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">调查统计</span>
-            <h3>荷印华侨学校仅用商务印书馆教科书占比85%</h3>
-            
-            <div class="card-plain-summary">统计发现荷属东印度85%的侨校都在用商务印书馆的课本，说明民间自发的教材统一早已发生</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1930</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>法属越南华侨教师条例</h3>
-            
-            <div class="card-plain-summary">法属越南殖民当局管制华校老师——谁有资格教书、教什么内容，法国人说了算</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1930</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">计划</span>
-            <h3>改進並發展華僑教育計劃</h3>
-            
-            <div class="card-plain-summary">全面改进和发展华侨教育的计划方案，从课程到管理到师资都列出了改进方向</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1930</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>領事勸導華僑學校附設民眾學校辦法</h3>
-            
-            <div class="card-plain-summary">让领事馆推动侨校附设民众学校——白天教小孩、晚上教大人，一举两得</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1930</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>華僑商會倡辦民眾圖書館辦法</h3>
-            
-            <div class="card-plain-summary">让华侨商会出面给侨社办图书馆，让没上学的华侨也有地方看书学习</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1931</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">原则</span>
-            <h3>《三民主义教育实施原则》</h3>
-            
-            <div class="card-plain-summary">国民党规定所有学校（包括侨校）都要教三民主义，用孙中山的思想统一华侨的教育方向</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1931</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>《华侨中小学规程》</h3>
-            
-            <div class="card-plain-summary">给华侨中小学定了明确的开办标准——校舍要多大、老师要多少、课程怎么设，不合格就不算正规侨校</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1931</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>侨民中小学规程</h3>
-            
-            <div class="card-plain-summary">给华侨中小学定了详细的开办标准，从校舍到师资到课程都有硬要求</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1931</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>侨民中小学校董会组织规程</h3>
-            
-            <div class="card-plain-summary">规定侨校要成立校董会来管理学校事务，让办学更加规范透明</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1931</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">法规</span>
-            <h3>侨务委员会侨民教育处组织设立</h3>
-            
-            <div class="card-plain-summary">侨务委员会正式设立侨民教育处，有了专门管侨教的部门</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1931</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>華僑教育基金募集辦法</h3>
-            
-            <div class="card-plain-summary">出台办法募集华侨教育基金，号召大家捐钱存起来专门用来发展侨教</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1932</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">命令</span>
-            <h3>《侨民学校应一律改用国语教授令》</h3>
-            
-            <div class="card-plain-summary">下令所有侨校必须改用国语上课，不许再用方言教学，想用统一语言把海外华侨和祖国连在一起</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1932</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规则</span>
-            <h3>《派遣侨务专员及侨务视察员规则》</h3>
-            
-            <div class="card-plain-summary">专门派人到南洋各处查侨校，看教材对不对、老师够不够，相当于给侨校做&#39;体检&#39;</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1932</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">命令</span>
-            <h3>侨民学校应一律改用国语教授令</h3>
-            
-            <div class="card-plain-summary">再次下令侨校必须用国语教学——前面说了不管用，这次又强调了一遍</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1932</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>荷属东印度取缔私立学校条例</h3>
-            
-            <div class="card-plain-summary">荷属东印度殖民政府出台条例取缔私立学校，矛头直指华侨自己办的教育机构</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1933</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>《指导侨生回国升学规程》</h3>
-            
-            <div class="card-plain-summary">出台规程指导南洋侨生怎么回国升学，从选学校到入学手续都帮你想好了</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1933</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">殖民政策</span>
-            <h3>英属马来亚殖民地教育歧视政策</h3>
-            
-            <div class="card-plain-summary">英属马来亚殖民政府出台歧视性政策打压华校，不让华侨学校自由发展</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1933</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">纲要</span>
-            <h3>侨民教育实施纲要</h3>
-            
-            <div class="card-plain-summary">国民政府定了个大纲，规定华侨学校该怎么教、教什么</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1933</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>華僑文化團體獎勵辦法</h3>
-            
-            <div class="card-plain-summary">奖励华侨文化团体，办报纸的、搞文艺的、传播中华文化的，国家都给你发奖</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1933</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">命令</span>
-            <h3>提倡僑民職業教育及擴充僑民補習教育令</h3>
-            
-            <div class="card-plain-summary">提倡侨校搞职业教育——别光教读书写字，也教点谋生的本事</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1933</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">统计</span>
-            <h3>各国歧视华侨苛例达113种</h3>
-            
-            <div class="card-plain-summary">统计发现各国加起来歧视华侨的苛例多达113种，华侨在海外处处受限制</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1934</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">机构</span>
-            <h3>设立侨民教育处</h3>
-            
-            <div class="card-plain-summary">国民政府在侨务委员会下面专门设了侨民教育处，管侨校终于有了专门的行政部门</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1934</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">培训</span>
-            <h3>侨民教育师资培训班</h3>
-            
-            <div class="card-plain-summary">办起了侨校教师培训班，把人招来培训后派到南洋教书，解决侨校长期缺好老师的难题</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1934</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">运动</span>
-            <h3>新生活运动与华侨教育</h3>
-            
-            <div class="card-plain-summary">蒋介石搞的新生活运动推广到侨校，把政治运动带进了课堂</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1934</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">教学方法</span>
-            <h3>《侨校历史教学法商榷》</h3>
-            
-            <div class="card-plain-summary">学者讨论侨校历史课该怎么教——是教中国历史为主，还是也教当地历史，引发争论</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1934</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">简章</span>
-            <h3>華僑國語文補習班組織簡章</h3>
-            
-            <div class="card-plain-summary">开国语补习班，专门帮侨生补习中文——中文说不溜？这里有班给你补</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1934</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">法规</span>
-            <h3>暹罗教育部规定华侨小学增加暹文课时</h3>
-            
-            <div class="card-plain-summary">泰国政府要求华侨小学必须增加泰文课时，表面是学语言，实际是挤压中文教学的空间</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1935</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">条例</span>
-            <h3>暹罗强迫教育实施条例</h3>
-            
-            <div class="card-plain-summary">泰国政府出条例强迫华校必须教泰文，实际是打压华校生存空间</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1935</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">论文</span>
-            <h3>《发展华侨社会教育的必要》</h3>
-            
-            <div class="card-plain-summary">提出华侨成年人也要受教育——办夜校、办讲座，让华侨社区整体文化水平提高</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1936</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">纲要</span>
-            <h3>《南洋华侨小学教科书教材编撰纲要》</h3>
-            
-            <div class="card-plain-summary">国民政府定了个大纲，规定南洋侨校的教材该怎么编、教什么内容，让课本不再各写各的</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1936</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">方案</span>
-            <h3>非常时期教育方案</h3>
-            
-            <div class="card-plain-summary">中日局势紧张，国民政府推出战时教育应急方案——万一打起来，学校怎么办要提前想好</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1936</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>侨务委员会补助侨民学校办法</h3>
-            
-            <div class="card-plain-summary">中国政府开始给侨校发补贴了——办学钱不够？国家来补一部分</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1937</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">政策</span>
-            <h3>统一编订&#39;南洋小学教科书&#39;</h3>
-            
-            <div class="card-plain-summary">国民政府统一编了一套&#39;南洋小学教科书&#39;发到侨校，从此南洋华侨小孩读的都是同一套课本</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1937</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>华侨教育会规程</h3>
-            
-            <div class="card-plain-summary">成立华侨教育会来统筹规划所有侨教事务，省得各管各的乱成一团</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1939</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>補助僑生肄業僑居地職業學校辦法</h3>
-            
-            <div class="card-plain-summary">给侨生上职业学校提供补助，学电工、学裁缝、学商科，让华侨有一技傍身好谋生</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1939</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">暂行办法</span>
-            <h3>僑生囘國升學臨時接待所暫行辦法</h3>
-            
-            <div class="card-plain-summary">安排临时接待所给刚回国的侨生解决食宿问题——刚下船没地方住？先去接待所安顿</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1939</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">要点</span>
-            <h3>僑民教育視察要點</h3>
-            
-            <div class="card-plain-summary">规定了视察侨校到底要查什么——教学质量、师资水平、教材合规，一项一项对着检查</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1939</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>僑民教育獎狀規程</h3>
-            
-            <div class="card-plain-summary">给办学成绩好的侨校发奖状，表彰先进、树立榜样</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1940</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">方案</span>
-            <h3>《推进侨民教育方案》</h3>
-            
-            <div class="card-plain-summary">推出了全面推进侨教的总体方案，从师资到教材到管理一把抓，是战时侨教最系统的一次改革</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1940</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">简章</span>
-            <h3>侨民教育师资训练班简章</h3>
-            
-            <div class="card-plain-summary">专门招人培训后派到南洋当老师，既是解决师资短缺，也是在海外播撒教育种子</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1940</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">规程</span>
-            <h3>考选清贫优秀华侨学生回国升学规程</h3>
-            
-            <div class="card-plain-summary">专门给家境贫寒但成绩优秀的侨生开通道，帮他们回国读书改命运</div>
-            
-          </div>
-        </div>
-      </div>
-      
-      <div class="policy-item">
-        <div class="policy-year">1942</div>
-        <div class="policy-card">
-          <div class="policy-header">
-            <span class="policy-type">办法</span>
-            <h3>《回国升学华侨学生奖学金办法》</h3>
-            
-            <div class="card-plain-summary">给从南洋回国读书的侨生发奖学金，让穷孩子也能上得起国内的大学</div>
-            
-          </div>
-        </div>
+    <div class="periods-nav-inner">
+      <a href="#period-1" class="period-nav-btn">私塾肇始</a>
+      <a href="#period-2" class="period-nav-btn">新式转型</a>
+      <a href="#period-3" class="period-nav-btn">制度建构</a>
+      <a href="#period-4" class="period-nav-btn">民族觉醒</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== Period 1: 1690-1903 ==================== -->
+<section class="period-section timeline-p1" id="period-1">
+  <div class="container">
+    <div class="period-magazine reveal">
+      <div class="period-content">
+        <span class="period-number">Period 01</span>
+        <h2 class="period-title">私塾肇始期</h2>
+        <div class="period-time">1690 — 1903</div>
+        <div class="period-keywords">
+          <span class="period-keyword">传统教育</span>
+          <span class="period-keyword">私塾书院</span>
+          <span class="period-keyword">民间自发</span>
+        </div>
+        <p class="period-intro-text">
+          在清政府正式介入华侨教育之前，南洋华侨教育以民间自发办学为主。1903年清政府首次颁布《奏定初等小学堂章程》，以奖励政策鼓励华侨捐资兴学，标志着中国政府开始系统性地关注华侨教育事务。
+        </p>
+      </div>
+    </div>
+
+    <div class="period-events-section reveal">
+      <div class="period-events-header">
+        <h3>这一时期的政策</h3>
+      </div>
+      <div class="period-timeline">
+        
+        
+        <div class="timeline-event-item" data-category="鼓励办学">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1903</span>
+            <span class="timeline-event-title">《奏定初等小学堂章程》<span class="policy-category-tag">鼓励办学</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">章程 · 清政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">鼓励华侨捐资兴学</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">绅董能捐设或劝设公立小学堂及私立小学堂者，地方官奖之；或花红，或扁额；其学堂规模较大者，察请督抚奖给匾额；一人捐资较巨者，察请督抚奏明给奖。</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">清政府对华侨政策由排斥转向利用，通过奖励政策鼓励华侨办学</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">例如1903年颁布的《奏定初等小学堂章程》中提出...</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
       </div>
-      
     </div>
   </div>
 </section>
+
+<!-- ==================== Period 2: 1904-1910 ==================== -->
+<section class="period-section timeline-p2" id="period-2">
+  <div class="container">
+    <div class="period-magazine reveal">
+      <div class="period-content">
+        <span class="period-number">Period 02</span>
+        <h2 class="period-title">新式转型期</h2>
+        <div class="period-time">1904 — 1910</div>
+        <div class="period-keywords">
+          <span class="period-keyword">废科举兴学堂</span>
+          <span class="period-keyword">侨教法规</span>
+          <span class="period-keyword">女子教育</span>
+        </div>
+        <p class="period-intro-text">
+          1904年清政府废除科举、兴办新式学堂，南洋华侨教育随之进入转型阶段。1906年首部《华侨学堂章程》颁布，首次对华侨教育进行制度化管理。1907年《女子师范学堂章程》推动南洋女子教育发展。
+        </p>
+      </div>
+    </div>
+
+    <div class="period-events-section reveal">
+      <div class="period-events-header">
+        <h3>这一时期的政策</h3>
+      </div>
+      <div class="period-timeline">
+        
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育改革">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1904</span>
+            <span class="timeline-event-title">废科举、兴学堂<span class="policy-category-tag">教育改革</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">重大改革 · 清政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">中国步入新式教育阶段，南洋华侨教育也仿照国内，创办新式学堂</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">清政府废除科举制度，兴办新式学堂，推动中国教育的现代化转型</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">维新变法后，清政府进行教育改革，影响南洋华侨教育从传统私塾向新式学堂转变</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1904年清政府开始&#39;废科举、兴学堂&#39;，中国步入新式教育的阶段</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="侨教法规">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1906</span>
+            <span class="timeline-event-title">《华侨学堂章程》<span class="policy-category-tag">侨教法规</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">章程 · 清政府学部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">首次对华侨教育进行制度化管理，确立华侨学校的合法地位</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定华侨学堂的设立条件、课程设置、师资要求等，要求教授国语和儒家经典</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">清政府对华侨教育进行制度化管理，鼓励华侨华人兴办新式学堂</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1906年，清政府颁布《华侨学堂章程》来鼓励华侨华人兴办新式学堂</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="女子教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1907</span>
+            <span class="timeline-event-title">《女子师范学堂章程》<span class="policy-category-tag">女子教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">章程 · 清政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">南洋地区开始成立女子学校，推动女性教育发展</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定女子师范学堂的设立标准和课程设置，允许女性接受正规教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">推动南洋女子教育发展，如1908年吉隆坡坤成女子中学成立</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1907年清政府颁布了《女子师范学堂章程》之后，南洋地区开始成立女子学校</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Period 3: 1911-1930 ==================== -->
+<section class="period-section timeline-p3" id="period-3">
+  <div class="container">
+    <div class="period-magazine reveal">
+      <div class="period-content">
+        <span class="period-number">Period 03</span>
+        <h2 class="period-title">制度建构期</h2>
+        <div class="period-time">1911 — 1930</div>
+        <div class="period-keywords">
+          <span class="period-keyword">政府管理</span>
+          <span class="period-keyword">教材统一</span>
+          <span class="period-keyword">殖民压迫</span>
+          <span class="period-keyword">自主协商</span>
+        </div>
+        <p class="period-intro-text">
+          辛亥革命后，国民政府开始系统性管理南洋华侨教育。1913年《领事管理华侨学务规程》确立管理模式，1929年第一次南洋华侨教育会议召开。但与此同时，殖民政府加紧打压华校——英属学校注册条例、荷属取缔私立学校条例，侨校夹在中外政策间左右为难。
+        </p>
+      </div>
+    </div>
+
+    <div class="period-events-section reveal">
+      <div class="period-events-header">
+        <h3>这一时期的政策</h3>
+      </div>
+      <div class="period-timeline">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育组织">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1911</span>
+            <span class="timeline-event-title">爪哇华侨学务总会<span class="policy-category-tag">教育组织</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">组织 · 清政府/民国继承</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">进行沟通南洋华侨教育的沟通工作，协调各地华侨学校</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">在印尼组织的爪哇华侨学务总会，主要进行沟通南洋华侨教育的沟通工作</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">清政府设立相关部门对南洋华侨学校进行协助和支援</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">如于1911在印尼组织的爪哇华侨学务总会</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="侨教管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1913</span>
+            <span class="timeline-event-title">《领事管理华侨学务规程》<span class="policy-category-tag">侨教管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 北洋政府教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立以教育部为主管机关，侨务委员会和外交部作为协助机关的华侨教育管理模式</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">确定以教育部为主管机关，侨务委员会和外交部作为协助机关，规定驻外领事负责监督华侨学校，审核教材，管理师资</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">民国时期开始对南洋华侨教育给予关注，确立管理架构</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">例如1913年由北洋政府教育部颁布的《领事管理华侨学务规程》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="视察制度">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1915</span>
+            <span class="timeline-event-title">派遣官员视察南洋侨校<span class="policy-category-tag">视察制度</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">视察 · 北洋政府教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">了解南洋华侨教育情况，提升教学水平</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1915年高登鲤、梁家义在北京教育部的委派下前往南洋地区作为驻外侨校视察员；1917年教育部派时任江苏教育会副会长的黄炎培前往南洋对华侨教育进行调查指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">政府多次派遣官员前往南洋地区进行考察和指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">如1915年高登鲤、梁家义...1917年教育部派...黄炎培前往南洋</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="奖励政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1917</span>
+            <span class="timeline-event-title">颁发匾额奖励教育工作者<span class="policy-category-tag">奖励政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">奖励 · 北洋政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">提高南洋华侨的办学积极性</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">颁发匾额给致力于发展华侨教育事业的教育工作者，如荷印华侨学务总理陈显源、三宝垄中华学校校长石鸣球等人</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">通过各种方式奖励先进的华侨学校和个人</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">例如1917年颁发匾额给...陈显源、...石鸣球等人</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民压迫">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1918</span>
+            <span class="timeline-event-title">暹罗华校管理条例<span class="policy-category-tag">殖民压迫</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 暹罗政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">系统性压迫暹罗华侨教育，强制同化华童</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1918年(民国7年)起严为取缔华侨学校：(1)华侨学校必须注册；(2)校长须暹人有资格者(国立中学以上毕业)；(3)每週每堂必授暹文若干点钟；(4)华教员入校须受教育部两次考试及格。1924年取缔私塾亦须用暹人为校长。1934年暹罗教育部规定：华侨小学增加暹文课时(1-3年级每周5.5小时汉文，4-5年级11小时)，减少汉文课时；教科书须经暹罗教育部审查许可方得教授，三民主义绝对不许教授</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">暹罗对华校的系统性同化政策，持续数十年不断加强</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要；第9册·南洋华侨与闽粤社会</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="管理机构">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1926</span>
+            <span class="timeline-event-title">设立侨务委员会<span class="policy-category-tag">管理机构</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">机构 · 国民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">正式设立专门机构管理华侨事务，1932年改组直属国民政府</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1926年国民政府设立侨务委员会，统筹管理华侨教育事务</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">中华民国成立后南洋地区华侨学校正式由国民政府进行监督和管理</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1926年国民政府设立侨务委员会，并于1932年改组</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民压迫">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1926</span>
+            <span class="timeline-event-title">英属海峡殖民地学校注册条例<span class="policy-category-tag">殖民压迫</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 英属海峡殖民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">强制华侨学校注册，限制华校自由，新加坡华侨教育总会因反对该条例遭解散</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1926年公布。未注册之学校总理、董事、教员以违犯论罪；提学司可入校检查；宣传政治或妨碍当地利益即为非法学校；初犯罚250元再犯500元；中国外交部交涉未果</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">英属殖民政府限制华侨教育的措施之一</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民地教育歧视">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1926</span>
+            <span class="timeline-event-title">英属海峡殖民地学校注册条例（详细版）<span class="policy-category-tag">殖民地教育歧视</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 英属海峡殖民地政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">对华侨学校进行严格管控，关闭不合规的华校，限制华侨教育发展</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定所有学校必须向殖民地政府注册，教学内容、教员资格须经审查。注册官有权拒绝或撤销注册，关闭不符合规定的学校。1920年条例实行后，许多华侨学校被关闭或被迫整改</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">英国殖民地政府通过教育注册条例限制华侨教育发展，是殖民地歧视华侨教育政策的典型</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要：英属海峡殖民地学校注册条例</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民地教育歧视">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1926</span>
+            <span class="timeline-event-title">南非华侨教育歧视法规<span class="policy-category-tag">殖民地教育歧视</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">法规 · 南非联邦政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">限制南非华侨子弟受教育权利，被迫接受殖民教育或无法入学</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">南非联邦对华侨教育实施歧视政策，限制华人人学权利，华侨子弟无法接受华文教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">南非种族隔离政策的一部分，华侨同样遭受歧视</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要：南非华侨教育歧视</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民地教育歧视">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1926</span>
+            <span class="timeline-event-title">加利福尼亚学校种族隔离案<span class="policy-category-tag">殖民地教育歧视</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">地方法规 · 美国加利福尼亚州</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">华人学生在加州遭受种族隔离教育，直到1947年才废除隔离政策</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">加利福尼亚州对华人学生实施种族隔离政策，华人学生被禁止进入白人学校，只能就读于华人学校</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">美国排华法案时代的种族歧视在教育领域的体现</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要：加利福尼亚学校种族隔离</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="视察制度">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1928</span>
+            <span class="timeline-event-title">《侨务委员会组织条例》<span class="policy-category-tag">视察制度</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 国民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">明确侨教视导制度，定期派员视察南洋教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">因事务上之必要，得向海外各埠选派侨务视察员或聘请熟悉侨务名望素著者为顾问</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">加强南洋华侨教育的监督管理</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">在1928年国民政府颁布的《侨务委员会组织条例》中规定...</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="重要会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">第一次南洋华侨教育会议<span class="policy-category-tag">重要会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议 · 国民政府侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立华侨教育统一方针，通过教材编写要求和三民主义教育方案</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">在槟城钟灵中学召开，明确提出了对教材编写的要求：适应当地社会环境、养成生活能力、激发爱国心、利用环境以增加教育效能。通过《南洋华侨学校应实施三民主义教育案》、《南洋华侨学校应以国语教授为原则案》等方案</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">确立华侨教育统一方针，宣布三民主义科目加入课程</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1929年南洋华侨第一次教育会议上...通过了《南洋华侨学校应实施三民主义教育案》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="奖励政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">《捐资兴学褒奖办法》<span class="policy-category-tag">奖励政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 国民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">鼓励南洋华侨捐资办学</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">凡以私有财产捐助公立或已立案之学校或其他教育文化团者，一律按照其捐资的多寡，分别授于奖状、奖章或匾额</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">鼓励南洋华侨办学，提高办学积极性</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">以及1929年颁布的《捐资兴学褒奖办法》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">南洋华侨教育会议决议<span class="policy-category-tag">教育会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 暨南大学南洋文化事业部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立三民主义教育方针，规定华侨学校应加入三民主义课程并以国语教授</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">第一次南洋华侨教育会议在槟城召开，议决华侨教育方针应本三民主义，以养成侨居海外中华国民之智能及品格以求中国民族之健全并中外民族间之平等。通过多项决议包括：呈请教育部饬令南洋各属华侨学校加入三民主义一科及一律以国语教授；请国府照会英荷暹法等政府勿得干涉华侨学校加授三民主义</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1929年召开的第一次南洋华侨教育会议是华侨教育史上的重要里程碑</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议报告：华侨教育方针，应本三民主义以养成侨居海外中华国民之智能及品格</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">南洋华侨学校应以国语教授原则案<span class="policy-category-tag">教育会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 南洋华侨教育会议</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立国语为南洋华侨学校统一教学语言的原则</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">由本会呈请教育部饬令南洋各属华侨学校一律以国语教授，并由国府令外交部正式照会英荷暹法等政府，要求于各殖民地内允许华侨学校加授三民主义</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">统一南洋华侨学校教学语言，强化民族认同</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议决议：南洋华侨学校应以国语教授原则案</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">南洋华侨应实施三民主义教育案<span class="policy-category-tag">教育会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 南洋华侨教育会议</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动三民主义教育在南洋华侨学校的实施</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">请政府委派专员到南洋各地指导实施三民主义化教育，成立海外海桥三民主义教育实施委员会，委员由主席团推荐经大会通过</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八前华侨教育重心在于身份认同建设，三民主义教育是核心内容</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议决议：南洋华侨应实施三民主义教育案</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">华侨学校应注意国事教材案<span class="policy-category-tag">教育会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 南洋华侨教育会议</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">要求华侨学校充分编入国事内容，唤起华侨国家观念</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">南洋华侨，蛰伏他国统治之下，爱国心非常淡薄，故欲唤起侨胞国家观念，须先使其对于国家大事有彻底之明了。国家纳入之事实须充分编入教科书中，国事图表必须设备常使学生接触</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">华侨爱国心淡薄，需要通过国事教育唤起国家观念</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议整理案：华侨学校应注意国事教材案</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">使土生华侨受祖国文化发扬民族精神案<span class="policy-category-tag">教育会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 南洋华侨教育会议</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动土生华侨接受祖国文化教育，防止同化于殖民教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">南洋华侨教育宜以灌输祖国文化、发扬民族精神为主旨，否则一听诸侨生各就所在地受外国人之殖民教育，俾与半西式之南洋土人同化。注重国文、历史、地理并修身科或增加国学概要一门；注重人格教育并蒐集中国古来名人嘉言懿行为训话材料；鼓吹土生华侨与一般华侨结合</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">面对殖民教育同化压力，强调祖国文化认同</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议整理案：使土生华侨受祖国文化发扬民族精神案</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教材政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">确定添加及注重各教材案<span class="policy-category-tag">教材政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 南洋华侨教育会议</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">促进侨生了解祖国近代进步之情状，激发爱国内向之心</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">添加中国近百年进步史及中南关系史，促进侨生了解祖国近代进步之情状，藉以激发其爱国内向之心，同时提醒使其洞悉祖国与南洋长久密切之历史，藉以造成海外雄飞之侨民</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八前的华侨教育重心是让侨生认同祖国</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议审查案：确定添加及注重各教材案（乙）添加中国近百年进步史及中南关系史</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育会议">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">请制定华侨歌颁布海外华侨学校案<span class="policy-category-tag">教育会议</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">会议决议 · 南洋华侨教育会议</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">通过音乐教育促进华侨团结和民族意识</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">制一足以维系群众感情之诗歌，如党歌者，命名为华侨歌，颁布之使海外华侨学生遍传海外侨胞一体唱习，既能促助高尚理想情感之陶冶，亦能助以发扬我民族海外雄飞之精神</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">通过音乐教育强化华侨的民族认同和团结精神</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨教育会议整理案：请制定华侨歌颁布海外华侨学校一体唱习以资鼓舞藉促团结案</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">领事经理侨民教育行政规程<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 外交部、教育部、侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立领事管理侨民教育的制度框架，为中国政府管理海外华侨教育提供了法律依据</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1934年4月4日修正公布。规定领事经理侨民教育7个方面：1.宣达监督中央教育法令；2.推行国民党教育方法；3.调查学龄儿童及失学儿童；4.调查侨民教育经费；5.视察学校行政及教学实施；6.考核教育成绩；7.指导教育改进。此外还有9项具体职责：(1)宣达监督中央教育法令(2)推行党义教育方法(3)调查学龄及失学儿童(4)调查经费(5)视察校务教学(6)考核成绩(7)指导改进(8)办讲习会培训教员(9)褒奖优良</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">南京国民政府建立后，为加强海外侨民教育的管理而制定，后经1933年和1934年两次修正</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第8册·保护侨民论：民国23年4月4日外交部教育部侨务委员会会同公布</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">侨民学校立案规程<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立侨民学校必须向中国政府立案的制度，加强对海外华校的管控</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1929年9月12日公布，1934年3月20日修正。规定侨民学校须经领事向侨务委员会转呈教育部核准方可立案；立案须具备经费、校舍、合格教员等条件</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">国民政府建立后加强海外华校管理的系列措施之一</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="鼓励办学">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">捐资兴学褒奖条例<span class="policy-category-tag">鼓励办学</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 国民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">鼓励华侨捐资兴学的积极性，为华侨捐资办学提供荣誉奖励机制</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1929年1月29日公布。规定捐资兴学褒奖等级：500元五等、1000元四等、3000元三等、5000元二等、10000元一等；30000元以上由国民政府嘉奖。领事可以推荐捐资兴学的海外华侨由教育部给予褒奖</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">鼓励海外华侨捐资兴学的重要激励制度</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国18年1月29日公布</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="职业教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">僑民職業補習班規程<span class="policy-category-tag">职业教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">规范华侨职业补习教育，推动华侨职业教育发展</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定侨民职业补习班的设立条件、课程标准和管理办法</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">华侨社会对职业教育需求日益增长，侨务委员会制定规程加以规范</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：僑民職業補習班規程</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="民众教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1929</span>
+            <span class="timeline-event-title">僑民民眾學校規程<span class="policy-category-tag">民众教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">规范华侨民众学校设立，推动华侨社会教育发展</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定侨民民众学校的设立条件、课程设置和管理办法，面向成人华侨进行扫盲教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">为提高华侨文化水平，推动民众教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：僑民民眾學校規程</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育统计">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1930</span>
+            <span class="timeline-event-title">荷印华侨学校仅用商务印书馆教科书占比85%<span class="policy-category-tag">教育统计</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">调查统计 · 钱鹤调查</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">显示商务印书馆在荷属东印度华侨教育中的垄断地位，以及教材与南洋实际情况脱节的问题</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">荷印华侨学校教材的采择：有用商务印书馆的，有用中华书局的，有商务中华两种书并用的。用商务书馆的约占百分之八五，中华的占百分之二，商务中华并用的占百分之三。但都嫌其与南洋时地不合，不适于用。其最感困难的，为自然算术社会常识等课本</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">教材与南洋本土实际脱节是华侨教育的长期问题</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">南洋华侨学校之调查与统计：荷印华侨学校之统计——教材采择</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民压迫">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1930</span>
+            <span class="timeline-event-title">法属越南华侨教师条例<span class="policy-category-tag">殖民压迫</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 法属越南殖民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">限制华人学校聘请校长教员的自由，增加华校办学困难</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定华人学校校长教员最少须&#39;曾在越南境内居住两年&#39;及&#39;在学校所在地居住一年&#39;方为合格，令华校聘请教员校长大感困难</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">法属殖民政府压制华侨教育的手段之一</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育规划">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1930</span>
+            <span class="timeline-event-title">改進並發展華僑教育計劃<span class="policy-category-tag">教育规划</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">计划 · 教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">系统规划华侨教育发展方向，奠定侨教制度基础</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">教育部制定的改进并发展华侨教育的详细计划，涵盖学校教育、社会教育、师资培养、教科书编审等各方面</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年教育部对华侨教育的系统规划，是侨民教育实施纲要的前身</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：改進並發展華僑教育計劃</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="民众教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1930</span>
+            <span class="timeline-event-title">領事勸導華僑學校附設民眾學校辦法<span class="policy-category-tag">民众教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 侨务委员会/外交部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动华侨学校附设民众学校，扩大华侨社会教育覆盖面</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">命令各领事劝导华侨学校附设民众学校，提供成人华侨教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">利用现有侨校设施开展民众教育，是节约资源的举措</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：領事勸導華僑學校附設民眾學校辦法</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="社会教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1930</span>
+            <span class="timeline-event-title">華僑商會倡辦民眾圖書館辦法<span class="policy-category-tag">社会教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动华侨图书馆建设，提高华侨文化素养</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">鼓励华侨商会倡办民众图书馆，提供华侨社会教育资源</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">华侨社会教育的重要组成部分，利用商会力量建设文化设施</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：華僑商會倡辦民眾圖書館辦法</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Period 4: 1931-1945 ==================== -->
+<section class="period-section timeline-p4" id="period-4">
+  <div class="container">
+    <div class="period-magazine reveal">
+      <div class="period-content">
+        <span class="period-number">Period 04</span>
+        <h2 class="period-title">民族觉醒期</h2>
+        <div class="period-time">1931 — 1945</div>
+        <div class="period-keywords">
+          <span class="period-keyword">抗日救国</span>
+          <span class="period-keyword">民族意识</span>
+          <span class="period-keyword">教材统编</span>
+          <span class="period-keyword">师资培训</span>
+        </div>
+        <p class="period-intro-text">
+          九一八事变后，国民政府加强对侨教的统一管理。1931年《三民主义教育实施原则》和《华侨中小学规程》相继出台，1932年命令侨校一律改用国语授课，1936年制定《南洋华侨小学教科书教材编撰纲要》，1937年统一编订"南洋小学教科书"——教材成为凝聚民族意识的重要工具。
+        </p>
+      </div>
+    </div>
+
+    <div class="period-events-section reveal">
+      <div class="period-events-header">
+        <h3>这一时期的政策</h3>
+      </div>
+      <div class="period-timeline">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育方针">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1931</span>
+            <span class="timeline-event-title">《三民主义教育实施原则》<span class="policy-category-tag">教育方针</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">原则 · 国民政府教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立华侨教育民族主义导向，要求三民主义科目加入南洋各地华侨学校课程</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">关于华侨教育的目标中提到：根据中国教育宗旨及其实施方针，以谋华侨教育之统一和发展。根据华侨教育之实际状况，力谋华侨普通教育、职业师范教育、社会教育及补习教育之改进和发展。</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八事变后强化华侨教育的民族主义导向</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1931年9月颁布的《三民主义教育实施原则》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="侨教法规">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1931</span>
+            <span class="timeline-event-title">《华侨中小学规程》<span class="policy-category-tag">侨教法规</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 国民政府教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">明确规定华侨学校的设立标准、课程设置及师资要求</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">华侨中小学教科书，应由该管领事，或当地主管华侨教育人员，会同当地华侨教育会，及华侨中小学教员代表，组织中小学校教科用书编选委员会，就教育部审定之教科书中选定若干种任各校采用</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">规范华侨学校管理，统一教材选用</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">以及1931年颁布的《华侨中小学规程》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1931</span>
+            <span class="timeline-event-title">侨民中小学规程<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">全面规范侨民中小学办学标准，包括学制、课程、训育、校董会等方面</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1931年1月16日公布，1934年2月20日修正。7章详规：总则、经费、设备、课程、训育、校董会、教职员学生等。规定国语为教授用语，学制及课程标准遵照教育部规定</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">国民政府规范侨民学校办学的核心法规</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国20年1月16日公布，23年2月20日修正</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1931</span>
+            <span class="timeline-event-title">侨民中小学校董会组织规程<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">规范侨民学校校董会组织，划清校董与教职员职权</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1931年6月30日公布，1933年2月20日修正。规定校董会代表创办人管理学校财产、聘请校长等职权</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">解决侨校中长期存在的校董与教员权限不清的问题</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1931</span>
+            <span class="timeline-event-title">侨务委员会侨民教育处组织设立<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">法规 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">设立专门机构管理华侨教育，标志侨民教育进入系统化管理阶段</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">侨务委员会组织法第八条设立侨民教育处，负责侨民教育事务。侨民教育处下设教育指导科、登记科等。主要人员包括：周启刚(副委员长兼侨民教育补助费审核委员会委员、侨校教科书编辑委员会委员、侨务教育处长兼委员)、陈春圃(常务委员兼侨民教育补助费审核委员会委员)、陈树人(委员长兼侨校教科书编辑委员)、李朴生(委员兼侨民教育补助费审核委员会委员、侨校教科书编辑委员会委员)等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年12月7日侨务委员会组织法公布，1931年8月13日修正，1936年11月5日再修正，其中侨民教育处是管理华侨教育的专职机构</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第8册·侨务委员会职员录；第9册·侨务法规汇编</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育基金">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1931</span>
+            <span class="timeline-event-title">華僑教育基金募集辦法<span class="policy-category-tag">教育基金</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">建立华侨教育基金制度，保障侨教经费来源</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定华侨教育基金的募集方式、管理使用、监督办法等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">保障华侨教育经费的制度化安排</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：華僑教育基金募集辦法</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="语言政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1932</span>
+            <span class="timeline-event-title">《侨民学校应一律改用国语教授令》<span class="policy-category-tag">语言政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">命令 · 国民政府侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推广国语统一，强化民族认同</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">查旅外华侨因省界县界之区别，语言隔阂，情感难通，每为团结之障碍...为此通令各地领事，转饬该辖内华侨学校，其已实施国语教授者，应极力推进，其仍用方言教授者，应恳切劝止。</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八事变后加强民族团结，推广国语教学</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1932年11月16日侨委会发布的《侨民学校应一律改用国语教授令》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="视察制度">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1932</span>
+            <span class="timeline-event-title">《派遣侨务专员及侨务视察员规则》<span class="policy-category-tag">视察制度</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规则 · 国民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">定期或不定期地派员到海外各地进行视察、监督和指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">定期或不定期地派员到海外各地进行视察、监督和指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八事变后加强对南洋华侨教育的管理</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1932年7月制定的《派遣侨务专员及侨务视察员规则》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1932</span>
+            <span class="timeline-event-title">侨民学校应一律改用国语教授令<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">命令 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">强制所有侨民学校使用国语（普通话）教学，禁止方言教学</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1932年11月26日侨务委员会第410号令：所有侨民学校一律以国语为教授用语，不得使用方言</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">解决海外华侨学校方言教学问题，统一使用国语教授</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第8册·保护侨民论；第9册·侨务法规汇编：民国21年11月26日通令</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民压迫">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1932</span>
+            <span class="timeline-event-title">荷属东印度取缔私立学校条例<span class="policy-category-tag">殖民压迫</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 荷属东印度殖民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">严重限制荷属华侨学校自由，迫使华校接受荷人监管</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1932年10月1日荷印总督公布施行。规定：三姓以上学生须登记；教员须有&#39;教员准字&#39;；准字标准包括行为举止无扰乱治安影响、学务视学官调查、毕业文凭程度不低于荷印初等小学；非荷人须所在地副府尹证明；教授巫语须荷印巫文学校毕业文凭；不合卫生或有倒塌之虞或扰乱治安可封闭；无准字办学处8天监禁或20盾罚金；2年内重犯1月监禁或200盾罚金；过渡期6个月重新登记</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年代荷属殖民政府对华侨教育的系统性打击</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要：1932年10月1日巴达维亚总督公布</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="侨教法规">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1933</span>
+            <span class="timeline-event-title">《指导侨生回国升学规程》<span class="policy-category-tag">侨教法规</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 国民政府侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">规范华侨子弟回国升学程序，提供保护和指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">侨务委员会制订指导侨生回国升学规程，规定侨生回国升学须具呈文陈明姓名年岁籍贯家长姓名职业侨居地址毕业学校及所欲升之学校等级，须有当地本国领事馆党部商会教育会或经本会立案学校之一之证明书或介绍书，呈验毕业文凭或修业证书转学证书学校成绩单等。家境困难者可申请减免学费。由侨委会介绍之侨生一经录取须每学期报告在学情形</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八后华侨子弟回国升学需求增加，需要规范化的指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1933年第1卷第3期p80-81：指导侨生回国升学规程</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民压迫">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1933</span>
+            <span class="timeline-event-title">英属马来亚殖民地教育歧视政策<span class="policy-category-tag">殖民压迫</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">殖民政策 · 英属马来亚殖民地政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">拒绝对华侨提供与马来人同等的教育权利，暴露殖民地同化政策的本质</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">英属马来亚殖民地立法会议中，政府以马来语为当地普通语言，拒绝为华侨提供免费英文教育。议员林清渊极力主张英文教育应享数年免费之规定，但辅政司拒绝采纳，称&#39;中国人欲受中国教育，可回中国去&#39;，并称若不给马来人免费教育则对马来人不公允</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年代英属殖民地加强教育歧视，限制华侨子弟的教育权利</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1933年第1卷第2期p80：殖民地教育政策</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1933</span>
+            <span class="timeline-event-title">侨民教育实施纲要<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">纲要 · 行政院</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">全面规范侨民教育行政体系，确立侨民学校立案制度和教育基金制度</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1933年4月11日行政院第96次会议通过。纲要规定：侨民学校立案须经领事转呈侨务委员会再转教育部核准；设立侨民教育基金1000万元；年补助费50万元；详细规定实施方针、教育行政、学校教育、社会教育及文化事业、教育经费5大方面</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年代初，国民政府系统整理侨务法规，侨民教育实施纲要是其中的核心文件</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国22年4月11日行政院第96次会议通过</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="文化奖励">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1933</span>
+            <span class="timeline-event-title">華僑文化團體獎勵辦法<span class="policy-category-tag">文化奖励</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">鼓励华侨文化团体发展，推动华侨文化传播</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定华侨文化团体的奖励标准和办法，对有贡献的文化团体给予褒奖</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">鼓励华侨文化团体发展，增强文化凝聚力</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：華僑文化團體獎勵辦法</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="职业教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1933</span>
+            <span class="timeline-event-title">提倡僑民職業教育及擴充僑民補習教育令<span class="policy-category-tag">职业教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">命令 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动华侨职业教育发展，扩充补习教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">命令各地侨民教育机构重视职业教育，扩充补习教育设施</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1933年侨务委员会强调华侨职业教育的重要性</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：提倡僑民職業教育及擴充僑民補習教育令</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民地教育歧视">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1933</span>
+            <span class="timeline-event-title">各国歧视华侨苛例达113种<span class="policy-category-tag">殖民地教育歧视</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">统计 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">华侨在全球遭受113种歧视性法规，严重阻碍华侨社会和教育发展</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">根据统计，各国歧视华侨的苛例达113种，涉及入境、居留、教育、商业等各方面。包括：暹罗强迫教育条例、英属马来亚学校注册条例、荷属东印度取缔私立学校条例、法属越南华侨教师条例等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1933年统计显示，华侨在全球各地遭受的各种歧视性法规共有113种之多</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="管理机构">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1934</span>
+            <span class="timeline-event-title">设立侨民教育处<span class="policy-category-tag">管理机构</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">机构 · 国民政府</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">负责教材审定、师资派遣和学校督导等事务，周启刚为首任处长</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1934年中华民国政府正式设立侨民教育处，首任处长周启刚，负责教材审定、师资派遣和学校督导等事务，由国民政府进行直接管理</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">国民政府的侨务职能明显强化，管理更加直接</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1934年，中华民国政府正式设立侨民教育处，首任处长周启刚</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="师资培养">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1934</span>
+            <span class="timeline-event-title">侨民教育师资培训班<span class="policy-category-tag">师资培养</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">培训 · 国民政府侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">培养海外华侨教育人才，介绍出国任教者数十人</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1934年3月侨委会在南京举办侨民教育师资培训班，招收海外有志于从事海外华侨教育事业的青年学生，进行为期一年的训练后，派往海外侨校任教，并开办侨民教育函授学校</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">加强师资力量培养，提升教育质量</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1934年3月侨委会在南京举办侨民教育师资培训班...举办了两期，介绍出国任教者数十人</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育方针">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1934</span>
+            <span class="timeline-event-title">新生活运动与华侨教育<span class="policy-category-tag">教育方针</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">运动 · 侨务委员会教育班</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动新生活运动在华侨中传播，恢复民族精神</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">新生活运动始於南昌，继以南京、北平、上海、天津、汉口，弥漫全国。新生活的大意，不外&#39;民族复兴的基本，在从日常生活做起&#39;。华侨因远离祖国，受殖民地文化侵略，更应推行新生活运动，从衣食住行上养成整齐、清洁、简单、朴素的习惯，以及尊重礼义廉耻的精神</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1934年新生活运动从国内扩展到南洋华侨社会</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1934年第1卷第12期p1：新生活运动与华侨教育——刚鲁</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教学方法">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1934</span>
+            <span class="timeline-event-title">《侨校历史教学法商榷》<span class="policy-category-tag">教学方法</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">教学方法 · 北冥</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">为侨校历史教学提供理论指导，强调教学应适应华侨特殊环境</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">侨校历史教学应具有双重性，既要注重祖国历史教学又要适应居留地环境。教材应进行裁剪，不适合侨童环境的国内教材应删减。应注重民族意识的唤起，从侨童自身感受出发引导爱国情感。同时强调华侨移殖史和居留地与中国历史关系的重要性，提出七项特别注重点：国民移殖和民族主义之关系、华侨自治事业和民权主义之关系、华侨经济事业和民生主义之关系、华侨与国民革命之关系、各国殖民事业和华侨之关系、日本南侵和华侨生存之关系、世界弱小民族与三民主主义之关系</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">针对侨校历史教材与南洋实际脱节的问题提出改革方案</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1934年第1卷第12期：侨校历史教学法商榷——北冥</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="语言教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1934</span>
+            <span class="timeline-event-title">華僑國語文補習班組織簡章<span class="policy-category-tag">语言教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">简章 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">推动华侨国语补习教育，提高华侨母语水平</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定华侨国语文补习班的组织方式、课程设置和经费来源</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">针对海外华侨国语水平参差不齐的问题，设立补习班加强国语教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：華僑國語文補習班組織簡章</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民地教育歧视">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1934</span>
+            <span class="timeline-event-title">暹罗教育部规定华侨小学增加暹文课时<span class="policy-category-tag">殖民地教育歧视</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">法规 · 暹罗教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">增加华侨学校暹文课时，削弱华文教育，是殖民地政府同化华侨的举措</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">暹罗教育部规定华侨小学必须增加暹文授课时数，减少华文课程时间</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">暹罗政府对华侨学校实施同化政策的一部分</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第5册·各国待遇华侨苛例概要：暹罗教育部规定华侨小学增加暹文课时</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="殖民压迫">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1935</span>
+            <span class="timeline-event-title">暹罗强迫教育实施条例<span class="policy-category-tag">殖民压迫</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">条例 · 暹罗政府教育部</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">暹罗华校强迫班被取消，华童被迫转入暹校接受同化教育，华侨教育名存实亡</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">暹罗1932年革命后颁布教育条例，要求民校教员须认识暹文、须经暹政府考试及格、每年须授暹文八百小时、课程须经暹教育部核准。1935年4月1日起更实行强迫教育条例，规定7-14岁华童每星期须授暹文21小时且必须在校上课，原已核准开办之华校以不合强迫教育条例为由下令取消代理权，并谓华侨子弟为暹籍等于暹民应尽义务</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">暹罗从缓进的同化政策转向急进的同化政策，华侨教育遭受严重打击</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1935年第2卷第4期p113：暹罗取缔华校强迫班</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="社会教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1935</span>
+            <span class="timeline-event-title">《发展华侨社会教育的必要》<span class="policy-category-tag">社会教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">论文 · 王志远</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">将对华侨教育的关注从学校教育扩展到社会教育领域</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">华侨社会教育之必要有四：一、未受教育的成年侨胞需通过社会教育补救；二、华侨所处环境复杂，殖民政府同化政策压迫，书籍报纸影片等均受严厉取缔，社会教育为当务之急；三、社会中坚分子为成年人，华侨人口众多，运用社会教育影响巨大；四、社会教育无一定时间地址和方式之限制，实施方便。推行方法包括组织师生旅行团、播放教育电影、劝导装设收音机、张贴壁报画报、扩充图书馆等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1935年殖民地教育压迫加剧，学校教育受限制，社会教育成为必要补充</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1935年第2卷第4期p1：发展华侨社会教育的必要——王志远</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教材政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1936</span>
+            <span class="timeline-event-title">《南洋华侨小学教科书教材编撰纲要》<span class="policy-category-tag">教材政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">纲要 · 国民政府教育部/侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">统一规范南洋华侨学校教材内容，强调民族意识和抗日救国</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">明确了教科书编写的标准，要求南洋华文教科书编写需要参照教育部所颁布的课程标准。提出需要兼顾的内容：注重国民移植和民族主义之关系、华侨自治事业与民权主义之关系、经纪事业与民生主义之关系、华侨与国民革命之关系、华侨与国民革命之关系、日本南侵和华侨生存之关系</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">九一八事变后教材内容民族化、抗日化</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">1936年教育部发布的《南洋华侨小学教科书教材编撰纲要》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育改革">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1936</span>
+            <span class="timeline-event-title">非常时期教育方案<span class="policy-category-tag">教育改革</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">方案 · 教育界/爪哇巴城天声日报</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">提出国难时期的教育改革方案，将教育转向救国方向</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">非常时期教育方案提出：教育对象限于高中及高专大学学生；平时课程减去三分之一，添加非常时期所需特殊科目，使平时科目与非常科目成二与一之比；特殊科目分为特殊技能科目（交通机关管理、机器修缮、救伤防毒、组织民众、编辑新闻、调查统计等）、军事训练科目和精神训练科目三部分，尤应注重特殊技能科目；精神教育应注重目标简单化及训练实践化</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1936年中日关系急剧紧张，教育界提出国难时期教育改革方案</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">侨务月报1936年第3期173-175：非常时期教育方案及其实施</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1936</span>
+            <span class="timeline-event-title">侨务委员会补助侨民学校办法<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">确立侨民学校的分类补助标准，为海外华校提供经费支持</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1936年10月1日公布。规定补助标准：高中甲种1,500元、乙种1,200元；初中甲种1,000元、乙种800元；小学400元</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年代中期，国民政府加大对海外华校的经费补助力度</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国25年10月1日公布</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教材政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1937</span>
+            <span class="timeline-event-title">统一编订&#39;南洋小学教科书&#39;<span class="policy-category-tag">教材政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">政策 · 国民政府侨民教育编辑委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">成立编辑委员会，设立编辑室重新编订南洋华侨地区教学用书</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">国民政府成立了侨民教育编辑委员会，设立了编辑室用以重新编订南洋华侨地区华侨学校的教学用书，统一编订的书目叫做&#39;南洋小学教科书&#39;</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">实现教材统一，加强思想文化引导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">九一八事变爆发后...国民政府成立了侨民教育编辑委员会</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1937</span>
+            <span class="timeline-event-title">华侨教育会规程<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">建立华侨教育会的组织制度，加强海内外华侨教育的联络和指导</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1937年7月修正。规定设国内总会与海外分会，会员资格及组织方式等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">1930年代建立海内外华侨教育联络组织</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国26年7月修正</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="职业教育">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1939</span>
+            <span class="timeline-event-title">補助僑生肄業僑居地職業學校辦法<span class="policy-category-tag">职业教育</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">补助华侨学生在侨居地职业学校就读，推动华侨职业教育</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定补助侨生在侨居地职业学校就读的条件、补助金额和管理办法</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">抗战时期重视华侨职业教育，补助侨生在侨居地接受职业训练</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：補助僑生肄業僑居地職業學校辦法</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="回国升学">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1939</span>
+            <span class="timeline-event-title">僑生囘國升學臨時接待所暫行辦法<span class="policy-category-tag">回国升学</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">暂行办法 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">为回国升学的华侨学生提供临时接待服务，解决侨生回国后找不到学校的问题</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定侨生回国升学临时接待所的设立、管理和服务内容，包括接待、登记、指导升学等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">抗战时期大量华侨学生回国升学，需要专门机构接待安排</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：僑生囘國升學臨時接待所暫行辦法</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1939</span>
+            <span class="timeline-event-title">僑民教育視察要點<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">要点 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">规范侨民教育视察内容和标准，加强侨校监管</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定视察员赴海外视察侨校时应注意的要点，包括教学内容、师资、经费、设备等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">加强侨民教育的监管和指导，确保教育质量</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：僑民教育視察要點</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育奖励">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1939</span>
+            <span class="timeline-event-title">僑民教育獎狀規程<span class="policy-category-tag">教育奖励</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">奖励华侨教育杰出贡献者，激励侨教发展</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">规定侨民教育奖状的颁发条件、程序和等级，对有杰出贡献的华侨教育工作者给予奖励</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">抗战时期更加重视华侨教育的贡献，设立专门的奖励制度</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：僑民教育獎狀規程</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育方案">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1940</span>
+            <span class="timeline-event-title">《推进侨民教育方案》<span class="policy-category-tag">教育方案</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">方案 · 中国国民党第五届中央执行委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">进行新师资训练，改进旧师资，推行师范学校辅导地方教育办法</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1940年中国国民党第五届中央执行委员会第七次全体会议通过《推进侨民教育方案》，提到要进行新师资训练，改进旧师资，推行师范学校辅导地方教育办法</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">抗战时期完善师资培养体系</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">如1940年中国国民党第五届中央执行委员会第七次全体会议通过的《推进侨民教育方案》</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="师资培训">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1940</span>
+            <span class="timeline-event-title">侨民教育师资训练班简章<span class="policy-category-tag">师资培训</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">简章 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">为海外侨校提供经过正规训练的师资力量，提升侨校教学水平</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1940年1月27日通过。规定训练班60名，半年训练期。课程包括三民主义、军训、教育方法、侨务法规、华侨移殖史等</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">抗战时期为解决海外华校师资不足问题而设</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国29年1月27日通过</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="教育管理">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1940</span>
+            <span class="timeline-event-title">考选清贫优秀华侨学生回国升学规程<span class="policy-category-tag">教育管理</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">规程 · 侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">为清贫优秀侨生提供回国受教育机会，培养华侨人才</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1940年2月24日核定。选送科目包括工商管理、银行经营、垦殖、采矿、水产、新闻、教育等，全部公费培养</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">抗战时期特别关注清贫华侨子弟回国升学的渠道</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">民国华侨史料汇编第9册·侨务法规汇编：民国29年2月24日核定</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        
+        <div class="timeline-event-item" data-category="奖励政策">
+          <div class="timeline-event-header" onclick="toggleEvent(this)">
+            <span class="timeline-event-year">1942</span>
+            <span class="timeline-event-title">《回国升学华侨学生奖学金办法》<span class="policy-category-tag">奖励政策</span></span>
+            <span class="event-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="timeline-event-content">
+            <span class="timeline-event-type">办法 · 南京国民政府教育部、侨务委员会</span>
+            
+            <div class="policy-field">
+              <span class="policy-field-label">政策影响</span>
+              <p class="policy-field-text">鼓励华侨子弟回国升学，提供支持与保护</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">内容摘要</span>
+              <p class="policy-field-text">1942年10月由南京国民政府教育部、侨务委员会颁布《回国升学华侨学生奖学金委员会组织章程》、《回国盛行华侨学生奖学金办法》，对选择回国进行升学深造的华侨子弟提供支持与保护</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">历史背景</span>
+              <p class="policy-field-text">促进华侨子弟归国接受教育，加强联系</p>
+            </div>
+            
+            
+            <div class="policy-field">
+              <span class="policy-field-label">文献参考</span>
+              <p class="policy-field-quote">例如1942年10月由南京国民政府教育部、侨务委员会颁布...</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="policies-cta">
+  <div class="container">
+    <h2 class="reveal">继续探索</h2>
+    <p class="reveal reveal-delay-1">查看侨校档案、教材典藏和人物志，全面了解南洋华侨教育的历史脉络。</p>
+    <a href="schools.html" class="btn reveal reveal-delay-2">浏览侨校档案 →</a>
+  </div>
+</section>
+
+<script>
+// Event accordion functionality
+function toggleEvent(header) {
+  const content = header.nextElementSibling;
+  const isOpen = header.classList.contains('active');
+  
+  if (isOpen) {
+    header.classList.remove('active');
+    content.classList.remove('open');
+    content.style.maxHeight = null;
+    content.style.paddingTop = '0';
+  } else {
+    header.classList.add('active');
+    content.classList.add('open');
+    content.style.maxHeight = content.scrollHeight + 'px';
+    content.style.paddingTop = '0.75rem';
+  }
+}
+
+// Category filter functionality
+(function() {
+  const filterBtns = document.querySelectorAll('.filter-btn-v2');
+  const periodSections = document.querySelectorAll('.period-section');
+  
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var category = this.getAttribute('data-category');
+      
+      // Update active state
+      filterBtns.forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      
+      // Filter items
+      periodSections.forEach(function(section) {
+        var items = section.querySelectorAll('.timeline-event-item');
+        var visibleCount = 0;
+        
+        items.forEach(function(item) {
+          var itemCat = item.getAttribute('data-category');
+          if (category === 'all' || itemCat === category) {
+            item.style.display = '';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // Hide entire section if no visible items
+        if (visibleCount === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      });
+    });
+  });
+})();
+</script>
+
 
   </main>
 
