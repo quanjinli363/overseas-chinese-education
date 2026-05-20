@@ -73,20 +73,13 @@
   letter-spacing: 0.05em;
 }
 
-/* ==================== Period Section ==================== */
-.period-section-v2 {
+/* ==================== Archive Section ==================== */
+.archive-section-v2 {
   padding: 5rem 0;
-}
-
-.period-section-v2.pre-918 {
   background: #faf8f5;
 }
 
-.period-section-v2.post-918 {
-  background: linear-gradient(180deg, #f5f0ec 0%, #faf8f5 100%);
-}
-
-.period-header-v2 {
+.archive-header-v2 {
   display: flex;
   align-items: center;
   gap: 1.2rem;
@@ -95,21 +88,15 @@
   border-bottom: 2px solid rgba(149,81,65,0.15);
 }
 
-.period-section-v2.post-918 .period-header-v2 {
-  border-bottom-color: rgba(111,140,164,0.2);
-}
-
-.period-dot-v2 {
+.archive-dot-v2 {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   flex-shrink: 0;
+  background: #955141;
 }
 
-.pre-918 .period-dot-v2 { background: #955141; }
-.post-918 .period-dot-v2 { background: #6f8ca4; }
-
-.period-title-v2 {
+.archive-title-v2 {
   font-family: 'Noto Serif SC', serif;
   font-size: 1.6rem;
   font-weight: 700;
@@ -118,7 +105,7 @@
   letter-spacing: 0.05em;
 }
 
-.period-range-v2 {
+.archive-count-v2 {
   font-size: 0.9rem;
   color: #8a8580;
   font-family: 'Noto Serif SC', serif;
@@ -134,11 +121,13 @@
 
 .textbook-card-v2 {
   background: #fff;
+  border: 1px solid rgba(149,81,65,0.1);
   border-radius: 8px;
   padding: 2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 12px rgba(149,81,65,0.06);
 }
 
 .textbook-card-v2::before {
@@ -148,62 +137,18 @@
   left: 0;
   width: 4px;
   height: 100%;
-  transition: width 0.4s ease;
-}
-
-.pre-918 .textbook-card-v2 {
-  border: 1px solid rgba(149,81,65,0.1);
-  box-shadow: 0 2px 12px rgba(149,81,65,0.06);
-}
-
-.pre-918 .textbook-card-v2::before {
   background: #955141;
-}
-
-.post-918 .textbook-card-v2 {
-  border: 1px solid rgba(111,140,164,0.1);
-  box-shadow: 0 2px 12px rgba(111,140,164,0.06);
-}
-
-.post-918 .textbook-card-v2::before {
-  background: #6f8ca4;
+  transition: width 0.4s ease;
 }
 
 .textbook-card-v2:hover {
   transform: translateY(-4px);
-}
-
-.pre-918 .textbook-card-v2:hover {
   box-shadow: 0 12px 40px rgba(149,81,65,0.12);
-}
-
-.post-918 .textbook-card-v2:hover {
-  box-shadow: 0 12px 40px rgba(111,140,164,0.12);
 }
 
 /* Card Header */
 .textbook-header-v2 {
   margin-bottom: 1.2rem;
-}
-
-.textbook-period-badge {
-  display: inline-block;
-  padding: 0.3rem 0.9rem;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.8rem;
-}
-
-.pre-918 .textbook-period-badge {
-  background: rgba(149,81,65,0.1);
-  color: #955141;
-}
-
-.post-918 .textbook-period-badge {
-  background: rgba(111,140,164,0.1);
-  color: #6f8ca4;
 }
 
 .textbook-title-v2 {
@@ -290,35 +235,20 @@
   text-decoration: none;
   border-radius: 4px;
   transition: all 0.35s ease;
-  border: 1.5px solid transparent;
-}
-
-.pre-918 .textbook-btn-v2 {
+  border: 1.5px solid rgba(149,81,65,0.3);
   color: #955141;
-  border-color: rgba(149,81,65,0.3);
 }
 
-.pre-918 .textbook-btn-v2:hover {
+.textbook-btn-v2:hover {
   background: #955141;
   color: #fff;
   border-color: #955141;
 }
 
-.post-918 .textbook-btn-v2 {
-  color: #6f8ca4;
-  border-color: rgba(111,140,164,0.3);
-}
-
-.post-918 .textbook-btn-v2:hover {
-  background: #6f8ca4;
-  color: #fff;
-  border-color: #6f8ca4;
-}
-
 /* ==================== Themes Section ==================== */
 .themes-section-v2 {
   padding: 5rem 0;
-  background: #faf8f5;
+  background: #f5f0ec;
 }
 
 .themes-header-v2 {
@@ -380,10 +310,10 @@
   .themes-grid-v2 {
     grid-template-columns: 1fr;
   }
-  .period-header-v2 {
+  .archive-header-v2 {
     flex-wrap: wrap;
   }
-  .period-range-v2 {
+  .archive-count-v2 {
     margin-left: 0;
     width: 100%;
     margin-top: 0.3rem;
@@ -440,47 +370,24 @@
   <div class="container">
     <span class="textbooks-hero-label">Textbooks Archive</span>
     <h1>教材典藏</h1>
-    <p class="textbooks-hero-desc">九一八事变前后南洋华侨学校教材汇编。教科书不是中立的——九一八前教"忠君爱国"，九一八后教"抗日救国"，课本的每一个选择，都是教育者的立场。</p>
+    <p class="textbooks-hero-desc">南洋华侨学校教材汇编。从私塾蒙书到新式课本，从忠君爱国到抗日救国——这些教材承载着几代南洋华侨教育者的理想与立场。</p>
     <p class="textbooks-hero-quote">"课本即战场，文字即刀枪。"</p>
   </div>
 </section>
 
-<!-- Pre-918 Section -->
-<section class="period-section-v2 pre-918">
+<!-- Archive Section -->
+<section class="archive-section-v2">
   <div class="container">
-    <div class="period-header-v2">
-      <span class="period-dot-v2"></span>
-      <h2 class="period-title-v2">九一八事变前</h2>
-      <span class="period-range-v2">1931年之前</span>
+    <div class="archive-header-v2">
+      <span class="archive-dot-v2"></span>
+      <h2 class="archive-title-v2">南洋华侨教材典藏</h2>
+      <span class="archive-count-v2">共收录 3 种教材</span>
     </div>
     
     <div class="textbooks-grid-v2">
-      
-      
-      
-      
-      
-      
-      
-    </div>
-  </div>
-</section>
-
-<!-- Post-918 Section -->
-<section class="period-section-v2 post-918">
-  <div class="container">
-    <div class="period-header-v2">
-      <span class="period-dot-v2"></span>
-      <h2 class="period-title-v2">九一八事变后</h2>
-      <span class="period-range-v2">1931年之后</span>
-    </div>
-    
-    <div class="textbooks-grid-v2">
-      
       
       <div class="textbook-card-v2 reveal">
         <div class="textbook-header-v2">
-          <span class="textbook-period-badge">九一八后</span>
           <h3 class="textbook-title-v2">《新编南洋华侨高小国语读本》</h3>
           <div class="textbook-meta-v2">
             <span>中华书局</span>
@@ -505,11 +412,8 @@
         <a href="textbook/textbook-guoyu-1934.html" class="textbook-btn-v2">查看详情 →</a>
       </div>
       
-      
-      
       <div class="textbook-card-v2 reveal">
         <div class="textbook-header-v2">
-          <span class="textbook-period-badge">九一八后</span>
           <h3 class="textbook-title-v2">《南洋华侨历史课本教授书》</h3>
           <div class="textbook-meta-v2">
             <span>中华书局</span>
@@ -542,11 +446,8 @@
         <a href="textbook/textbook-history-1932.html" class="textbook-btn-v2">查看详情 →</a>
       </div>
       
-      
-      
       <div class="textbook-card-v2 reveal">
         <div class="textbook-header-v2">
-          <span class="textbook-period-badge">九一八后</span>
           <h3 class="textbook-title-v2">《复兴国语课本》</h3>
           <div class="textbook-meta-v2">
             <span>商务印书馆</span>
@@ -569,7 +470,6 @@
         <a href="textbook/textbook-fuxing-1935.html" class="textbook-btn-v2">查看详情 →</a>
       </div>
       
-      
     </div>
   </div>
 </section>
@@ -579,7 +479,7 @@
   <div class="container">
     <div class="themes-header-v2">
       <h2>教材主题分析</h2>
-      <p>九一八事变前后教材内容的核心变化</p>
+      <p>南洋华侨教材内容的核心主题</p>
     </div>
     <div class="themes-grid-v2">
       <div class="theme-card-v2 reveal">
@@ -588,7 +488,7 @@
       </div>
       <div class="theme-card-v2 reveal reveal-delay-1">
         <h4>⚔️ 外敌入侵隐喻</h4>
-        <p>五胡乱华、倭寇入侵、中日战争等历史内容，隐喻九一八事变后的民族危机。</p>
+        <p>五胡乱华、倭寇入侵、中日战争等历史内容，隐喻民族危机与抗战意识。</p>
       </div>
       <div class="theme-card-v2 reveal reveal-delay-2">
         <h4>🌏 中日文化对比</h4>
