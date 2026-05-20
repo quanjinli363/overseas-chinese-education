@@ -9,6 +9,299 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   
+<style>
+/* ===== Hero: Site A Style ===== */
+.hero-v2 {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  background: var(--bg, #faf8f5);
+  overflow: hidden;
+}
+
+.hero-v2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/static/img/南洋地图.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+.hero-v2::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, var(--bg, #faf8f5) 0%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-left-v2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 4rem 5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-right-v2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 4rem 5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow-v2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--card-mid, #955141);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease 0.3s forwards;
+}
+
+.hero-title-v2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  color: var(--card-dark, #5f271d);
+  margin-bottom: 0.8rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease 0.5s forwards;
+}
+
+.hero-title-en-v2 {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: clamp(0.8rem, 1.3vw, 1rem);
+  letter-spacing: 0.15em;
+  color: var(--card-mid, #955141);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease 0.7s forwards;
+}
+
+.hero-lead-v2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  line-height: 2.2;
+  color: var(--text-secondary, #5c5753);
+  max-width: 480px;
+  text-align: justify;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease 0.9s forwards;
+}
+
+.hero-actions-v2 {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease 1.1s forwards;
+}
+
+.btn-v2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary-v2 {
+  background: var(--card-dark, #5f271d);
+  color: #fff;
+}
+.btn-primary-v2:hover {
+  background: #7a3a2a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(95,39,29,0.25);
+}
+
+.btn-secondary-v2 {
+  background: transparent;
+  color: var(--card-dark, #5f271d);
+  border: 1.5px solid var(--card-dark, #5f271d);
+}
+.btn-secondary-v2:hover {
+  background: var(--card-dark, #5f271d);
+  color: #fff;
+}
+
+/* Right side intro */
+.hero-intro-v2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(0.82rem, 1.15vw, 0.92rem);
+  line-height: 2.4;
+  color: var(--text-secondary, #5c5753);
+  text-align: justify;
+  max-width: 520px;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease 1s forwards;
+}
+
+.hero-intro-v2 h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  color: var(--card-dark, #5f271d);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-left: 3px solid var(--color-tan, #dbaf8a);
+  padding-left: 1rem;
+}
+
+.hero-intro-v2 p {
+  margin-bottom: 1rem;
+  text-indent: 2em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-v2 {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hero-v2::after {
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(0deg, var(--bg, #faf8f5) 0%, transparent 100%);
+    top: auto; bottom: 0;
+  }
+  .hero-left-v2,
+  .hero-right-v2 {
+    padding: 4rem 2rem;
+  }
+  .hero-right-v2 {
+    order: 2;
+  }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Keep existing sections (Stories, Numbers, Features) ===== */
+.story-section,
+.numbers-section,
+.features-section {
+  padding: 5rem 0;
+}
+
+.story-section {
+  background: var(--bg, #faf8f5);
+}
+
+.numbers-section {
+  background: linear-gradient(180deg, #f5f0ec 0%, var(--bg, #faf8f5) 100%);
+}
+
+.features-section {
+  background: var(--bg, #faf8f5);
+}
+
+/* Update section header colors */
+.section-header .section-label {
+  color: var(--card-mid, #955141);
+  font-family: 'Noto Serif SC', serif;
+}
+
+.section-header .section-title-v2 {
+  color: var(--card-dark, #5f271d);
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* Story cards */
+.story-card {
+  background: #fff;
+  border: 1px solid rgba(95,39,29,0.08);
+  transition: all 0.4s ease;
+}
+.story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(95,39,29,0.1);
+}
+.story-card h3 {
+  color: var(--card-dark, #5f271d);
+  font-family: 'Noto Serif SC', serif;
+}
+.story-card p {
+  color: var(--text-secondary, #5c5753);
+}
+.story-link {
+  color: var(--card-mid, #955141);
+}
+.story-tag {
+  background: rgba(219,175,138,0.15);
+  color: var(--card-dark, #5f271d);
+}
+
+/* Number cards */
+.number-card {
+  background: #fff;
+  border: 1px solid rgba(95,39,29,0.08);
+}
+.number-value {
+  color: var(--card-dark, #5f271d);
+  font-family: 'Noto Serif SC', serif;
+}
+.number-label {
+  color: var(--card-mid, #955141);
+}
+.number-desc {
+  color: var(--text-secondary, #5c5753);
+}
+
+/* Feature cards */
+.feature-card {
+  background: #fff;
+  border: 1px solid rgba(95,39,29,0.08);
+  transition: all 0.4s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(95,39,29,0.1);
+}
+.feature-card h3 {
+  color: var(--card-dark, #5f271d);
+  font-family: 'Noto Serif SC', serif;
+}
+.feature-card p {
+  color: var(--text-secondary, #5c5753);
+}
+
+/* Footer colors */
+.footer {
+  background: linear-gradient(135deg, #5f271d 0%, #410d18 100%);
+  color: rgba(255,255,255,0.7);
+}
+.footer h4 {
+  color: #dbaf8a;
+  font-family: 'Noto Serif SC', serif;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(219,175,138,0.2);
+  color: rgba(255,255,255,0.5);
+}
+</style>
+
 </head>
 <body>
   <nav class="navbar">
@@ -53,119 +346,26 @@
   <main>
     
 
-<!-- Hero Section: F-pattern visual flow -->
+<!-- Hero Section -->
 <section class="hero-v2">
-  <div class="hero-bg-v2"></div>
-  <div class="hero-layout">
-    <div class="hero-left reveal">
-      <p class="hero-eyebrow">数字人文平台 · 1690—1943</p>
-      <h1 class="hero-title-v2">南洋侨教记忆</h1>
-      <p class="hero-title-en">Overseas Chinese Education in Southeast Asia</p>
-      <p class="hero-lead" style="color: #ffffff;">
-        从私塾到新式学堂，从自发办学到统一管理，从文化传承到救亡图存
-      </p>
-      <div class="hero-actions-v2">
-        <a href="timeline.html" class="btn btn-primary-v2">📖 开始探索</a>
-        <a href="map.html" class="btn btn-secondary-v2">🗺️ 查看地图</a>
-      </div>
-    </div>
-    <div class="hero-right reveal reveal-delay-2">
-      <div class="hero-stats-row">
-        <div class="hero-stat-item">
-          <span class="stat-num">72</span>
-          <span class="stat-label">所侨校</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat-item">
-          <span class="stat-num">71</span>
-          <span class="stat-label">项政策</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat-item">
-          <span class="stat-num">37</span>
-          <span class="stat-label">位人物</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat-item">
-          <span class="stat-num">250+</span>
-          <span class="stat-label">年历史</span>
-        </div>
-      </div>
+  <div class="hero-left-v2">
+    <p class="hero-eyebrow-v2">数字人文平台 · 1690—1943</p>
+    <h1 class="hero-title-v2">南洋侨教记忆</h1>
+    <p class="hero-title-en-v2">Overseas Chinese Education in Southeast Asia</p>
+    <p class="hero-lead-v2">
+      从私塾到新式学堂，从自发办学到统一管理，从文化传承到救亡图存——南洋华侨教育的演变，折射出一部中国近现代史的缩影。
+    </p>
+    <div class="hero-actions-v2">
+      <a href="timeline.html" class="btn-v2 btn-primary-v2">📖 开始探索</a>
+      <a href="map.html" class="btn-v2 btn-secondary-v2">🗺️ 查看地图</a>
     </div>
   </div>
-</section>
-
-<!-- Section 1: Why did they build schools? (Image left, text right) -->
-<section class="magazine-section">
-  <div class="container">
-    <div class="magazine-row reveal">
-      <div class="magazine-visual">
-        <div class="magazine-image-wrap">
-          <img src="static/img/southeast-asia-map.jpg" alt="南洋地图" loading="lazy">
-          <span class="magazine-image-caption">南洋群岛新地图 · 1948</span>
-        </div>
-      </div>
-      <div class="magazine-content">
-        <span class="magazine-label">Chapter 01</span>
-        <h2 class="magazine-title">为什么要办学？</h2>
-        <p class="magazine-text">
-          华人一到南洋，第一件事就是办学。1690年，印尼巴达维亚华侨创办<strong>明诚书院</strong>——海外第一所中文学校。他们教四书五经，不是为科举，而是为了把"中国人的身份"一代代传下去。
-        </p>
-        <p class="magazine-text">
-          到了清末，"废科举、兴学堂"的浪潮席卷南洋。私塾纷纷换上"学校"招牌，四书五经让位于国文算术。到1930年代，仅新加坡就有260多所侨校。
-        </p>
-        <a href="schools.html" class="magazine-link">浏览侨校档案 →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Section 2: What changed in textbooks? (Text left, image right) -->
-<section class="magazine-section magazine-alt">
-  <div class="container">
-    <div class="magazine-row magazine-row-reverse reveal">
-      <div class="magazine-content">
-        <span class="magazine-label">Chapter 02</span>
-        <h2 class="magazine-title">课本里多了什么？</h2>
-        <p class="magazine-text">
-          1931年九一八事变后，南洋华侨课本里开始频繁出现<strong>岳飞、宗泽、戚继光</strong>。这不是巧合——编者故意挑选"抵抗外敌入侵"的故事，来回应日本侵略的现实。
-        </p>
-        <p class="magazine-text">
-          地理课多了"东北失地"，历史课多了"五胡乱华"的追问，体育课多了军训——教育成了救亡的武器。
-        </p>
-        <a href="textbooks.html" class="magazine-link">查看教材对比 →</a>
-      </div>
-      <div class="magazine-visual">
-        <div class="magazine-image-wrap">
-          <img src="static/img/textbook-reform.jpg" alt="教材改革" loading="lazy" onerror="this.src='/static/img/southeast-asia-map.jpg'">
-          <span class="magazine-image-caption">九一八事变前后教材内容对比</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Section 3: Who controlled the schools? (Image left, text right) -->
-<section class="magazine-section">
-  <div class="container">
-    <div class="magazine-row reveal">
-      <div class="magazine-visual">
-        <div class="magazine-image-wrap">
-          <img src="static/img/southeast-asia-map.jpg" alt="政策制度" loading="lazy">
-          <span class="magazine-image-caption">71条政策如何塑造侨校命运</span>
-        </div>
-      </div>
-      <div class="magazine-content">
-        <span class="magazine-label">Chapter 03</span>
-        <h2 class="magazine-title">谁在管理侨校？</h2>
-        <p class="magazine-text">
-          清政府只说"你们办学我给奖状"，民国政府则直接介入：1934年设<strong>侨民教育处</strong>，审定教材、派出教师、统一考试。
-        </p>
-        <p class="magazine-text">
-          但殖民政府也在行动——英国出台注册条例，荷兰取缔私立学校，暹罗强迫增加暹文课时。71条中外政策，共同塑造了华侨学校的命运。
-        </p>
-        <a href="policies.html" class="magazine-link">浏览政策文件 →</a>
-      </div>
+  <div class="hero-right-v2">
+    <div class="hero-intro-v2">
+      <h3>历史背景</h3>
+      <p>在近代以前，那些离开故土前往南洋的华人往往被视为"化外之民"，不受政府重视。然而，随着近代中国政治格局的剧烈变动，执政者逐渐意识到南洋华侨的经济实力与战略价值，转而通过华文教育加以拉拢与凝聚。</p>
+      <p>进入民国后，国民政府更加重视以教育手段培育海外华侨的文化认同：派遣专业团队赴南洋考察侨教实况，在国内开办侨校，推行华侨学生归国优待政策。可以说，华侨教育的发展与近代中国民族救亡运动紧密相连——培养南洋侨生，不仅是文化传承，更是寄望于侨民在未来能为民族复兴贡献力量。</p>
+      <p>清朝以降，沿海百姓或因封建剥削压迫，或被外国洋行拐骗，纷纷出洋谋生。鸦片战争后，厦门成为通商口岸，大量劳工被运往南洋、美洲。那些幸存下来的先驱，又牵引着同乡同族陆续南下，逐渐在南洋各地扎根繁衍。</p>
     </div>
   </div>
 </section>
