@@ -9,6 +9,427 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<style>
+/* ==================== Hero ==================== */
+.figures-hero {
+  position: relative;
+  padding: 8rem 0 5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background-color: #f5f3ee;
+  overflow: hidden;
+}
+
+.figures-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('static/img/南洋地图.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+.figures-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.figures-hero-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: #955141;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.figures-hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+  color: #230a58;
+}
+
+.figures-hero-desc {
+  font-size: 1.1rem;
+  color: #5c5753;
+  line-height: 1.9;
+  max-width: 640px;
+  margin: 0 auto 1.5rem;
+}
+
+.figures-hero-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  color: #75564d;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* ==================== Filter Bar ==================== */
+.filter-bar-v2 {
+  padding: 2rem 0;
+  background: #faf8f5;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  color: #8a8580;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.filter-btn-v2 {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 20px;
+  background: #fff;
+  color: #5c5753;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.filter-btn-v2:hover {
+  background: #f5f0ec;
+  border-color: rgba(0,0,0,0.15);
+}
+
+.filter-btn-v2.active {
+  background: #230a58;
+  color: #fff;
+  border-color: #230a58;
+}
+
+/* ==================== Featured Figures ==================== */
+.featured-section {
+  padding: 5rem 0;
+  background: #faf8f5;
+}
+
+.section-header-v2 {
+  margin-bottom: 3rem;
+}
+
+.section-header-v2 h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2d2a26;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.section-header-v2 p {
+  font-size: 0.95rem;
+  color: #8a8580;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.featured-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  border: 1px solid rgba(149,81,65,0.1);
+  box-shadow: 0 2px 12px rgba(149,81,65,0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #955141;
+  transition: width 0.4s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(149,81,65,0.12);
+}
+
+.featured-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.featured-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #230a58;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: 'Noto Serif SC', serif;
+  flex-shrink: 0;
+}
+
+.featured-meta h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2d2a26;
+  margin-bottom: 0.2rem;
+}
+
+.featured-meta .featured-role {
+  font-size: 0.85rem;
+  color: #955141;
+  margin-bottom: 0.2rem;
+}
+
+.featured-meta .featured-lifespan {
+  font-size: 0.78rem;
+  color: #8a8580;
+}
+
+.featured-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.9rem;
+  color: #75564d;
+  font-style: italic;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(149,81,65,0.2);
+}
+
+.featured-achievements {
+  margin-bottom: 1rem;
+}
+
+.featured-achievements h4 {
+  font-size: 0.72rem;
+  color: #8a8580;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.featured-achievements ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+.featured-achievements li {
+  font-size: 0.85rem;
+  color: #5c5753;
+  line-height: 1.9;
+  margin-bottom: 0.2rem;
+}
+
+.featured-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.featured-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #5c5753;
+  background: #f5f0ec;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.featured-cta {
+  margin-top: 1.2rem;
+  font-size: 0.82rem;
+  color: #955141;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ==================== Network Graph ==================== */
+.network-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, #f5f0ec 0%, #faf8f5 100%);
+}
+
+.network-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.network-header h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2d2a26;
+  margin-bottom: 0.5rem;
+}
+
+.network-header p {
+  font-size: 0.95rem;
+  color: #8a8580;
+}
+
+.network-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #5c5753;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+#network-graph {
+  width: 100%;
+  height: 600px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+
+/* ==================== Other Figures ==================== */
+.others-section {
+  padding: 5rem 0;
+  background: #faf8f5;
+}
+
+.others-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.other-card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1.4rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.other-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.other-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.other-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f5f0ec;
+  color: #75564d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Noto Serif SC', serif;
+  flex-shrink: 0;
+}
+
+.other-meta h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d2a26;
+  margin-bottom: 0.1rem;
+}
+
+.other-meta .other-role {
+  font-size: 0.78rem;
+  color: #8a8580;
+}
+
+.other-summary {
+  font-size: 0.82rem;
+  color: #5c5753;
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+
+.other-tags {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.other-tag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.68rem;
+  color: #5c5753;
+  background: #f5f0ec;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+  .others-grid {
+    grid-template-columns: 1fr;
+  }
+  #network-graph {
+    height: 400px;
+  }
+}
+</style>
+
 </head>
 <body>
   <nav class="navbar">
@@ -52,926 +473,4130 @@
 
   <main>
     
-<section class="page-header-v2">
+
+<!-- Hero -->
+<section class="figures-hero">
   <div class="container">
+    <span class="figures-hero-label">Key Figures</span>
     <h1>人物图谱</h1>
-    <p class="page-desc">南洋华侨教育关键人物</p>
-    <p class="page-why">有人倾家荡产办学，有人冒险送教材，有人用课本唤醒民族意识——这些人的故事，比任何政策文件都鲜活。</p>
-    <div class="filter-bar">
-      <span>标签筛选：</span>
-      <a href="figures.html" class="filter-btn active">全部</a>
+    <p class="figures-hero-desc">有人倾家荡产办学，有人冒险送教材，有人用课本唤醒民族意识——这些人的故事，比任何政策文件都鲜活。</p>
+    <p class="figures-hero-quote">"华侨为革命之母。" —— 孙中山</p>
+  </div>
+</section>
+
+<!-- Tag Filter -->
+<section class="filter-bar-v2">
+  <div class="container">
+    <div class="filter-bar-inner">
+      <span class="filter-label">标签筛选：</span>
+      <button class="filter-btn-v2 active" data-tag="all">全部</button>
       
-      <a href="figures.html?tag=三民主义" class="filter-btn ">三民主义</a>
+      <button class="filter-btn-v2" data-tag="三民主义">三民主义</button>
       
-      <a href="figures.html?tag=侨务" class="filter-btn ">侨务</a>
+      <button class="filter-btn-v2" data-tag="侨务">侨务</button>
       
-      <a href="figures.html?tag=侨务专家" class="filter-btn ">侨务专家</a>
+      <button class="filter-btn-v2" data-tag="侨务专家">侨务专家</button>
       
-      <a href="figures.html?tag=侨务委员会" class="filter-btn ">侨务委员会</a>
+      <button class="filter-btn-v2" data-tag="侨务委员会">侨务委员会</button>
       
-      <a href="figures.html?tag=侨务官员" class="filter-btn ">侨务官员</a>
+      <button class="filter-btn-v2" data-tag="侨务官员">侨务官员</button>
       
-      <a href="figures.html?tag=侨教危机" class="filter-btn ">侨教危机</a>
+      <button class="filter-btn-v2" data-tag="侨教危机">侨教危机</button>
       
-      <a href="figures.html?tag=侨教行政" class="filter-btn ">侨教行政</a>
+      <button class="filter-btn-v2" data-tag="侨教行政">侨教行政</button>
       
-      <a href="figures.html?tag=侨教防御" class="filter-btn ">侨教防御</a>
+      <button class="filter-btn-v2" data-tag="侨教防御">侨教防御</button>
       
-      <a href="figures.html?tag=侨领" class="filter-btn ">侨领</a>
+      <button class="filter-btn-v2" data-tag="侨领">侨领</button>
       
-      <a href="figures.html?tag=保护侨民" class="filter-btn ">保护侨民</a>
+      <button class="filter-btn-v2" data-tag="保护侨民">保护侨民</button>
       
-      <a href="figures.html?tag=军事家" class="filter-btn ">军事家</a>
+      <button class="filter-btn-v2" data-tag="军事家">军事家</button>
       
-      <a href="figures.html?tag=创办者" class="filter-btn ">创办者</a>
+      <button class="filter-btn-v2" data-tag="创办者">创办者</button>
       
-      <a href="figures.html?tag=副委员长" class="filter-btn ">副委员长</a>
+      <button class="filter-btn-v2" data-tag="副委员长">副委员长</button>
       
-      <a href="figures.html?tag=劝学" class="filter-btn ">劝学</a>
+      <button class="filter-btn-v2" data-tag="劝学">劝学</button>
       
-      <a href="figures.html?tag=华侨" class="filter-btn ">华侨</a>
+      <button class="filter-btn-v2" data-tag="华侨">华侨</button>
       
-      <a href="figures.html?tag=华侨捐资" class="filter-btn ">华侨捐资</a>
+      <button class="filter-btn-v2" data-tag="华侨捐资">华侨捐资</button>
       
-      <a href="figures.html?tag=华侨教育" class="filter-btn ">华侨教育</a>
+      <button class="filter-btn-v2" data-tag="华侨教育">华侨教育</button>
       
-      <a href="figures.html?tag=华侨研究" class="filter-btn ">华侨研究</a>
+      <button class="filter-btn-v2" data-tag="华侨研究">华侨研究</button>
       
-      <a href="figures.html?tag=华侨调查" class="filter-btn ">华侨调查</a>
+      <button class="filter-btn-v2" data-tag="华侨调查">华侨调查</button>
       
-      <a href="figures.html?tag=南洋" class="filter-btn ">南洋</a>
+      <button class="filter-btn-v2" data-tag="南洋">南洋</button>
       
-      <a href="figures.html?tag=国家建设" class="filter-btn ">国家建设</a>
+      <button class="filter-btn-v2" data-tag="国家建设">国家建设</button>
       
-      <a href="figures.html?tag=国籍法" class="filter-btn ">国籍法</a>
+      <button class="filter-btn-v2" data-tag="国籍法">国籍法</button>
       
-      <a href="figures.html?tag=国语推广" class="filter-btn ">国语推广</a>
+      <button class="filter-btn-v2" data-tag="国语推广">国语推广</button>
       
-      <a href="figures.html?tag=外交官" class="filter-btn ">外交官</a>
+      <button class="filter-btn-v2" data-tag="外交官">外交官</button>
       
-      <a href="figures.html?tag=女子教育" class="filter-btn ">女子教育</a>
+      <button class="filter-btn-v2" data-tag="女子教育">女子教育</button>
       
-      <a href="figures.html?tag=女权" class="filter-btn ">女权</a>
+      <button class="filter-btn-v2" data-tag="女权">女权</button>
       
-      <a href="figures.html?tag=委员长" class="filter-btn ">委员长</a>
+      <button class="filter-btn-v2" data-tag="委员长">委员长</button>
       
-      <a href="figures.html?tag=学者" class="filter-btn ">学者</a>
+      <button class="filter-btn-v2" data-tag="学者">学者</button>
       
-      <a href="figures.html?tag=官员" class="filter-btn ">官员</a>
+      <button class="filter-btn-v2" data-tag="官员">官员</button>
       
-      <a href="figures.html?tag=实业家" class="filter-btn ">实业家</a>
+      <button class="filter-btn-v2" data-tag="实业家">实业家</button>
       
-      <a href="figures.html?tag=实地调查" class="filter-btn ">实地调查</a>
+      <button class="filter-btn-v2" data-tag="实地调查">实地调查</button>
       
-      <a href="figures.html?tag=对策" class="filter-btn ">对策</a>
+      <button class="filter-btn-v2" data-tag="对策">对策</button>
       
-      <a href="figures.html?tag=岭南画派" class="filter-btn ">岭南画派</a>
+      <button class="filter-btn-v2" data-tag="岭南画派">岭南画派</button>
       
-      <a href="figures.html?tag=师资培训" class="filter-btn ">师资培训</a>
+      <button class="filter-btn-v2" data-tag="师资培训">师资培训</button>
       
-      <a href="figures.html?tag=归国侨胞" class="filter-btn ">归国侨胞</a>
+      <button class="filter-btn-v2" data-tag="归国侨胞">归国侨胞</button>
       
-      <a href="figures.html?tag=慈勤女中" class="filter-btn ">慈勤女中</a>
+      <button class="filter-btn-v2" data-tag="慈勤女中">慈勤女中</button>
       
-      <a href="figures.html?tag=慈善家" class="filter-btn ">慈善家</a>
+      <button class="filter-btn-v2" data-tag="慈善家">慈善家</button>
       
-      <a href="figures.html?tag=抗日" class="filter-btn ">抗日</a>
+      <button class="filter-btn-v2" data-tag="抗日">抗日</button>
       
-      <a href="figures.html?tag=抗日运动" class="filter-btn ">抗日运动</a>
+      <button class="filter-btn-v2" data-tag="抗日运动">抗日运动</button>
       
-      <a href="figures.html?tag=政治家" class="filter-btn ">政治家</a>
+      <button class="filter-btn-v2" data-tag="政治家">政治家</button>
       
-      <a href="figures.html?tag=政策制定" class="filter-btn ">政策制定</a>
+      <button class="filter-btn-v2" data-tag="政策制定">政策制定</button>
       
-      <a href="figures.html?tag=教育会议" class="filter-btn ">教育会议</a>
+      <button class="filter-btn-v2" data-tag="教育会议">教育会议</button>
       
-      <a href="figures.html?tag=教育家" class="filter-btn ">教育家</a>
+      <button class="filter-btn-v2" data-tag="教育家">教育家</button>
       
-      <a href="figures.html?tag=教育改革" class="filter-btn ">教育改革</a>
+      <button class="filter-btn-v2" data-tag="教育改革">教育改革</button>
       
-      <a href="figures.html?tag=教育权利" class="filter-btn ">教育权利</a>
+      <button class="filter-btn-v2" data-tag="教育权利">教育权利</button>
       
-      <a href="figures.html?tag=教育管理" class="filter-btn ">教育管理</a>
+      <button class="filter-btn-v2" data-tag="教育管理">教育管理</button>
       
-      <a href="figures.html?tag=新加坡" class="filter-btn ">新加坡</a>
+      <button class="filter-btn-v2" data-tag="新加坡">新加坡</button>
       
-      <a href="figures.html?tag=新生活运动" class="filter-btn ">新生活运动</a>
+      <button class="filter-btn-v2" data-tag="新生活运动">新生活运动</button>
       
-      <a href="figures.html?tag=暨南大学" class="filter-btn ">暨南大学</a>
+      <button class="filter-btn-v2" data-tag="暨南大学">暨南大学</button>
       
-      <a href="figures.html?tag=暹罗" class="filter-btn ">暹罗</a>
+      <button class="filter-btn-v2" data-tag="暹罗">暹罗</button>
       
-      <a href="figures.html?tag=权益" class="filter-btn ">权益</a>
+      <button class="filter-btn-v2" data-tag="权益">权益</button>
       
-      <a href="figures.html?tag=校长" class="filter-btn ">校长</a>
+      <button class="filter-btn-v2" data-tag="校长">校长</button>
       
-      <a href="figures.html?tag=欧洲华侨" class="filter-btn ">欧洲华侨</a>
+      <button class="filter-btn-v2" data-tag="欧洲华侨">欧洲华侨</button>
       
-      <a href="figures.html?tag=歧视条例" class="filter-btn ">歧视条例</a>
+      <button class="filter-btn-v2" data-tag="歧视条例">歧视条例</button>
       
-      <a href="figures.html?tag=殖民地" class="filter-btn ">殖民地</a>
+      <button class="filter-btn-v2" data-tag="殖民地">殖民地</button>
       
-      <a href="figures.html?tag=民族精神" class="filter-btn ">民族精神</a>
+      <button class="filter-btn-v2" data-tag="民族精神">民族精神</button>
       
-      <a href="figures.html?tag=民族运动" class="filter-btn ">民族运动</a>
+      <button class="filter-btn-v2" data-tag="民族运动">民族运动</button>
       
-      <a href="figures.html?tag=法属越南" class="filter-btn ">法属越南</a>
+      <button class="filter-btn-v2" data-tag="法属越南">法属越南</button>
       
-      <a href="figures.html?tag=法律" class="filter-btn ">法律</a>
+      <button class="filter-btn-v2" data-tag="法律">法律</button>
       
-      <a href="figures.html?tag=海防" class="filter-btn ">海防</a>
+      <button class="filter-btn-v2" data-tag="海防">海防</button>
       
-      <a href="figures.html?tag=清末" class="filter-btn ">清末</a>
+      <button class="filter-btn-v2" data-tag="清末">清末</button>
       
-      <a href="figures.html?tag=爪哇" class="filter-btn ">爪哇</a>
+      <button class="filter-btn-v2" data-tag="爪哇">爪哇</button>
       
-      <a href="figures.html?tag=研究者" class="filter-btn ">研究者</a>
+      <button class="filter-btn-v2" data-tag="研究者">研究者</button>
       
-      <a href="figures.html?tag=社会学家" class="filter-btn ">社会学家</a>
+      <button class="filter-btn-v2" data-tag="社会学家">社会学家</button>
       
-      <a href="figures.html?tag=社会教育" class="filter-btn ">社会教育</a>
+      <button class="filter-btn-v2" data-tag="社会教育">社会教育</button>
       
-      <a href="figures.html?tag=经济" class="filter-btn ">经济</a>
+      <button class="filter-btn-v2" data-tag="经济">经济</button>
       
-      <a href="figures.html?tag=统计" class="filter-btn ">统计</a>
+      <button class="filter-btn-v2" data-tag="统计">统计</button>
       
-      <a href="figures.html?tag=维新派" class="filter-btn ">维新派</a>
+      <button class="filter-btn-v2" data-tag="维新派">维新派</button>
       
-      <a href="figures.html?tag=考察" class="filter-btn ">考察</a>
+      <button class="filter-btn-v2" data-tag="考察">考察</button>
       
-      <a href="figures.html?tag=职业教育" class="filter-btn ">职业教育</a>
+      <button class="filter-btn-v2" data-tag="职业教育">职业教育</button>
       
-      <a href="figures.html?tag=荷印" class="filter-btn ">荷印</a>
+      <button class="filter-btn-v2" data-tag="荷印">荷印</button>
       
-      <a href="figures.html?tag=获奖" class="filter-btn ">获奖</a>
+      <button class="filter-btn-v2" data-tag="获奖">获奖</button>
       
-      <a href="figures.html?tag=见证者" class="filter-btn ">见证者</a>
+      <button class="filter-btn-v2" data-tag="见证者">见证者</button>
       
-      <a href="figures.html?tag=视察" class="filter-btn ">视察</a>
+      <button class="filter-btn-v2" data-tag="视察">视察</button>
       
-      <a href="figures.html?tag=视察员" class="filter-btn ">视察员</a>
+      <button class="filter-btn-v2" data-tag="视察员">视察员</button>
       
-      <a href="figures.html?tag=议员" class="filter-btn ">议员</a>
+      <button class="filter-btn-v2" data-tag="议员">议员</button>
       
-      <a href="figures.html?tag=评论" class="filter-btn ">评论</a>
+      <button class="filter-btn-v2" data-tag="评论">评论</button>
       
-      <a href="figures.html?tag=调查" class="filter-btn ">调查</a>
+      <button class="filter-btn-v2" data-tag="调查">调查</button>
       
-      <a href="figures.html?tag=钟灵中学" class="filter-btn ">钟灵中学</a>
+      <button class="filter-btn-v2" data-tag="钟灵中学">钟灵中学</button>
       
-      <a href="figures.html?tag=闽粤社会" class="filter-btn ">闽粤社会</a>
+      <button class="filter-btn-v2" data-tag="闽粤社会">闽粤社会</button>
       
-      <a href="figures.html?tag=革命" class="filter-btn ">革命</a>
+      <button class="filter-btn-v2" data-tag="革命">革命</button>
       
-      <a href="figures.html?tag=革命家" class="filter-btn ">革命家</a>
+      <button class="filter-btn-v2" data-tag="革命家">革命家</button>
       
-      <a href="figures.html?tag=马来亚" class="filter-btn ">马来亚</a>
+      <button class="filter-btn-v2" data-tag="马来亚">马来亚</button>
       
     </div>
   </div>
 </section>
 
-<section class="figures-section">
+<!-- Featured Figures -->
+<section class="featured-section">
   <div class="container">
-    <div class="figures-grid">
+    <div class="section-header-v2 reveal">
+      <h2>核心人物</h2>
+      <p>南洋华侨教育史上最具影响力的代表人物</p>
+    </div>
+    <div class="featured-grid">
       
-      <a href="figure/figure-chenjiageng.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈嘉庚</h3>
-          
-          <p class="figure-plain-summary">倾家荡产办学，一个人捐了400万建厦门大学，还创办了集美学校和南洋华侨中学</p>
-          
-          <div class="figure-card-tags">
+      
+      
+      <a href="figure/figure-chenjiageng.html" class="featured-card reveal" data-tags="侨领,实业家,教育家,抗日,慈善家,革命">
+        <div class="featured-card-header">
+          <div class="featured-avatar">陈</div>
+          <div class="featured-meta">
+            <h3>陈嘉庚</h3>
+            <div class="featured-role">华侨领袖、教育家、实业家</div>
             
-            <span class="tag">侨领</span>
-            
-            <span class="tag">实业家</span>
-            
-            <span class="tag">教育家</span>
+            <div class="featured-lifespan">1874-1961</div>
             
           </div>
         </div>
-        <span class="figure-arrow">→</span>
+        
+        <div class="featured-quote">"国家之富强，全在乎国民。国民之发展，全在乎教育。"</div>
+        
+        
+        <div class="featured-achievements">
+          <h4>主要成就</h4>
+          <ul>
+            
+            <li>创办集美学校、厦门大学</li>
+            
+            <li>创办南洋华侨中学</li>
+            
+            <li>领导南洋华侨抗日救亡运动</li>
+            
+          </ul>
+        </div>
+        
+        <div class="featured-tags">
+          
+          <span class="featured-tag">侨领</span>
+          
+          <span class="featured-tag">实业家</span>
+          
+          <span class="featured-tag">教育家</span>
+          
+          <span class="featured-tag">抗日</span>
+          
+        </div>
+        <div class="featured-cta">查看详情 →</div>
       </a>
       
-      <a href="figure/figure-zuobinglong.html" class="figure-card-simple">
-        <div class="figure-avatar">左</div>
-        <div class="figure-card-info">
-          <h3>左秉隆</h3>
-          
-          <p class="figure-plain-summary">驻新加坡领事，推动华侨教育现代化，鼓励侨校教国语、编教材、办辩论会</p>
-          
-          <div class="figure-card-tags">
+      
+      
+      <a href="figure/figure-zuobinglong.html" class="featured-card reveal" data-tags="外交官,教育改革,国语推广,新加坡">
+        <div class="featured-card-header">
+          <div class="featured-avatar">左</div>
+          <div class="featured-meta">
+            <h3>左秉隆</h3>
+            <div class="featured-role">外交官、教育家</div>
             
-            <span class="tag">外交官</span>
-            
-            <span class="tag">教育改革</span>
-            
-            <span class="tag">国语推广</span>
+            <div class="featured-lifespan">1856-1924</div>
             
           </div>
         </div>
-        <span class="figure-arrow">→</span>
+        
+        
+        <div class="featured-achievements">
+          <h4>主要成就</h4>
+          <ul>
+            
+            <li>1881-1891年任驻新加坡领事</li>
+            
+            <li>推动华侨教育发展</li>
+            
+            <li>鼓励侨校教授国语</li>
+            
+          </ul>
+        </div>
+        
+        <div class="featured-tags">
+          
+          <span class="featured-tag">外交官</span>
+          
+          <span class="featured-tag">教育改革</span>
+          
+          <span class="featured-tag">国语推广</span>
+          
+          <span class="featured-tag">新加坡</span>
+          
+        </div>
+        <div class="featured-cta">查看详情 →</div>
       </a>
       
-      <a href="figure/figure-liushimu.html" class="figure-card-simple">
-        <div class="figure-avatar">刘</div>
-        <div class="figure-card-info">
-          <h3>刘士木</h3>
-          
-          <p class="figure-plain-summary">华侨教育学者，专门研究南洋侨教问题，写了一手调查资料</p>
-          
-          <div class="figure-card-tags">
+      
+      
+      <a href="figure/figure-liushimu.html" class="featured-card reveal" data-tags="学者,研究者,教育家,考察">
+        <div class="featured-card-header">
+          <div class="featured-avatar">刘</div>
+          <div class="featured-meta">
+            <h3>刘士木</h3>
+            <div class="featured-role">教育家、学者</div>
             
-            <span class="tag">学者</span>
-            
-            <span class="tag">研究者</span>
-            
-            <span class="tag">教育家</span>
+            <div class="featured-lifespan">1890-1950s</div>
             
           </div>
         </div>
-        <span class="figure-arrow">→</span>
+        
+        
+        <div class="featured-achievements">
+          <h4>主要成就</h4>
+          <ul>
+            
+            <li>研究华侨教育的先驱学者</li>
+            
+            <li>编著《华侨教育》等专著</li>
+            
+            <li>推动南洋华侨教育研究</li>
+            
+          </ul>
+        </div>
+        
+        <div class="featured-tags">
+          
+          <span class="featured-tag">学者</span>
+          
+          <span class="featured-tag">研究者</span>
+          
+          <span class="featured-tag">教育家</span>
+          
+          <span class="featured-tag">考察</span>
+          
+        </div>
+        <div class="featured-cta">查看详情 →</div>
       </a>
       
-      <a href="figure/figure-zhouqigang.html" class="figure-card-simple">
-        <div class="figure-avatar">周</div>
-        <div class="figure-card-info">
-          <h3>周启刚</h3>
-          
-          <p class="figure-plain-summary">侨务专员，被派到南洋视察侨校情况，是政府与侨校之间的联络人</p>
-          
-          <div class="figure-card-tags">
+      
+      
+      
+      
+      
+      
+      
+      
+      <a href="figure/figure-chenqingshan.html" class="featured-card reveal" data-tags="革命家,军事家,钟灵中学,抗日">
+        <div class="featured-card-header">
+          <div class="featured-avatar">陈</div>
+          <div class="featured-meta">
+            <h3>陈青山</h3>
+            <div class="featured-role">革命家、军事家</div>
             
-            <span class="tag">官员</span>
-            
-            <span class="tag">政策制定</span>
-            
-            <span class="tag">侨务</span>
+            <div class="featured-lifespan">1919-2003</div>
             
           </div>
         </div>
-        <span class="figure-arrow">→</span>
+        
+        
+        <div class="featured-achievements">
+          <h4>主要成就</h4>
+          <ul>
+            
+            <li>钟灵中学学生</li>
+            
+            <li>1936年成为中共党员</li>
+            
+            <li>钟灵中学党支部书记</li>
+            
+          </ul>
+        </div>
+        
+        <div class="featured-tags">
+          
+          <span class="featured-tag">革命家</span>
+          
+          <span class="featured-tag">军事家</span>
+          
+          <span class="featured-tag">钟灵中学</span>
+          
+          <span class="featured-tag">抗日</span>
+          
+        </div>
+        <div class="featured-cta">查看详情 →</div>
       </a>
       
-      <a href="figure/figure-chenxianyuan.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈显源</h3>
-          
-          <p class="figure-plain-summary">华校校长，负责管理侨校的日常教学事务</p>
-          
-          <div class="figure-card-tags">
+      
+      
+      
+      
+      <a href="figure/figure-huangyanpei.html" class="featured-card reveal" data-tags="教育家,视察,职业教育">
+        <div class="featured-card-header">
+          <div class="featured-avatar">黄</div>
+          <div class="featured-meta">
+            <h3>黄炎培</h3>
+            <div class="featured-role">教育家</div>
             
-            <span class="tag">教育家</span>
-            
-            <span class="tag">荷印</span>
-            
-            <span class="tag">获奖</span>
+            <div class="featured-lifespan">1878-1965</div>
             
           </div>
         </div>
-        <span class="figure-arrow">→</span>
+        
+        
+        <div class="featured-achievements">
+          <h4>主要成就</h4>
+          <ul>
+            
+            <li>1917年受教育部委派前往南洋调查华侨教育</li>
+            
+            <li>对华侨教育进行调查指导</li>
+            
+            <li>推动职业教育发展</li>
+            
+          </ul>
+        </div>
+        
+        <div class="featured-tags">
+          
+          <span class="featured-tag">教育家</span>
+          
+          <span class="featured-tag">视察</span>
+          
+          <span class="featured-tag">职业教育</span>
+          
+        </div>
+        <div class="featured-cta">查看详情 →</div>
       </a>
       
-      <a href="figure/figure-shimingqiu.html" class="figure-card-simple">
-        <div class="figure-avatar">石</div>
-        <div class="figure-card-info">
-          <h3>石鸣球</h3>
-          
-          <p class="figure-plain-summary">侨校教师，在南洋的侨校里教书育人</p>
-          
-          <div class="figure-card-tags">
+      
+      
+      <a href="figure/figure-sunzhongshan.html" class="featured-card reveal" data-tags="革命家,政治家,三民主义,华侨">
+        <div class="featured-card-header">
+          <div class="featured-avatar">孙</div>
+          <div class="featured-meta">
+            <h3>孙中山</h3>
+            <div class="featured-role">革命家、政治家</div>
             
-            <span class="tag">教育家</span>
-            
-            <span class="tag">校长</span>
-            
-            <span class="tag">获奖</span>
+            <div class="featured-lifespan">1866-1925</div>
             
           </div>
         </div>
-        <span class="figure-arrow">→</span>
+        
+        <div class="featured-quote">"华侨为革命之母"</div>
+        
+        
+        <div class="featured-achievements">
+          <h4>主要成就</h4>
+          <ul>
+            
+            <li>领导辛亥革命</li>
+            
+            <li>赞誉华侨为&#39;革命之母&#39;</li>
+            
+            <li>推动华侨教育发展</li>
+            
+          </ul>
+        </div>
+        
+        <div class="featured-tags">
+          
+          <span class="featured-tag">革命家</span>
+          
+          <span class="featured-tag">政治家</span>
+          
+          <span class="featured-tag">三民主义</span>
+          
+          <span class="featured-tag">华侨</span>
+          
+        </div>
+        <div class="featured-cta">查看详情 →</div>
       </a>
       
-      <a href="figure/figure-chenqingshan.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈青山</h3>
-          
-          <p class="figure-plain-summary">华校教师，在侨校里从事教学工作</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">革命家</span>
-            
-            <span class="tag">军事家</span>
-            
-            <span class="tag">钟灵中学</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-wuxuehua.html" class="figure-card-simple">
-        <div class="figure-avatar">吴</div>
-        <div class="figure-card-info">
-          <h3>吴雪华</h3>
-          
-          <p class="figure-plain-summary">女教育家，积极推动华侨女子教育，让女孩也有学上</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">教育家</span>
-            
-            <span class="tag">女权</span>
-            
-            <span class="tag">女子教育</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-huangyanpei.html" class="figure-card-simple">
-        <div class="figure-avatar">黄</div>
-        <div class="figure-card-info">
-          <h3>黄炎培</h3>
-          
-          <p class="figure-plain-summary">职业教育家，推动华侨职业教育，让华侨学到实用技能好谋生</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">教育家</span>
-            
-            <span class="tag">视察</span>
-            
-            <span class="tag">职业教育</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-sunzhongshan.html" class="figure-card-simple">
-        <div class="figure-avatar">孙</div>
-        <div class="figure-card-info">
-          <h3>孙中山</h3>
-          
-          <p class="figure-plain-summary">革命领袖，非常重视华侨教育，认为教育是振兴中华的根基</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">革命家</span>
-            
-            <span class="tag">政治家</span>
-            
-            <span class="tag">三民主义</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-qianhe.html" class="figure-card-simple">
-        <div class="figure-avatar">钱</div>
-        <div class="figure-card-info">
-          <h3>钱鹤</h3>
-          
-          <p class="figure-plain-summary">侨务官，负责管理华侨的教育事务</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">学者</span>
-            
-            <span class="tag">调查</span>
-            
-            <span class="tag">统计</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-zhenghongnian.html" class="figure-card-simple">
-        <div class="figure-avatar">郑</div>
-        <div class="figure-card-info">
-          <h3>郑洪年</h3>
-          
-          <p class="figure-plain-summary">教育家，推动了侨校教育的改革</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">教育家</span>
-            
-            <span class="tag">暨南大学</span>
-            
-            <span class="tag">三民主义</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-linpusheng.html" class="figure-card-simple">
-        <div class="figure-avatar">李</div>
-        <div class="figure-card-info">
-          <h3>李朴生</h3>
-          
-          <p class="figure-plain-summary">侨务官员，专门管理侨教事务</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">教育家</span>
-            
-            <span class="tag">视察员</span>
-            
-            <span class="tag">侨教防御</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-luzhuoxin.html" class="figure-card-simple">
-        <div class="figure-avatar">廬</div>
-        <div class="figure-card-info">
-          <h3>廬卓辛</h3>
-          
-          <p class="figure-plain-summary">侨校教师，在南洋从事教学工作</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">研究者</span>
-            
-            <span class="tag">侨教危机</span>
-            
-            <span class="tag">对策</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-wangzhiyuan.html" class="figure-card-simple">
-        <div class="figure-avatar">王</div>
-        <div class="figure-card-info">
-          <h3>王志远</h3>
-          
-          <p class="figure-plain-summary">侨校教师，在南洋侨校教书</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">教育家</span>
-            
-            <span class="tag">社会教育</span>
-            
-            <span class="tag">侨务官员</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-linqingyuan.html" class="figure-card-simple">
-        <div class="figure-avatar">林</div>
-        <div class="figure-card-info">
-          <h3>林清渊</h3>
-          
-          <p class="figure-plain-summary">侨校教师，为南洋华侨教育贡献力量</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">议员</span>
-            
-            <span class="tag">马来亚</span>
-            
-            <span class="tag">教育权利</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-ganglu.html" class="figure-card-simple">
-        <div class="figure-avatar">刚</div>
-        <div class="figure-card-info">
-          <h3>刚鲁</h3>
-          
-          <p class="figure-plain-summary">侨务视察员，专门去南洋视察侨校的办学情况</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">研究者</span>
-            
-            <span class="tag">新生活运动</span>
-            
-            <span class="tag">民族精神</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-luowanli.html" class="figure-card-simple">
-        <div class="figure-avatar">罗</div>
-        <div class="figure-card-info">
-          <h3>罗万里</h3>
-          
-          <p class="figure-plain-summary">侨校管理者，负责管理侨校事务</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">归国侨胞</span>
-            
-            <span class="tag">暹罗</span>
-            
-            <span class="tag">见证者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-chendda.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈达</h3>
-          
-          <p class="figure-plain-summary">社会学家，深入研究华侨社会的各种问题，留下了珍贵的一手资料</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">社会学家</span>
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">实地调查</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-xuedianceng.html" class="figure-card-simple">
-        <div class="figure-avatar">薛</div>
-        <div class="figure-card-info">
-          <h3>薛典曾</h3>
-          
-          <p class="figure-plain-summary">教育家，为华侨教育事业做出贡献</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">侨务专家</span>
-            
-            <span class="tag">法律</span>
-            
-            <span class="tag">保护侨民</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-chenyin.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈因</h3>
-          
-          <p class="figure-plain-summary">华校教师，在侨校里教书</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">南洋</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-zhouqigang-2.html" class="figure-card-simple">
-        <div class="figure-avatar">周</div>
-        <div class="figure-card-info">
-          <h3>周启刚</h3>
-          
-          <p class="figure-plain-summary">侨务专员，参加华侨教育会议，讨论侨教问题</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">侨务委员会</span>
-            
-            <span class="tag">侨教行政</span>
-            
-            <span class="tag">副委员长</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-chenrenshu.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈树人</h3>
-          
-          <p class="figure-plain-summary">国民党要员，积极推动侨务工作</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">侨务委员会</span>
-            
-            <span class="tag">委员长</span>
-            
-            <span class="tag">岭南画派</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-wangpichen.html" class="figure-card-simple">
-        <div class="figure-avatar">王</div>
-        <div class="figure-card-info">
-          <h3>王辟尘</h3>
-          
-          <p class="figure-plain-summary">侨务官员，负责管理华侨的学务事情</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">歧视条例</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-chenlite.html" class="figure-card-simple">
-        <div class="figure-avatar">陈</div>
-        <div class="figure-card-info">
-          <h3>陈里特</h3>
-          
-          <p class="figure-plain-summary">华校校长，主持侨校的管理工作</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">欧洲华侨</span>
-            
-            <span class="tag">华侨调查</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-huangyizu.html" class="figure-card-simple">
-        <div class="figure-avatar">黄</div>
-        <div class="figure-card-info">
-          <h3>黄奕住</h3>
-          
-          <p class="figure-plain-summary">实业家，慷慨捐资办学，支持华侨教育</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨捐资</span>
-            
-            <span class="tag">爪哇</span>
-            
-            <span class="tag">慈勤女中</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-kangyuwei.html" class="figure-card-simple">
-        <div class="figure-avatar">康</div>
-        <div class="figure-card-info">
-          <h3>康有为</h3>
-          
-          <p class="figure-plain-summary">维新派领袖，戊戌变法失败后在南洋继续推动办学</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">维新派</span>
-            
-            <span class="tag">南洋</span>
-            
-            <span class="tag">华侨教育</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-zhangjingxi.html" class="figure-card-simple">
-        <div class="figure-avatar">张</div>
-        <div class="figure-card-info">
-          <h3>张敬熙</h3>
-          
-          <p class="figure-plain-summary">侨务视察员，负责视察侨校的情况</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">民族运动</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-dengxuefeng.html" class="figure-card-simple">
-        <div class="figure-avatar">邓</div>
-        <div class="figure-card-info">
-          <h3>邓雪峰</h3>
-          
-          <p class="figure-plain-summary">侨校教师，在南洋侨校教书</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">抗日运动</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-guansuren.html" class="figure-card-simple">
-        <div class="figure-avatar">关</div>
-        <div class="figure-card-info">
-          <h3>关素人</h3>
-          
-          <p class="figure-plain-summary">侨校管理者，负责管理侨校事务</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">国家建设</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-zhoushousy.html" class="figure-card-simple">
-        <div class="figure-avatar">周</div>
-        <div class="figure-card-info">
-          <h3>周守愚</h3>
-          
-          <p class="figure-plain-summary">华校教师，在侨校里教学生</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">经济</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-zhanjusy.html" class="figure-card-simple">
-        <div class="figure-avatar">詹</div>
-        <div class="figure-card-info">
-          <h3>詹菊似</h3>
-          
-          <p class="figure-plain-summary">华校校长，主持侨校事务</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">评论</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-mozicai.html" class="figure-card-simple">
-        <div class="figure-avatar">莫</div>
-        <div class="figure-card-info">
-          <h3>莫子材</h3>
-          
-          <p class="figure-plain-summary">侨校教师，为南洋华侨教育辛勤工作</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">权益</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-lihuanshen.html" class="figure-card-simple">
-        <div class="figure-avatar">黎</div>
-        <div class="figure-card-info">
-          <h3>黎焕生</h3>
-          
-          <p class="figure-plain-summary">侨务官员，管理华侨相关事务</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">华侨研究</span>
-            
-            <span class="tag">国籍法</span>
-            
-            <span class="tag">学者</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-lvbaohe.html" class="figure-card-simple">
-        <div class="figure-avatar">吕</div>
-        <div class="figure-card-info">
-          <h3>吕宝和</h3>
-          
-          <p class="figure-plain-summary">侨校教师，在南洋侨校从事教学</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">教育家</span>
-            
-            <span class="tag">法属越南</span>
-            
-            <span class="tag">海防</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-dingpeilun.html" class="figure-card-simple">
-        <div class="figure-avatar">丁</div>
-        <div class="figure-card-info">
-          <h3>丁培纶</h3>
-          
-          <p class="figure-plain-summary">华校教师，在侨校教书育人</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">侨务</span>
-            
-            <span class="tag">视察员</span>
-            
-            <span class="tag">南洋</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
       
-      <a href="figure/figure-liushiji.html" class="figure-card-simple">
-        <div class="figure-avatar">刘</div>
-        <div class="figure-card-info">
-          <h3>刘士骥</h3>
-          
-          <p class="figure-plain-summary">教育家，积极推动华侨教育的发展</p>
-          
-          <div class="figure-card-tags">
-            
-            <span class="tag">劝学</span>
-            
-            <span class="tag">爪哇</span>
-            
-            <span class="tag">清末</span>
-            
-          </div>
-        </div>
-        <span class="figure-arrow">→</span>
-      </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
     </div>
   </div>
 </section>
+
+<!-- Network Graph -->
+<section class="network-section">
+  <div class="container">
+    <div class="network-header reveal">
+      <h2>人物关系网络</h2>
+      <p>基于人物与学校的关联构建的关系图谱，点击节点可查看详情</p>
+    </div>
+    <div class="network-legend reveal">
+      <div class="legend-item"><span class="legend-dot" style="background:#230a58"></span>核心人物</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#955141"></span>重点人物</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#8a8580"></span>其他人物</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#6f8ca4"></span>学校</div>
+    </div>
+    <div id="network-graph" class="reveal"></div>
+  </div>
+</section>
+
+<!-- Other Figures -->
+<section class="others-section">
+  <div class="container">
+    <div class="section-header-v2 reveal">
+      <h2>其他人物</h2>
+      <p>在南洋华侨教育史上同样留下足迹的人物</p>
+    </div>
+    <div class="others-grid">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <a href="figure/figure-zhouqigang.html" class="other-card reveal" data-tags="官员,政策制定,侨务,教育管理">
+        <div class="other-card-header">
+          <div class="other-avatar">周</div>
+          <div class="other-meta">
+            <h4>周启刚</h4>
+            <div class="other-role">国民政府侨务官员</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务专员，被派到南洋视察侨校情况，是政府与侨校之间的联络人</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">官员</span>
+          
+          <span class="other-tag">政策制定</span>
+          
+          <span class="other-tag">侨务</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-chenxianyuan.html" class="other-card reveal" data-tags="教育家,荷印,获奖">
+        <div class="other-card-header">
+          <div class="other-avatar">陈</div>
+          <div class="other-meta">
+            <h4>陈显源</h4>
+            <div class="other-role">教育工作者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">华校校长，负责管理侨校的日常教学事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">荷印</span>
+          
+          <span class="other-tag">获奖</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-shimingqiu.html" class="other-card reveal" data-tags="教育家,校长,获奖">
+        <div class="other-card-header">
+          <div class="other-avatar">石</div>
+          <div class="other-meta">
+            <h4>石鸣球</h4>
+            <div class="other-role">教育工作者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，在南洋的侨校里教书育人</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">校长</span>
+          
+          <span class="other-tag">获奖</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      
+      
+      <a href="figure/figure-wuxuehua.html" class="other-card reveal" data-tags="教育家,女权,女子教育,创办者">
+        <div class="other-card-header">
+          <div class="other-avatar">吴</div>
+          <div class="other-meta">
+            <h4>吴雪华</h4>
+            <div class="other-role">教育工作者、妇女领袖</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">女教育家，积极推动华侨女子教育，让女孩也有学上</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">女权</span>
+          
+          <span class="other-tag">女子教育</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      
+      
+      
+      
+      <a href="figure/figure-qianhe.html" class="other-card reveal" data-tags="学者,调查,统计,暨南大学">
+        <div class="other-card-header">
+          <div class="other-avatar">钱</div>
+          <div class="other-meta">
+            <h4>钱鹤</h4>
+            <div class="other-role">学者、调查者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务官，负责管理华侨的教育事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">学者</span>
+          
+          <span class="other-tag">调查</span>
+          
+          <span class="other-tag">统计</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-zhenghongnian.html" class="other-card reveal" data-tags="教育家,暨南大学,三民主义,教育会议">
+        <div class="other-card-header">
+          <div class="other-avatar">郑</div>
+          <div class="other-meta">
+            <h4>郑洪年</h4>
+            <div class="other-role">教育家、政治家</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">教育家，推动了侨校教育的改革</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">暨南大学</span>
+          
+          <span class="other-tag">三民主义</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-linpusheng.html" class="other-card reveal" data-tags="教育家,视察员,侨教防御,师资培训">
+        <div class="other-card-header">
+          <div class="other-avatar">李</div>
+          <div class="other-meta">
+            <h4>李朴生</h4>
+            <div class="other-role">侨教专家、教育官员</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务官员，专门管理侨教事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">视察员</span>
+          
+          <span class="other-tag">侨教防御</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-luzhuoxin.html" class="other-card reveal" data-tags="研究者,侨教危机,对策">
+        <div class="other-card-header">
+          <div class="other-avatar">廬</div>
+          <div class="other-meta">
+            <h4>廬卓辛</h4>
+            <div class="other-role">侨教研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，在南洋从事教学工作</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">研究者</span>
+          
+          <span class="other-tag">侨教危机</span>
+          
+          <span class="other-tag">对策</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-wangzhiyuan.html" class="other-card reveal" data-tags="教育家,社会教育,侨务官员">
+        <div class="other-card-header">
+          <div class="other-avatar">王</div>
+          <div class="other-meta">
+            <h4>王志远</h4>
+            <div class="other-role">侨务官员、社会教育家</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，在南洋侨校教书</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">社会教育</span>
+          
+          <span class="other-tag">侨务官员</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-linqingyuan.html" class="other-card reveal" data-tags="议员,马来亚,教育权利,殖民地">
+        <div class="other-card-header">
+          <div class="other-avatar">林</div>
+          <div class="other-meta">
+            <h4>林清渊</h4>
+            <div class="other-role">立法会议员、华侨权益倡导者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，为南洋华侨教育贡献力量</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">议员</span>
+          
+          <span class="other-tag">马来亚</span>
+          
+          <span class="other-tag">教育权利</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-ganglu.html" class="other-card reveal" data-tags="研究者,新生活运动,民族精神">
+        <div class="other-card-header">
+          <div class="other-avatar">刚</div>
+          <div class="other-meta">
+            <h4>刚鲁</h4>
+            <div class="other-role">侨教研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务视察员，专门去南洋视察侨校的办学情况</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">研究者</span>
+          
+          <span class="other-tag">新生活运动</span>
+          
+          <span class="other-tag">民族精神</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-luowanli.html" class="other-card reveal" data-tags="归国侨胞,暹罗,见证者">
+        <div class="other-card-header">
+          <div class="other-avatar">罗</div>
+          <div class="other-meta">
+            <h4>罗万里</h4>
+            <div class="other-role">暹罗归国侨胞</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校管理者，负责管理侨校事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">归国侨胞</span>
+          
+          <span class="other-tag">暹罗</span>
+          
+          <span class="other-tag">见证者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-chendda.html" class="other-card reveal" data-tags="社会学家,华侨研究,实地调查,闽粤社会">
+        <div class="other-card-header">
+          <div class="other-avatar">陈</div>
+          <div class="other-meta">
+            <h4>陈达</h4>
+            <div class="other-role">社会学家、华侨问题研究专家</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">社会学家，深入研究华侨社会的各种问题，留下了珍贵的一手资料</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">社会学家</span>
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">实地调查</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-xuedianceng.html" class="other-card reveal" data-tags="侨务专家,法律,保护侨民">
+        <div class="other-card-header">
+          <div class="other-avatar">薛</div>
+          <div class="other-meta">
+            <h4>薛典曾</h4>
+            <div class="other-role">侨务专家、法律学者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">教育家，为华侨教育事业做出贡献</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">侨务专家</span>
+          
+          <span class="other-tag">法律</span>
+          
+          <span class="other-tag">保护侨民</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-chenyin.html" class="other-card reveal" data-tags="华侨研究,南洋">
+        <div class="other-card-header">
+          <div class="other-avatar">陈</div>
+          <div class="other-meta">
+            <h4>陈因</h4>
+            <div class="other-role">华侨问题研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">华校教师，在侨校里教书</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">南洋</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-zhouqigang-2.html" class="other-card reveal" data-tags="侨务委员会,侨教行政,副委员长">
+        <div class="other-card-header">
+          <div class="other-avatar">周</div>
+          <div class="other-meta">
+            <h4>周启刚</h4>
+            <div class="other-role">侨务委员会副委员长、侨民教育处负责人</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务专员，参加华侨教育会议，讨论侨教问题</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">侨务委员会</span>
+          
+          <span class="other-tag">侨教行政</span>
+          
+          <span class="other-tag">副委员长</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-chenrenshu.html" class="other-card reveal" data-tags="侨务委员会,委员长,岭南画派">
+        <div class="other-card-header">
+          <div class="other-avatar">陈</div>
+          <div class="other-meta">
+            <h4>陈树人</h4>
+            <div class="other-role">画家、侨务委员会委员长</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">国民党要员，积极推动侨务工作</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">侨务委员会</span>
+          
+          <span class="other-tag">委员长</span>
+          
+          <span class="other-tag">岭南画派</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-wangpichen.html" class="other-card reveal" data-tags="华侨研究,歧视条例">
+        <div class="other-card-header">
+          <div class="other-avatar">王</div>
+          <div class="other-meta">
+            <h4>王辟尘</h4>
+            <div class="other-role">华侨问题研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务官员，负责管理华侨的学务事情</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">歧视条例</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-chenlite.html" class="other-card reveal" data-tags="欧洲华侨,华侨调查">
+        <div class="other-card-header">
+          <div class="other-avatar">陈</div>
+          <div class="other-meta">
+            <h4>陈里特</h4>
+            <div class="other-role">华侨问题研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">华校校长，主持侨校的管理工作</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">欧洲华侨</span>
+          
+          <span class="other-tag">华侨调查</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-huangyizu.html" class="other-card reveal" data-tags="华侨捐资,爪哇,慈勤女中">
+        <div class="other-card-header">
+          <div class="other-avatar">黄</div>
+          <div class="other-meta">
+            <h4>黄奕住</h4>
+            <div class="other-role">华侨企业家、教育捐助者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">实业家，慷慨捐资办学，支持华侨教育</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨捐资</span>
+          
+          <span class="other-tag">爪哇</span>
+          
+          <span class="other-tag">慈勤女中</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-kangyuwei.html" class="other-card reveal" data-tags="维新派,南洋,华侨教育">
+        <div class="other-card-header">
+          <div class="other-avatar">康</div>
+          <div class="other-meta">
+            <h4>康有为</h4>
+            <div class="other-role">维新派领袖、华侨教育推动者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">维新派领袖，戊戌变法失败后在南洋继续推动办学</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">维新派</span>
+          
+          <span class="other-tag">南洋</span>
+          
+          <span class="other-tag">华侨教育</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-zhangjingxi.html" class="other-card reveal" data-tags="华侨研究,民族运动,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">张</div>
+          <div class="other-meta">
+            <h4>张敬熙</h4>
+            <div class="other-role">华侨问题研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务视察员，负责视察侨校的情况</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">民族运动</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-dengxuefeng.html" class="other-card reveal" data-tags="华侨研究,抗日运动,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">邓</div>
+          <div class="other-meta">
+            <h4>邓雪峰</h4>
+            <div class="other-role">华侨抗日运动研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，在南洋侨校教书</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">抗日运动</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-guansuren.html" class="other-card reveal" data-tags="华侨研究,国家建设,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">关</div>
+          <div class="other-meta">
+            <h4>关素人</h4>
+            <div class="other-role">华侨建设研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校管理者，负责管理侨校事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">国家建设</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-zhoushousy.html" class="other-card reveal" data-tags="华侨研究,经济,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">周</div>
+          <div class="other-meta">
+            <h4>周守愚</h4>
+            <div class="other-role">华侨经济研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">华校教师，在侨校里教学生</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">经济</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-zhanjusy.html" class="other-card reveal" data-tags="华侨研究,评论,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">詹</div>
+          <div class="other-meta">
+            <h4>詹菊似</h4>
+            <div class="other-role">华侨问题评论家</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">华校校长，主持侨校事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">评论</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-mozicai.html" class="other-card reveal" data-tags="华侨研究,权益,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">莫</div>
+          <div class="other-meta">
+            <h4>莫子材</h4>
+            <div class="other-role">华侨权益倡导者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，为南洋华侨教育辛勤工作</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">权益</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-lihuanshen.html" class="other-card reveal" data-tags="华侨研究,国籍法,学者">
+        <div class="other-card-header">
+          <div class="other-avatar">黎</div>
+          <div class="other-meta">
+            <h4>黎焕生</h4>
+            <div class="other-role">华侨法律研究者</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨务官员，管理华侨相关事务</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">华侨研究</span>
+          
+          <span class="other-tag">国籍法</span>
+          
+          <span class="other-tag">学者</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-lvbaohe.html" class="other-card reveal" data-tags="教育家,法属越南,海防">
+        <div class="other-card-header">
+          <div class="other-avatar">吕</div>
+          <div class="other-meta">
+            <h4>吕宝和</h4>
+            <div class="other-role">海防华侨学校校长</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">侨校教师，在南洋侨校从事教学</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">教育家</span>
+          
+          <span class="other-tag">法属越南</span>
+          
+          <span class="other-tag">海防</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-dingpeilun.html" class="other-card reveal" data-tags="侨务,视察员,南洋">
+        <div class="other-card-header">
+          <div class="other-avatar">丁</div>
+          <div class="other-meta">
+            <h4>丁培纶</h4>
+            <div class="other-role">侨务视察员</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">华校教师，在侨校教书育人</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">侨务</span>
+          
+          <span class="other-tag">视察员</span>
+          
+          <span class="other-tag">南洋</span>
+          
+        </div>
+      </a>
+      
+      
+      
+      <a href="figure/figure-liushiji.html" class="other-card reveal" data-tags="劝学,爪哇,清末">
+        <div class="other-card-header">
+          <div class="other-avatar">刘</div>
+          <div class="other-meta">
+            <h4>刘士骥</h4>
+            <div class="other-role">两广总督特派员</div>
+          </div>
+        </div>
+        
+        <div class="other-summary">教育家，积极推动华侨教育的发展</div>
+        
+        <div class="other-tags">
+          
+          <span class="other-tag">劝学</span>
+          
+          <span class="other-tag">爪哇</span>
+          
+          <span class="other-tag">清末</span>
+          
+        </div>
+      </a>
+      
+      
+    </div>
+  </div>
+</section>
+
+<script>
+// ==================== Tag Filter ====================
+(function() {
+  var filterBtns = document.querySelectorAll('.filter-btn-v2');
+  var featuredCards = document.querySelectorAll('.featured-card');
+  var otherCards = document.querySelectorAll('.other-card');
+  
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var tag = this.getAttribute('data-tag');
+      
+      filterBtns.forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      
+      function filterCard(card) {
+        var tags = card.getAttribute('data-tags') || '';
+        if (tag === 'all' || tags.indexOf(tag) !== -1) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      }
+      
+      featuredCards.forEach(filterCard);
+      otherCards.forEach(filterCard);
+    });
+  });
+})();
+
+// ==================== Network Graph ====================
+(function() {
+  var container = document.getElementById('network-graph');
+  if (!container) return;
+  
+  var featuredIds = ['figure-chenjiageng', 'figure-sunzhongshan', 'figure-liushimu', 'figure-zuobinglong', 'figure-huangyanpei', 'figure-chenqingshan'];
+  
+  var nodes = [];
+  var edges = [];
+  var schoolIds = new Set();
+  
+  // Build school set first
+  
+  
+  schoolIds.add('singapore-huawen-zhongxue');
+  
+  schoolIds.add('xiamen-university');
+  
+  schoolIds.add('zhongling-1917');
+  
+  schoolIds.add('kuncheng-1908');
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  schoolIds.add('zhongling-1917');
+  
+  
+  
+  schoolIds.add('kuncheng-1908');
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  schoolIds.add('xiamen-university');
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  schoolIds.add('lyon-sino-french');
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  schoolIds.add('haiphong-huaqiao-zhongxue');
+  
+  
+  
+  
+  
+  schoolIds.add('yangzheng-1905');
+  
+  
+  
+  // Figure nodes
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chenjiageng') !== -1;
+    var isCore = 'figure-chenjiageng' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chenjiageng',
+      label: '陈嘉庚',
+      title: '华侨领袖、教育家、实业家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zuobinglong') !== -1;
+    var isCore = 'figure-zuobinglong' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zuobinglong',
+      label: '左秉隆',
+      title: '外交官、教育家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-liushimu') !== -1;
+    var isCore = 'figure-liushimu' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-liushimu',
+      label: '刘士木',
+      title: '教育家、学者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zhouqigang') !== -1;
+    var isCore = 'figure-zhouqigang' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zhouqigang',
+      label: '周启刚',
+      title: '国民政府侨务官员',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chenxianyuan') !== -1;
+    var isCore = 'figure-chenxianyuan' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chenxianyuan',
+      label: '陈显源',
+      title: '教育工作者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-shimingqiu') !== -1;
+    var isCore = 'figure-shimingqiu' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-shimingqiu',
+      label: '石鸣球',
+      title: '教育工作者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chenqingshan') !== -1;
+    var isCore = 'figure-chenqingshan' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chenqingshan',
+      label: '陈青山',
+      title: '革命家、军事家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-wuxuehua') !== -1;
+    var isCore = 'figure-wuxuehua' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-wuxuehua',
+      label: '吴雪华',
+      title: '教育工作者、妇女领袖',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-huangyanpei') !== -1;
+    var isCore = 'figure-huangyanpei' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-huangyanpei',
+      label: '黄炎培',
+      title: '教育家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-sunzhongshan') !== -1;
+    var isCore = 'figure-sunzhongshan' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-sunzhongshan',
+      label: '孙中山',
+      title: '革命家、政治家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-qianhe') !== -1;
+    var isCore = 'figure-qianhe' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-qianhe',
+      label: '钱鹤',
+      title: '学者、调查者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zhenghongnian') !== -1;
+    var isCore = 'figure-zhenghongnian' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zhenghongnian',
+      label: '郑洪年',
+      title: '教育家、政治家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-linpusheng') !== -1;
+    var isCore = 'figure-linpusheng' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-linpusheng',
+      label: '李朴生',
+      title: '侨教专家、教育官员',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-luzhuoxin') !== -1;
+    var isCore = 'figure-luzhuoxin' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-luzhuoxin',
+      label: '廬卓辛',
+      title: '侨教研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-wangzhiyuan') !== -1;
+    var isCore = 'figure-wangzhiyuan' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-wangzhiyuan',
+      label: '王志远',
+      title: '侨务官员、社会教育家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-linqingyuan') !== -1;
+    var isCore = 'figure-linqingyuan' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-linqingyuan',
+      label: '林清渊',
+      title: '立法会议员、华侨权益倡导者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-ganglu') !== -1;
+    var isCore = 'figure-ganglu' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-ganglu',
+      label: '刚鲁',
+      title: '侨教研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-luowanli') !== -1;
+    var isCore = 'figure-luowanli' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-luowanli',
+      label: '罗万里',
+      title: '暹罗归国侨胞',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chendda') !== -1;
+    var isCore = 'figure-chendda' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chendda',
+      label: '陈达',
+      title: '社会学家、华侨问题研究专家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-xuedianceng') !== -1;
+    var isCore = 'figure-xuedianceng' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-xuedianceng',
+      label: '薛典曾',
+      title: '侨务专家、法律学者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chenyin') !== -1;
+    var isCore = 'figure-chenyin' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chenyin',
+      label: '陈因',
+      title: '华侨问题研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zhouqigang-2') !== -1;
+    var isCore = 'figure-zhouqigang-2' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zhouqigang-2',
+      label: '周启刚',
+      title: '侨务委员会副委员长、侨民教育处负责人',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chenrenshu') !== -1;
+    var isCore = 'figure-chenrenshu' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chenrenshu',
+      label: '陈树人',
+      title: '画家、侨务委员会委员长',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-wangpichen') !== -1;
+    var isCore = 'figure-wangpichen' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-wangpichen',
+      label: '王辟尘',
+      title: '华侨问题研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-chenlite') !== -1;
+    var isCore = 'figure-chenlite' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-chenlite',
+      label: '陈里特',
+      title: '华侨问题研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-huangyizu') !== -1;
+    var isCore = 'figure-huangyizu' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-huangyizu',
+      label: '黄奕住',
+      title: '华侨企业家、教育捐助者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-kangyuwei') !== -1;
+    var isCore = 'figure-kangyuwei' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-kangyuwei',
+      label: '康有为',
+      title: '维新派领袖、华侨教育推动者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zhangjingxi') !== -1;
+    var isCore = 'figure-zhangjingxi' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zhangjingxi',
+      label: '张敬熙',
+      title: '华侨问题研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-dengxuefeng') !== -1;
+    var isCore = 'figure-dengxuefeng' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-dengxuefeng',
+      label: '邓雪峰',
+      title: '华侨抗日运动研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-guansuren') !== -1;
+    var isCore = 'figure-guansuren' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-guansuren',
+      label: '关素人',
+      title: '华侨建设研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zhoushousy') !== -1;
+    var isCore = 'figure-zhoushousy' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zhoushousy',
+      label: '周守愚',
+      title: '华侨经济研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-zhanjusy') !== -1;
+    var isCore = 'figure-zhanjusy' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-zhanjusy',
+      label: '詹菊似',
+      title: '华侨问题评论家',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-mozicai') !== -1;
+    var isCore = 'figure-mozicai' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-mozicai',
+      label: '莫子材',
+      title: '华侨权益倡导者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-lihuanshen') !== -1;
+    var isCore = 'figure-lihuanshen' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-lihuanshen',
+      label: '黎焕生',
+      title: '华侨法律研究者',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-lvbaohe') !== -1;
+    var isCore = 'figure-lvbaohe' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-lvbaohe',
+      label: '吕宝和',
+      title: '海防华侨学校校长',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-dingpeilun') !== -1;
+    var isCore = 'figure-dingpeilun' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-dingpeilun',
+      label: '丁培纶',
+      title: '侨务视察员',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  (function() {
+    var isFeatured = featuredIds.indexOf('figure-liushiji') !== -1;
+    var isCore = 'figure-liushiji' === 'figure-chenjiageng';
+    var size = isCore ? 30 : (isFeatured ? 24 : 16);
+    var color = isCore ? '#230a58' : (isFeatured ? '#955141' : '#8a8580');
+    var fontSize = isCore ? 16 : (isFeatured ? 14 : 12);
+    nodes.push({
+      id: 'figure-liushiji',
+      label: '刘士骥',
+      title: '两广总督特派员',
+      color: {
+        background: color,
+        border: color,
+        highlight: { background: color, border: '#2d2a26' }
+      },
+      font: { size: fontSize, color: '#2d2a26', face: 'Noto Serif SC' },
+      shape: 'dot',
+      size: size,
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      chosen: { node: function(values, id, selected, hovering) { values.size = size * 1.3; } }
+    });
+  })();
+  
+  
+  // School nodes
+  
+  (function() {
+    var sid = 'mingcheng-1690';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '明诚书院',
+        title: '巴达维亚 · 1690年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'wufu-1819';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '五福书院',
+        title: '槟榔屿 · 1819年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xinbali-1900s';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '爪哇新巴利中华学堂',
+        title: '爪哇 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'yangzheng-1905';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '养正学堂',
+        title: '新加坡 · 1905年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'juanang-1908';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '巨港中华学校',
+        title: '巨港 · 1908年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kuncheng-1908';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡坤成女子中学',
+        title: '吉隆坡 · 1908年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'zhongling-1917';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟城钟灵中学',
+        title: '槟城 · 1917年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'chongzheng';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '崇正学校',
+        title: '新加坡 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xinmin-siam';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '暹罗新民学校',
+        title: '曼谷 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xinwenlong-1939';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新文龙中华中学',
+        title: '新山 · 1939年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'palang-zhonghua';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '巨港中华学校',
+        title: '巨港 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'diand-chongzheng';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '堤岸崇正学校',
+        title: '西贡堤岸 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xianjing-xinmin';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '暹京新民学校',
+        title: '曼谷 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'malacca-peide';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '马六甲培德女学校',
+        title: '马六甲 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-commerce';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟城商务学校',
+        title: '槟城 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kuala-lumpur-guanghan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡光汉学校',
+        title: '吉隆坡 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-huawen-zhongxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡华侨中学',
+        title: '新加坡 · 1919年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'daonan-singapore';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡道南学校',
+        title: '新加坡 · 1906年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'yiduan-singapore';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡端蒙学校',
+        title: '新加坡 · 1906年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'nanyang-nvxue-singapore';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡南洋女学',
+        title: '新加坡 · 1917年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xiamen-university';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '厦门大学',
+        title: '厦门 · 1921年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'lyon-sino-french';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '里昂中法大学',
+        title: '里昂 · 1921年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'manila-zhongxi';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '马尼拉中西学校',
+        title: '马尼拉 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'haiphong-huaqiao-zhongxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '海防华侨中学',
+        title: '海防 · 1925年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'jcfs-zonghui';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '荷属华侨学务总会',
+        title: '巴达维亚 · 1906年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'shantou-haibin-shifan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '汕头海滨师范学校',
+        title: '汕头 · 1930年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'surabaya-zhonghua';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '泗水中华学校',
+        title: '泗水 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'surabaya-zhenwen';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '泗水振文学校',
+        title: '泗水 · 1905年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'surabaya-qiaonan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '泗水侨南学校',
+        title: '泗水 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'surabaya-nanhua';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '泗水南华学校',
+        title: '泗水 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'surabaya-tongshan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '泗水同善学校',
+        title: '泗水 · 1908年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'medan-dunben';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '棉兰敦本甲种商业学校',
+        title: '棉兰 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'medan-huashang';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '棉兰华商学校',
+        title: '棉兰 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'medan-yangzhong';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '棉兰养中学校',
+        title: '棉兰 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-huawen-zhongxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿华侨中学',
+        title: '槟榔屿 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-zhonghua';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿中华学校',
+        title: '槟榔屿 · 1904年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-taishan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿台山学校',
+        title: '槟榔屿 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-hanjiang';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿韩江学校',
+        title: '槟榔屿 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-xinjiang';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿新江学校',
+        title: '槟榔屿 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-shizhong';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿时中学校',
+        title: '槟榔屿 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-tongshan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿同善学校',
+        title: '槟榔屿 · 1905年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-huaqiao-nvxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿华侨女学',
+        title: '槟榔屿 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'penang-zhonghua-nvxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '槟榔屿中华女学',
+        title: '槟榔屿 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'malacca-peiwind';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '马六甲培风学校',
+        title: '马六甲 · 1913年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'malacca-zhonghua-nvxiao';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '马六甲中华女校',
+        title: '马六甲 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kl-zunkong';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡尊孔学校',
+        title: '吉隆坡 · 1906年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kl-boping';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡柏屏学校',
+        title: '吉隆坡 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kl-peicai';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡培才学校',
+        title: '吉隆坡 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kl-guomin';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡国民学校',
+        title: '吉隆坡 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kl-qiaonan-yejian';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '吉隆坡侨南夜校',
+        title: '吉隆坡 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-aiguo';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡爱国学校',
+        title: '新加坡 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-nanhua-nvxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡南华女学',
+        title: '新加坡 · 1917年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-zhonghua-nvxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡中华女学',
+        title: '新加坡 · 1911年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-zhongnan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡中南学校',
+        title: '新加坡 · 1915年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-gongshang-buxi';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡工商补习学校',
+        title: '新加坡 · 1925年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'singapore-yuying';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '新加坡育英学校',
+        title: '新加坡 · 1905年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kobe-doubun';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '神户同文学校',
+        title: '神户 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'kobe-huaqiang';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '神户华强学校',
+        title: '神户 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'nagasaki-shizhong';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '长崎时中学校',
+        title: '长崎 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'yokohama-dadong';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '横滨大同学校',
+        title: '横滨 · 1898年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'yokohama-huaqiao';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '横滨华侨学校',
+        title: '横滨 · 1900年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'lingnan-university';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '岭南大学',
+        title: '广州 · 1898年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'peizheng-guangzhou';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '培正学校',
+        title: '广州 · 1889年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'zhixin-guangzhou';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '执信学校',
+        title: '广州 · 1921年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xiamen-yahua-nvxue';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '厦门雅化女学',
+        title: '厦门 · 1886年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'xiamen-ciqin-nvzi';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '厦门慈勤女子中学',
+        title: '厦门 · 1905年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'moscow-zhongshan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '莫斯科中山大学',
+        title: '莫斯科 · 1925年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'paris-zhonghua-sushe';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '巴黎大学区中华宿舍',
+        title: '巴黎 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'haiphong-dongan';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '海防东安学校',
+        title: '海防 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'haiphong-zhonghua';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '海防中华学校',
+        title: '海防 · 1905年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'haiphong-shixi';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '海防时习学校',
+        title: '海防 · 1910年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  (function() {
+    var sid = 'haiphong-qiaoying';
+    if (schoolIds.has(sid)) {
+      nodes.push({
+        id: sid,
+        label: '海防侨英民校',
+        title: '海防 · 1920年',
+        color: {
+          background: '#6f8ca4',
+          border: '#6f8ca4',
+          highlight: { background: '#6f8ca4', border: '#2d2a26' }
+        },
+        font: { size: 11, color: '#5c5753', face: 'Noto Sans SC' },
+        shape: 'diamond',
+        size: 14,
+        borderWidth: 1
+      });
+    }
+  })();
+  
+  
+  // Figure-School edges
+  
+  
+  edges.push({
+    from: 'figure-chenjiageng',
+    to: 'singapore-huawen-zhongxue',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  edges.push({
+    from: 'figure-chenjiageng',
+    to: 'xiamen-university',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  edges.push({
+    from: 'figure-chenjiageng',
+    to: 'zhongling-1917',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  edges.push({
+    from: 'figure-chenjiageng',
+    to: 'kuncheng-1908',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  edges.push({
+    from: 'figure-chenqingshan',
+    to: 'zhongling-1917',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  edges.push({
+    from: 'figure-wuxuehua',
+    to: 'kuncheng-1908',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  edges.push({
+    from: 'figure-chendda',
+    to: 'xiamen-university',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  edges.push({
+    from: 'figure-chenlite',
+    to: 'lyon-sino-french',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  edges.push({
+    from: 'figure-lvbaohe',
+    to: 'haiphong-huaqiao-zhongxue',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  
+  
+  edges.push({
+    from: 'figure-liushiji',
+    to: 'yangzheng-1905',
+    color: { color: 'rgba(0,0,0,0.12)', highlight: '#955141' },
+    width: 1,
+    smooth: { type: 'continuous', roundness: 0.3 }
+  });
+  
+  
+  
+  // Figure-Figure edges (based on shared schools)
+  var figureSchoolMap = {};
+  
+  figureSchoolMap['figure-chenjiageng'] = [];
+  
+  figureSchoolMap['figure-chenjiageng'].push('singapore-huawen-zhongxue');
+  
+  figureSchoolMap['figure-chenjiageng'].push('xiamen-university');
+  
+  figureSchoolMap['figure-chenjiageng'].push('zhongling-1917');
+  
+  figureSchoolMap['figure-chenjiageng'].push('kuncheng-1908');
+  
+  
+  figureSchoolMap['figure-zuobinglong'] = [];
+  
+  
+  figureSchoolMap['figure-liushimu'] = [];
+  
+  
+  figureSchoolMap['figure-zhouqigang'] = [];
+  
+  
+  figureSchoolMap['figure-chenxianyuan'] = [];
+  
+  
+  figureSchoolMap['figure-shimingqiu'] = [];
+  
+  
+  figureSchoolMap['figure-chenqingshan'] = [];
+  
+  figureSchoolMap['figure-chenqingshan'].push('zhongling-1917');
+  
+  
+  figureSchoolMap['figure-wuxuehua'] = [];
+  
+  figureSchoolMap['figure-wuxuehua'].push('kuncheng-1908');
+  
+  
+  figureSchoolMap['figure-huangyanpei'] = [];
+  
+  
+  figureSchoolMap['figure-sunzhongshan'] = [];
+  
+  
+  figureSchoolMap['figure-qianhe'] = [];
+  
+  
+  figureSchoolMap['figure-zhenghongnian'] = [];
+  
+  
+  figureSchoolMap['figure-linpusheng'] = [];
+  
+  
+  figureSchoolMap['figure-luzhuoxin'] = [];
+  
+  
+  figureSchoolMap['figure-wangzhiyuan'] = [];
+  
+  
+  figureSchoolMap['figure-linqingyuan'] = [];
+  
+  
+  figureSchoolMap['figure-ganglu'] = [];
+  
+  
+  figureSchoolMap['figure-luowanli'] = [];
+  
+  
+  figureSchoolMap['figure-chendda'] = [];
+  
+  figureSchoolMap['figure-chendda'].push('xiamen-university');
+  
+  
+  figureSchoolMap['figure-xuedianceng'] = [];
+  
+  
+  figureSchoolMap['figure-chenyin'] = [];
+  
+  
+  figureSchoolMap['figure-zhouqigang-2'] = [];
+  
+  
+  figureSchoolMap['figure-chenrenshu'] = [];
+  
+  
+  figureSchoolMap['figure-wangpichen'] = [];
+  
+  
+  figureSchoolMap['figure-chenlite'] = [];
+  
+  figureSchoolMap['figure-chenlite'].push('lyon-sino-french');
+  
+  
+  figureSchoolMap['figure-huangyizu'] = [];
+  
+  
+  figureSchoolMap['figure-kangyuwei'] = [];
+  
+  
+  figureSchoolMap['figure-zhangjingxi'] = [];
+  
+  
+  figureSchoolMap['figure-dengxuefeng'] = [];
+  
+  
+  figureSchoolMap['figure-guansuren'] = [];
+  
+  
+  figureSchoolMap['figure-zhoushousy'] = [];
+  
+  
+  figureSchoolMap['figure-zhanjusy'] = [];
+  
+  
+  figureSchoolMap['figure-mozicai'] = [];
+  
+  
+  figureSchoolMap['figure-lihuanshen'] = [];
+  
+  
+  figureSchoolMap['figure-lvbaohe'] = [];
+  
+  figureSchoolMap['figure-lvbaohe'].push('haiphong-huaqiao-zhongxue');
+  
+  
+  figureSchoolMap['figure-dingpeilun'] = [];
+  
+  
+  figureSchoolMap['figure-liushiji'] = [];
+  
+  figureSchoolMap['figure-liushiji'].push('yangzheng-1905');
+  
+  
+  
+  var figureIds = Object.keys(figureSchoolMap);
+  for (var i = 0; i < figureIds.length; i++) {
+    for (var j = i + 1; j < figureIds.length; j++) {
+      var f1 = figureIds[i];
+      var f2 = figureIds[j];
+      var shared = figureSchoolMap[f1].filter(function(s) {
+        return figureSchoolMap[f2].indexOf(s) !== -1;
+      });
+      if (shared.length > 0) {
+        edges.push({
+          from: f1,
+          to: f2,
+          color: { color: 'rgba(149,81,65,0.25)', highlight: '#955141' },
+          width: Math.min(shared.length * 0.8, 3),
+          smooth: { type: 'continuous', roundness: 0.2 }
+        });
+      }
+    }
+  }
+  
+  var data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+  var options = {
+    nodes: {
+      shadow: { enabled: true, color: 'rgba(0,0,0,0.08)', size: 10, x: 0, y: 0 }
+    },
+    edges: {
+      shadow: { enabled: false }
+    },
+    physics: {
+      forceAtlas2Based: {
+        gravitationalConstant: -60,
+        centralGravity: 0.005,
+        springLength: 120,
+        springConstant: 0.18,
+        damping: 0.4
+      },
+      maxVelocity: 50,
+      solver: 'forceAtlas2Based',
+      stabilization: { iterations: 150 }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 200,
+      hideEdgesOnDrag: true
+    }
+  };
+  
+  var network = new vis.Network(container, data, options);
+  
+  network.on('click', function(params) {
+    if (params.nodes.length > 0) {
+      var nodeId = params.nodes[0];
+      if (nodeId.indexOf('figure-') === 0) {
+        window.location.href = 'figure/' + nodeId + '.html';
+      } else if (nodeId.indexOf('school-') === 0 || nodeId.indexOf('-') > 0) {
+        window.location.href = 'school/' + nodeId + '.html';
+      }
+    }
+  });
+})();
+</script>
+
 
   </main>
 
