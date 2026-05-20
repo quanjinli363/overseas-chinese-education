@@ -63,7 +63,7 @@
   <div class="container">
     <div class="dashboard-grid">
       <div class="dashboard-card full-width">
-        <h3>学校数量增长趋势</h3>
+        <h3>学校创办时期分布</h3>
         <div id="school-growth-chart" style="height: 400px;"></div>
       </div>
       
@@ -81,20 +81,20 @@
         <h3>关键数据</h3>
         <div class="stats-grid-v2">
           <div class="stat-box">
-            <div class="stat-number">269→1300+</div>
-            <div class="stat-label">新加坡学校增长<br><small>（1934-1941）</small></div>
+            <div class="stat-number">72</div>
+            <div class="stat-label">收录侨校总数<br><small>（数据库）</small></div>
           </div>
           <div class="stat-box">
-            <div class="stat-number">191→349</div>
-            <div class="stat-label">越南学校增长<br><small>（1938-1943）</small></div>
+            <div class="stat-number">71</div>
+            <div class="stat-label">收录政策总数<br><small>（数据库）</small></div>
           </div>
           <div class="stat-box">
-            <div class="stat-number">50万</div>
-            <div class="stat-label">年度教育拨款<br><small>（国币）</small></div>
+            <div class="stat-number">37</div>
+            <div class="stat-label">收录人物总数<br><small>（数据库）</small></div>
           </div>
           <div class="stat-box">
-            <div class="stat-number">1845</div>
-            <div class="stat-label">立案学校总数<br><small>（1937年）</small></div>
+            <div class="stat-number">3</div>
+            <div class="stat-label">收录教材总数<br><small>（数据库）</small></div>
           </div>
         </div>
       </div>
@@ -104,30 +104,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <script>
-// 学校增长图表
+// 学校创办时期分布图表
 var growthChart = echarts.init(document.getElementById('school-growth-chart'));
 growthChart.setOption({
   tooltip: { trigger: 'axis' },
   xAxis: {
     type: 'category',
-    data: ['1934新加坡', '1937立案', '1938越南', '1941新加坡', '1943越南']
+    data: []
   },
   yAxis: { type: 'value' },
   series: [{
-    data: [269, 1845, 191, 1300, 349],
-    type: 'line',
-    smooth: true,
-    areaStyle: {
+    data: [],
+    type: 'bar',
+    barWidth: '50%',
+    itemStyle: {
       color: {
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: 'rgba(0,56,132,0.3)' },
-          { offset: 1, color: 'rgba(0,56,132,0.05)' }
+          { offset: 0, color: '#955141' },
+          { offset: 1, color: '#c4a57a' }
         ]
-      }
-    },
-    itemStyle: { color: '#003884' }
+      },
+      borderRadius: [4, 4, 0, 0]
+    }
   }]
 });
 
@@ -138,12 +138,13 @@ regionChart.setOption({
   series: [{
     type: 'pie',
     radius: ['40%', '70%'],
-    data: [
-      { value: 3, name: '新加坡' },
-      { value: 2, name: '马来亚' },
-      { value: 2, name: '荷属东印度' },
-      { value: 1, name: '暹罗' }
-    ]
+    data: [{"name": "\u65b0\u52a0\u5761", "value": 12}, {"name": "\u69df\u6994\u5c7f", "value": 10}, {"name": "\u5409\u9686\u5761", "value": 7}, {"name": "\u6d77\u9632", "value": 5}, {"name": "\u6cd7\u6c34", "value": 5}, {"name": "\u9a6c\u516d\u7532", "value": 3}, {"name": "\u53a6\u95e8", "value": 3}, {"name": "\u68c9\u5170", "value": 3}, {"name": "\u5e7f\u5dde", "value": 3}, {"name": "\u5df4\u8fbe\u7ef4\u4e9a", "value": 2}, {"name": "\u5de8\u6e2f", "value": 2}, {"name": "\u69df\u57ce", "value": 2}, {"name": "\u66fc\u8c37", "value": 2}, {"name": "\u795e\u6237", "value": 2}, {"name": "\u6a2a\u6ee8", "value": 2}, {"name": "\u722a\u54c7", "value": 1}, {"name": "\u65b0\u5c71", "value": 1}, {"name": "\u897f\u8d21\u5824\u5cb8", "value": 1}, {"name": "\u91cc\u6602", "value": 1}, {"name": "\u9a6c\u5c3c\u62c9", "value": 1}, {"name": "\u6c55\u5934", "value": 1}, {"name": "\u957f\u5d0e", "value": 1}, {"name": "\u83ab\u65af\u79d1", "value": 1}, {"name": "\u5df4\u9ece", "value": 1}],
+    label: { fontSize: 12, color: '#5c5753' },
+    itemStyle: {
+      borderRadius: 4,
+      borderColor: '#fff',
+      borderWidth: 2
+    }
   }]
 });
 
@@ -153,13 +154,23 @@ policyChart.setOption({
   tooltip: { trigger: 'axis' },
   xAxis: {
     type: 'category',
-    data: ['1900s', '1910s', '1920s', '1930s', '1940s']
+    data: ["1900s", "1910s", "1920s", "1930s", "1940s"]
   },
   yAxis: { type: 'value' },
   series: [{
-    data: [3, 4, 3, 8, 2],
+    data: [4, 5, 20, 38, 4],
     type: 'bar',
-    itemStyle: { color: '#1565c0' }
+    itemStyle: {
+      color: {
+        type: 'linear',
+        x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [
+          { offset: 0, color: '#6f8ca4' },
+          { offset: 1, color: '#a2aeb3' }
+        ]
+      },
+      borderRadius: [4, 4, 0, 0]
+    }
   }]
 });
 
