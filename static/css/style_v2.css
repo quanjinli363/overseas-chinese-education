@@ -129,7 +129,7 @@ body {
   flex-direction: column;
   justify-content: center;
   padding: 4rem 3rem 4rem 4rem;
-  color: white;
+  color: #2d2a26;
 }
 
 .hero-eyebrow {
@@ -146,10 +146,7 @@ body {
   font-weight: 700;
   margin-bottom: 0.3rem;
   line-height: 1.15;
-  background: linear-gradient(135deg, #fff 0%, #555555 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #230a58;
 }
 
 .hero-title-en {
@@ -268,7 +265,7 @@ body {
 
 .btn-primary-v2 {
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
 }
 
 .btn-primary-v2:hover {
@@ -279,20 +276,20 @@ body {
 
 .btn-secondary-v2 {
   background: transparent;
-  color: white;
+  color: #2d2a26;
   border: 1px solid rgba(255,255,255,0.5);
 }
 
 .btn-secondary-v2:hover {
   background: rgba(255,255,255,0.1);
-  border-color: white;
+  border-color: #2d2a26;
 }
 
 .btn-sm {
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
 }
 
 /* Container */
@@ -397,8 +394,10 @@ body {
 
 /* Page Header v2 */
 .page-header-v2 {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-  color: white;
+  position: relative;
+  overflow: hidden;
+  background-color: #faf8f5;
+  color: #2d2a26;
   padding: 3rem 0;
 }
 
@@ -457,11 +456,11 @@ body {
 
 .guide-card-primary {
   background: linear-gradient(135deg, #2d2a26, #333333);
-  color: white;
+  color: #2d2a26;
 }
 
 .guide-card-primary h3 {
-  color: white;
+  color: #2d2a26;
 }
 
 .guide-card-primary p {
@@ -470,7 +469,7 @@ body {
 
 .guide-card-primary .guide-step {
   background: rgba(255,255,255,0.2);
-  color: white;
+  color: #2d2a26;
   border-color: rgba(255,255,255,0.3);
 }
 
@@ -645,8 +644,10 @@ body {
 
 /* Page Header v2 */
 .page-header-v2 {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-  color: white;
+  position: relative;
+  overflow: hidden;
+  background-color: #faf8f5;
+  color: #2d2a26;
   padding: 3rem 0;
 }
 
@@ -684,7 +685,7 @@ body {
 .filter-btn {
   padding: 0.4rem 0.8rem;
   background: rgba(255,255,255,0.2);
-  color: white;
+  color: #2d2a26;
   text-decoration: none;
   border-radius: var(--radius);
   font-size: 0.9rem;
@@ -760,7 +761,7 @@ body {
 .timeline-year-v2 {
   display: inline-block;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   padding: 0.25rem 0.75rem;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -1075,7 +1076,7 @@ body {
   display: inline-block;
   padding: 0.2rem 0.5rem;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   border-radius: 3px;
   font-size: 0.75rem;
   margin-bottom: 0.5rem;
@@ -1146,7 +1147,7 @@ body {
 .school-type {
   padding: 0.2rem 0.5rem;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   border-radius: 4px;
   font-size: 0.75rem;
 }
@@ -1192,7 +1193,7 @@ body {
   width: 60px;
   height: 60px;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1548,7 +1549,7 @@ body {
 }
 .nav-search-toggle:hover {
   background: rgba(255,255,255,0.1);
-  color: white;
+  color: #2d2a26;
 }
 
 /* ===== Search Overlay ===== */
@@ -1638,7 +1639,7 @@ body {
   justify-content: center;
   font-size: 0.7rem;
   font-weight: 600;
-  color: white;
+  color: #2d2a26;
   flex-shrink: 0;
 }
 .so-type.school { background: #333333; }
@@ -1700,12 +1701,12 @@ body {
   border-radius: var(--radius);
   font-size: 1rem;
   background: rgba(255,255,255,0.15);
-  color: white;
+  color: #2d2a26;
   outline: none;
   font-family: var(--font-sans);
 }
 .search-input-main::placeholder { color: rgba(255,255,255,0.6); }
-.search-input-main:focus { border-color: white; background: rgba(255,255,255,0.2); }
+.search-input-main:focus { border-color: #2d2a26; background: rgba(255,255,255,0.2); }
 
 .search-filter-bar {
   display: flex;
@@ -1802,7 +1803,7 @@ body {
   border-radius: 3px;
   font-size: 0.7rem;
   font-weight: 600;
-  color: white;
+  color: #2d2a26;
   margin-bottom: 0.5rem;
 }
 .search-result-type.school { background: #333333; }
@@ -1830,7 +1831,7 @@ body {
   width: 40px;
   height: 40px;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1908,7 +1909,7 @@ body {
 }
 .share-btn:hover {
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   border-color: var(--color-primary);
 }
 .share-btn svg { width: 14px; height: 14px; }
@@ -1921,7 +1922,7 @@ body {
   width: 44px;
   height: 44px;
   background: var(--color-primary);
-  color: white;
+  color: #2d2a26;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -1956,6 +1957,8 @@ body {
   .hero-subtitle-v2, .hero-desc-v2 { color: #333; }
   
   .page-header-v2 {
+  position: relative;
+  overflow: hidden;
     background: white !important;
     color: black;
     padding: 1rem 0;
