@@ -356,10 +356,12 @@ body {
 }
 
 @media (max-width: 768px) {
-  .book-wrapper { width: 96vw; height: 54vh; }
-  .page-inner { padding: 1.4rem 1rem; }
+  .book-wrapper { width: 98vw; height: min(72vh, 520px); }
+  .page-inner { padding: 1.2rem 0.9rem; }
   .cover-title { font-size: 1.1rem; }
-  .page-text { font-size: 0.78rem; line-height: 2; }
+  .page-text { font-size: 0.75rem; line-height: 1.85; -webkit-overflow-scrolling: touch; }
+  .page-text p { text-indent: 1.5em; margin-bottom: 0.6rem; }
+  .photo-item img { max-height: 140px; }
 }
 
 .book-scene {
@@ -545,6 +547,22 @@ body {
       goNext();
     } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
+      goPrev();
+    }
+  });
+
+  // Click left/right half of the book to flip pages
+  const bookWrapper = document.querySelector('.book-wrapper');
+  bookWrapper.addEventListener('click', function(e) {
+    // Ignore clicks on interactive elements (links, buttons)
+    var tag = e.target.tagName.toLowerCase();
+    if (tag === 'a' || tag === 'button' || tag === 'img' || e.target.closest('a') || e.target.closest('button')) return;
+
+    var rect = bookWrapper.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    if (x > rect.width / 2) {
+      goNext();
+    } else {
       goPrev();
     }
   });
