@@ -62,11 +62,6 @@
 <section class="dashboard-section">
   <div class="container">
     <div class="dashboard-grid">
-      <div class="dashboard-card full-width" reveal>
-        <h3>学校创办时期分布</h3>
-        <div id="school-growth-chart" style="height: 400px;"></div>
-      </div>
-      
       <div class="dashboard-card" reveal>
         <h3>学校地区分布</h3>
         <div id="region-chart" style="height: 300px;"></div>
@@ -104,33 +99,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <script>
-// 学校创办时期分布图表
-var growthChart = echarts.init(document.getElementById('school-growth-chart'));
-growthChart.setOption({
-  tooltip: { trigger: 'axis' },
-  xAxis: {
-    type: 'category',
-    data: ["\u79c1\u587e\u8087\u59cb\u671f", "\u65b0\u5f0f\u8f6c\u578b\u671f", "\u5236\u5ea6\u5efa\u6784\u671f", "\u6c11\u65cf\u89c9\u9192\u671f"]
-  },
-  yAxis: { type: 'value' },
-  series: [{
-    data: [17, 25, 29, 1],
-    type: 'bar',
-    barWidth: '50%',
-    itemStyle: {
-      color: {
-        type: 'linear',
-        x: 0, y: 0, x2: 0, y2: 1,
-        colorStops: [
-          { offset: 0, color: '#955141' },
-          { offset: 1, color: '#c4a57a' }
-        ]
-      },
-      borderRadius: [4, 4, 0, 0]
-    }
-  }]
-});
-
 // 地区分布图表
 var regionChart = echarts.init(document.getElementById('region-chart'));
 regionChart.setOption({
@@ -175,7 +143,6 @@ policyChart.setOption({
 });
 
 window.addEventListener('resize', function() {
-  growthChart.resize();
   regionChart.resize();
   policyChart.resize();
 });
